@@ -1,0 +1,650 @@
+Content-Transfer-Encoding: 8bit
+
+#: dev-toolbox.php:255
+#@ dev_toolbox
+msgid "title"
+msgstr ""
+
+#: dev-toolbox.php:324
+#@ dev_toolbox
+msgid "SVN Client"
+msgstr ""
+
+#: dev-toolbox.php:325
+#@ dev_toolbox
+msgid "Activate the SVN client?"
+msgstr ""
+
+#: dev-toolbox.php:326
+#@ dev_toolbox
+msgid "Wordpress Login:"
+msgstr ""
+
+#: dev-toolbox.php:327
+#@ dev_toolbox
+msgid "You should have an account on %s before. Then, the login will be the same!"
+msgstr ""
+
+#: dev-toolbox.php:328
+#@ dev_toolbox
+msgid "Wordpress Password:"
+msgstr ""
+
+#: dev-toolbox.php:329
+#@ dev_toolbox
+msgid "Author Name that is displayed in your plugins:"
+msgstr ""
+
+#: dev-toolbox.php:331
+#@ dev_toolbox
+msgid "Push from Dev to Prod"
+msgstr ""
+
+#: dev-toolbox.php:332
+#@ dev_toolbox
+msgid "Activate the Dev to Prod interface?"
+msgstr ""
+
+#: dev-toolbox.php:333
+#@ dev_toolbox
+msgid "Is this Wordpress installation a development site?"
+msgstr ""
+
+#: dev-toolbox.php:334
+#@ dev_toolbox
+msgid "The path of the other site:"
+msgstr ""
+
+#: dev-toolbox.php:335
+#@ dev_toolbox
+msgid "The root of this website is %s."
+msgstr ""
+
+#: dev-toolbox.php:338
+#@ dev_toolbox
+msgid "The path %s seems valid."
+msgstr ""
+
+#: dev-toolbox.php:340
+#: dev-toolbox.php:476
+#@ dev_toolbox
+msgid "The path %s does not seem to be a valid Wordpress installation path."
+msgstr ""
+
+#: dev-toolbox.php:343
+#@ dev_toolbox
+msgid "Creation of new plugins"
+msgstr ""
+
+#: dev-toolbox.php:344
+#@ dev_toolbox
+msgid "Enable the creation of new plugins?"
+msgstr ""
+
+#: dev-toolbox.php:346
+#@ dev_toolbox
+msgid "Automatic import of translations"
+msgstr ""
+
+#: dev-toolbox.php:347
+#@ dev_toolbox
+msgid "Do you want to retrieve the translations files from your email when sent to you?"
+msgstr ""
+
+#: dev-toolbox.php:348
+#@ dev_toolbox
+msgid "IMAP Server:"
+msgstr ""
+
+#: dev-toolbox.php:349
+#@ dev_toolbox
+msgid "Should be something like %s"
+msgstr ""
+
+#: dev-toolbox.php:350
+#@ dev_toolbox
+msgid "IMAP Login:"
+msgstr ""
+
+#: dev-toolbox.php:351
+#@ dev_toolbox
+msgid "This is useful if you want that the framework retrieve automatically the translations file from an IMAP mailbox"
+msgstr ""
+
+#: dev-toolbox.php:352
+#@ dev_toolbox
+msgid "IMAP Password:"
+msgstr ""
+
+#: dev-toolbox.php:354
+#@ dev_toolbox
+msgid "Debug functions"
+msgstr ""
+
+#: dev-toolbox.php:355
+#@ dev_toolbox
+msgid "Look for deprecated methods/use and display all error/warning/notice in the front page (no message in the front page):"
+msgstr ""
+
+#: dev-toolbox.php:356
+#@ dev_toolbox
+msgid "Show messages/errors only for your own plugins:"
+msgstr ""
+
+#: dev-toolbox.php:372
+#@ dev_toolbox
+msgid "Developers, you will appreciate this plugin I believe: your work will be much easier."
+msgstr ""
+
+#: dev-toolbox.php:391
+#@ dev_toolbox
+msgid "Here is the plugin developed by %s."
+msgstr ""
+
+#: dev-toolbox.php:395
+#@ dev_toolbox
+msgid "Plugin name"
+msgstr ""
+
+#: dev-toolbox.php:395
+#@ dev_toolbox
+msgid "SVN Console"
+msgstr ""
+
+#: dev-toolbox.php:411
+#@ dev_toolbox
+msgid "Settings"
+msgstr ""
+
+#: dev-toolbox.php:419
+#@ dev_toolbox
+msgid "Update plugin information..."
+msgstr ""
+
+#: dev-toolbox.php:433
+#@ dev_toolbox
+msgid "Retrieving SVN information..."
+msgstr ""
+
+#: dev-toolbox.php:450
+#@ dev_toolbox
+msgid "This plugin is not hosted by Wordpress as the Plugin URI is %s"
+msgstr ""
+
+#: dev-toolbox.php:455
+#@ dev_toolbox
+msgid "This plugin has been created by %s and not by you (i.e. %s)"
+msgstr ""
+
+#: dev-toolbox.php:462
+#@ dev_toolbox
+msgid "SVN client"
+msgstr ""
+
+#: dev-toolbox.php:470
+#@ dev_toolbox
+msgid "This website is a *development* site"
+msgstr ""
+
+#: dev-toolbox.php:472
+#@ dev_toolbox
+msgid "This website is a *production* site"
+msgstr ""
+
+#: dev-toolbox.php:480
+#@ dev_toolbox
+msgid "Dev to Prod"
+msgstr ""
+
+#: dev-toolbox.php:482
+#@ dev_toolbox
+msgid "Prod to Dev"
+msgstr ""
+
+#: dev-toolbox.php:489
+#@ dev_toolbox
+msgid "The following allows you to easily create a new plugin."
+msgstr ""
+
+#: dev-toolbox.php:490
+#@ dev_toolbox
+msgid "Follow the instructions step by step."
+msgstr ""
+
+#: dev-toolbox.php:492
+#@ dev_toolbox
+msgid "Step 1 - Create a new plugin."
+msgstr ""
+
+#: dev-toolbox.php:495
+#@ dev_toolbox
+msgid "Required field"
+msgstr ""
+
+#: dev-toolbox.php:495
+#@ dev_toolbox
+msgid "Values"
+msgstr ""
+
+#: dev-toolbox.php:496
+#@ dev_toolbox
+msgid "Name of the plugin"
+msgstr ""
+
+#: dev-toolbox.php:496
+#@ dev_toolbox
+msgid "For instance %s"
+msgstr ""
+
+#: dev-toolbox.php:499
+#@ dev_toolbox
+msgid "Description"
+msgstr ""
+
+#: dev-toolbox.php:502
+#@ dev_toolbox
+msgid "Your name"
+msgstr ""
+
+#: dev-toolbox.php:505
+#@ dev_toolbox
+msgid "Your email"
+msgstr ""
+
+#: dev-toolbox.php:508
+#@ dev_toolbox
+msgid "Your website"
+msgstr ""
+
+#: dev-toolbox.php:525
+#@ dev_toolbox
+msgid "Step 2 - Install the new plugin."
+msgstr ""
+
+#: dev-toolbox.php:526
+#@ dev_toolbox
+msgid "You just have to unzip the downloaded archive and copy the extracted folder by FTP in the following directory %s."
+msgstr ""
+
+#: dev-toolbox.php:527
+#@ dev_toolbox
+msgid "Then, go to %s and activate the downloaded plugin."
+msgstr ""
+
+#: dev-toolbox.php:529
+#@ dev_toolbox
+msgid "Step 3 - Understand and modify the plugin."
+msgstr ""
+
+#: dev-toolbox.php:530
+#@ dev_toolbox
+msgid "The global structure of the folder of the plugin is the following:"
+msgstr ""
+
+#: dev-toolbox.php:532
+#@ dev_toolbox
+msgid "The file %s should have been renamed according the name you give to the plugin."
+msgstr ""
+
+#: dev-toolbox.php:534
+#@ dev_toolbox
+msgid "The %s file."
+msgstr ""
+
+#: dev-toolbox.php:535
+#@ dev_toolbox
+msgid "This file should be the master piece of your plugin: most part of your code should be written in it."
+msgstr ""
+
+#: dev-toolbox.php:536
+#@ dev_toolbox
+msgid "You just have to open it and it is well explained."
+msgstr ""
+
+#: dev-toolbox.php:537
+#@ dev_toolbox
+msgid "Nevertheless, programming a plugin is not magic. Thus it is better to have basic knowledge in:"
+msgstr ""
+
+#: dev-toolbox.php:543
+#: dev-toolbox.php:548
+#@ dev_toolbox
+msgid "The %s folder."
+msgstr ""
+
+#: dev-toolbox.php:544
+#: dev-toolbox.php:549
+#@ dev_toolbox
+msgid "%s is called on the front side of your blog (i.e. the public side)."
+msgstr ""
+
+#: dev-toolbox.php:545
+#: dev-toolbox.php:550
+#@ dev_toolbox
+msgid "%s is called only on the back side of your blog (i.e. the admin side)."
+msgstr ""
+
+#: dev-toolbox.php:546
+#@ dev_toolbox
+msgid "They are standard CSS files, then you can put whatever CSS code you want in them."
+msgstr ""
+
+#: dev-toolbox.php:551
+#@ dev_toolbox
+msgid "They are standard JS files, then you can put whatever JS script you want in them."
+msgstr ""
+
+#: dev-toolbox.php:583
+#@ dev_toolbox
+msgid "Create a new plugin"
+msgstr ""
+
+#: dev-toolbox.php:588
+#@ dev_toolbox
+msgid "Parameters"
+msgstr ""
+
+#: dev-toolbox.php:596
+#@ dev_toolbox
+msgid "Manage translations"
+msgstr ""
+
+#: dev-toolbox.php:603
+#@ dev_toolbox
+msgid "Give feedback"
+msgstr ""
+
+#: dev-toolbox.php:611
+#@ dev_toolbox
+msgid "Other plugins"
+msgstr ""
+
+#: dev-toolbox.php:708
+#@ dev_toolbox
+msgid "The Wordpress page: %s"
+msgstr ""
+
+#: dev-toolbox.php:709
+#@ dev_toolbox
+msgid "The SVN page: %s"
+msgstr ""
+
+#: dev-toolbox.php:830
+#@ dev_toolbox
+msgid "The file %s cannot be found on the server. You have (probably) not commit this plugin yet."
+msgstr ""
+
+#: dev-toolbox.php:843
+#@ dev_toolbox
+msgid "Update the core of the framework..."
+msgstr ""
+
+#: dev-toolbox.php:847
+#@ dev_toolbox
+msgid "1) Update with the core with %s"
+msgstr ""
+
+#: dev-toolbox.php:853
+#@ dev_toolbox
+msgid "1) The core of the plugin is up-to-date"
+msgstr ""
+
+#: dev-toolbox.php:862
+#: dev-toolbox.php:871
+#: dev-toolbox.php:879
+#@ dev_toolbox
+msgid "2) Modify the readme.txt (the version is %s)"
+msgstr ""
+
+#: dev-toolbox.php:886
+#@ dev_toolbox
+msgid "2) Modify the readme.txt (the local version is %s whereas the Wordpress version is %s)"
+msgstr ""
+
+#: dev-toolbox.php:899
+#@ dev_toolbox
+msgid "3) Update the SVN repository (without modifying the version)"
+msgstr ""
+
+#: dev-toolbox.php:911
+#@ dev_toolbox
+msgid "3) Update the SVN repository (and release a new version %s)"
+msgstr ""
+
+#: dev-toolbox.php:917
+#@ dev_toolbox
+msgid "Refresh"
+msgstr ""
+
+#: dev-toolbox.php:925
+#@ dev_toolbox
+msgid "Save Todo List"
+msgstr ""
+
+#: dev-toolbox.php:927
+#@ dev_toolbox
+msgid "Todo list saved!"
+msgstr ""
+
+#: dev-toolbox.php:1005
+#@ dev_toolbox
+msgid "Change the plugin version for %s"
+msgstr ""
+
+#: dev-toolbox.php:1009
+#@ dev_toolbox
+msgid "Version number"
+msgstr ""
+
+#: dev-toolbox.php:1010
+#@ dev_toolbox
+msgid "The current version of the plugin %s is %s."
+msgstr ""
+
+#: dev-toolbox.php:1011
+#@ dev_toolbox
+msgid "Please modify the version:"
+msgstr ""
+
+#: dev-toolbox.php:1012
+#@ dev_toolbox
+msgid "Readme file"
+msgstr ""
+
+#: dev-toolbox.php:1013
+#@ dev_toolbox
+msgid "The current content of %s is:"
+msgstr ""
+
+#: dev-toolbox.php:1118
+#@ dev_toolbox
+msgid "The current text"
+msgstr ""
+
+#: dev-toolbox.php:1118
+#@ dev_toolbox
+msgid "The proposed text"
+msgstr ""
+
+#: dev-toolbox.php:1124
+#@ dev_toolbox
+msgid "Save these data"
+msgstr ""
+
+#: dev-toolbox.php:1127
+#@ dev_toolbox
+msgid "There is a problem with the header of %s. It appears that there is no Version header."
+msgstr ""
+
+#: dev-toolbox.php:1133
+#: dev-toolbox.php:1346
+#@ dev_toolbox
+msgid "Update of the SVN information"
+msgstr ""
+
+#: dev-toolbox.php:1173
+#@ dev_toolbox
+msgid "The data has been saved. You may close this window."
+msgstr ""
+
+#: dev-toolbox.php:1269
+#@ dev_toolbox
+msgid "SVN client for %s"
+msgstr ""
+
+#: dev-toolbox.php:1288
+#@ dev_toolbox
+msgid "Updating the local cache"
+msgstr ""
+
+#: dev-toolbox.php:1296
+#@ dev_toolbox
+msgid "folder created"
+msgstr ""
+
+#: dev-toolbox.php:1298
+#@ dev_toolbox
+msgid "folder creation has failed !"
+msgstr ""
+
+#: dev-toolbox.php:1302
+#@ dev_toolbox
+msgid "%s bytes transfered"
+msgstr ""
+
+#: dev-toolbox.php:1338
+#@ dev_toolbox
+msgid "An error occurred during the retrieval of files on the server ! Sorry ..."
+msgstr ""
+
+#: dev-toolbox.php:1371
+#@ dev_toolbox
+msgid "Local to SVN repository"
+msgstr ""
+
+#: dev-toolbox.php:1372
+#@ dev_toolbox
+msgid "Comparing %s with %s"
+msgstr ""
+
+#: dev-toolbox.php:1381
+#@ dev_toolbox
+msgid "Confirmation"
+msgstr ""
+
+#: dev-toolbox.php:1383
+#@ dev_toolbox
+msgid "Commit comment:"
+msgstr ""
+
+#: dev-toolbox.php:1386
+#@ dev_toolbox
+msgid "Create a new branch %s and then Update the SVN repository with version %s"
+msgstr ""
+
+#: dev-toolbox.php:1387
+#: dev-toolbox.php:1389
+#@ dev_toolbox
+msgid "Only update the SVN repository"
+msgstr ""
+
+#: dev-toolbox.php:1424
+#@ dev_toolbox
+msgid "Sending to the repository in progress..."
+msgstr ""
+
+#: dev-toolbox.php:1439
+#: dev-toolbox.php:1454
+#@ dev_toolbox
+msgid "Creation of a new branch %s"
+msgstr ""
+
+#: dev-toolbox.php:1449
+#: dev-toolbox.php:1777
+#@ dev_toolbox
+msgid "The commit has ended but there is an error!"
+msgstr ""
+
+#: dev-toolbox.php:1771
+#@ dev_toolbox
+msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing."
+msgstr ""
+
+#: include/folder_diff.class.php:151
+#: include/folder_diff.class.php:193
+#@ dev_toolbox
+msgid "Select all"
+msgstr ""
+
+#: include/folder_diff.class.php:152
+#: include/folder_diff.class.php:194
+#@ dev_toolbox
+msgid "Un-select all"
+msgstr ""
+
+#: include/folder_diff.class.php:265
+#@ dev_toolbox
+msgid "Retrieving the modification of this file..."
+msgstr ""
+
+#: include/phpdoc.class.php:242
+#@ dev_toolbox
+msgid "Documentation for the Framework"
+msgstr ""
+
+#: include/phpdoc.class.php:243
+#@ dev_toolbox
+msgid "Here are the classes of the framework:"
+msgstr ""
+
+#: include/phpdoc.class.php:269
+#@ dev_toolbox
+msgid "Here is the method of the class:"
+msgstr ""
+
+#: include/phpdoc.class.php:283
+#@ dev_toolbox
+msgid "Methods"
+msgstr ""
+
+#: include/phpdoc.class.php:283
+#@ dev_toolbox
+msgid "Details"
+msgstr ""
+
+#: include/phpdoc.class.php:305
+#: include/phpdoc.class.php:326
+#@ dev_toolbox
+msgid "Parameters:"
+msgstr ""
+
+#: include/phpdoc.class.php:311
+#@ dev_toolbox
+msgid "[optional]"
+msgstr ""
+
+#: include/phpdoc.class.php:311
+#@ dev_toolbox
+msgid "(by default, its value is:"
+msgstr ""
+
+#: include/phpdoc.class.php:326
+#@ dev_toolbox
+msgid "No param"
+msgstr ""
+
+#: include/phpdoc.class.php:331
+#@ dev_toolbox
+msgid "Return value:"
+msgstr ""
+
+#: include/phpdoc.class.php:334
+#@ dev_toolbox
+msgid "Typical call:"
+msgstr ""
+
+#: include/phpdoc.class.php:338
+#@ dev_toolbox
+msgid "See also:"
+msgstr ""
+
