@@ -388,3 +388,101 @@ function saveTodo(md5, plugin) {
 	});
 }
 
+
+/* =====================================================================================
+*
+*  Delete a translation
+*
+*/
+
+function deleteTranslation(path1) {
+	var arguments = {
+		action: 'deleteTranslation', 
+		path1: path1
+	} 
+	
+	//POST the data and append the results to the results div
+	jQuery.post(ajaxurl, arguments, function(response) {
+		window.location = String(window.location);
+	}).error(function(x,e) { 
+		if (x.status==0){
+			//Offline
+		} else if (x.status==500){
+			deleteTranslation(path1) ; 
+		} else {
+			//nothing
+		}
+	});     
+}
+
+/* =====================================================================================
+*
+*  See modification of a translation
+*
+*/
+
+function seeTranslation(path1, path2) {
+	var arguments = {
+		action: 'seeTranslation', 
+		path1: path1, 
+		path2: path2
+	} 
+	
+	//POST the data and append the results to the results div
+	jQuery.post(ajaxurl, arguments, function(response) {
+		jQuery("#console_trans").html(response);
+	}).error(function(x,e) { 
+		if (x.status==0){
+			//Offline
+		} else if (x.status==500){
+			jQuery("#console_trans").html("Error 500: The ajax request is retried");
+			seeTranslation(path1, path2) ; 
+		} else {
+			jQuery("#console_trans").html("Error "+x.status+": No data retrieved");
+		}
+	});       
+}
+
+/* =====================================================================================
+*
+*  See modification of a translation
+*
+*/
+
+function mergeTranslationDifferences(path1, path2) {
+	var md5 = [] ; 
+	jQuery('input:checkbox:checked').each(function(){
+		if (this.name.indexOf("new_")==0) {
+    		md5.push( this.name );
+    	}
+	});
+
+
+	md5_to_replace = md5.join(',') ; 
+	var arguments = {
+		action: 'mergeTranslationDifferences', 
+		md5: md5_to_replace, 
+		path1: path1, 
+		path2: path2
+	} 
+	
+	//POST the data and append the results to the results div
+	jQuery.post(ajaxurl, arguments, function(response) {
+		if (response=="ok") 
+			window.location = String(window.location);
+		else
+			jQuery("#console_trans").html(response);
+	}).error(function(x,e) { 
+		if (x.status==0){
+			//Offline
+		} else if (x.status==500){
+			jQuery("#console_trans").html("Error 500: The ajax request is retried");
+			mergeTranslationDifferences(path1, path2) ; 
+		} else {
+			jQuery("#console_trans").html("Error "+x.status+": No data retrieved");
+		}
+	});       
+}
+
+
+

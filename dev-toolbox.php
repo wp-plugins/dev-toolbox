@@ -3,7 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.0.1
+Version: 1.0.2
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -95,6 +95,11 @@ class dev_toolbox extends pluginSedLex {
 		add_action( 'doing_it_wrong_run',       array( 'deprecatedSL', 'log_wrong' ), 10, 3 );
 		add_action( 'deprecated_hook_used',     array( 'deprecatedSL', 'log_hook' ), 10, 4 );
 		add_action('admin_notices', array($this, 'admin_notice'));
+		
+		// Translation
+		add_action('wp_ajax_seeTranslation', array($this,'seeTranslation')) ; 
+		add_action('wp_ajax_deleteTranslation', array($this,'deleteTranslation')) ; 
+		add_action('wp_ajax_mergeTranslationDifferences', array($this,'mergeTranslationDifferences')) ; 
 
 		// Important variables initialisation (Do not modify)
 		$this->path = __FILE__ ; 
@@ -300,6 +305,9 @@ class dev_toolbox extends pluginSedLex {
 			case 'dev_prod' 		: return true		; break ; 
 			case 'dev_prod_dev' 		: return false		; break ; 
 			case 'dev_prod_path' 		: return ""		; break ; 
+
+			case 'deprecated' 		: return false		; break ; 
+			case 'deprecated_only_sedlex' 		: return false		; break ; 
 		}
 		return null ;
 	}
@@ -314,6 +322,8 @@ class dev_toolbox extends pluginSedLex {
 	public function configuration_page() {
 		global $wpdb;
 		global $blog_id ; 
+		
+
 		
 		if (isset($_GET['download'])) {
 			$this->getPluginZip($_GET['download'],$_GET['description'],$_GET['email'],$_GET['webAuth'],$_GET['nameAuth']) ; 
@@ -344,7 +354,7 @@ class dev_toolbox extends pluginSedLex {
 				$params->add_param ("new_plugin", __('Enable the creation of new plugins?',$this->pluginID)) ; 
 
 				$params->add_title(__('Automatic import of translations',  $this->pluginID)) ; 
-				$params->add_param ("update_trans", __('Do you want to retrieve the translations files from your email when sent to you?',$this->pluginID), "", "", array('update_trans', 'trans_login', 'trans_pass', 'trans_server')) ; 
+				$params->add_param ("update_trans", __('Do you want to retrieve the translations files from your email when sent to you?',$this->pluginID), "", "", array('trans_login', 'trans_pass', 'trans_server')) ; 
 				$params->add_param ("trans_server", __('IMAP Server:',$this->pluginID)) ; 
 				$params->add_comment (sprintf(__('Should be something like %s',$this->pluginID), "<code>{imap.domain.fr:143}INBOX</code>")) ; 
 				$params->add_param ("trans_login", __('IMAP Login:',$this->pluginID)) ; 
@@ -403,15 +413,15 @@ class dev_toolbox extends pluginSedLex {
 							if (preg_match("@wordpress\.org\/extend\/plugins\/([^/]*)@",$data['PluginURI'],$match)) {
 								ob_start() ; 
 									$slug = $match[1] ; 
-									?>
-									<p><b><?php echo $data['Name'] ; ?></b></p>
-									<?php
+									
 									if (is_plugin_active($url)) {
-									?>
+										?>
+										<p><b><?php echo $data['Name'] ; ?></b></p>
 										<p><a href='admin.php?page=<?php echo $url  ; ?>'><?php echo __('Settings', $this->pluginID) ; ?></a> | <?php echo Utils::byteSize(Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
 									<?php
 									} else {
 									?>
+										<p style='color:#CCCCCC'><b><?php echo $data['Name']." ".__("(Deactivated)", $this->pluginID); ?></b></p>
 										<p><?php echo Utils::byteSize(Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
 									<?php							
 									}
@@ -480,6 +490,14 @@ class dev_toolbox extends pluginSedLex {
 					$tabs->add_tab(__('Dev to Prod',  $this->pluginID), ob_get_clean()) ; 
 				else 
 					$tabs->add_tab(__('Prod to Dev',  $this->pluginID), ob_get_clean()) ; 
+			}
+			
+			if ($this->get_param("update_trans")) {		
+				ob_start() ; 	
+					$this->check_mail($this->get_param("trans_server"), $this->get_param("trans_login"), $this->get_param("trans_pass")) ; 
+					//	translationSL::update_languages_plugin($this->domain, $this->plugin) ; 
+					//	translationSL::update_languages_framework($this->domain, $this->plugin) ; 
+				$tabs->add_tab(__('Import translations',  $this->pluginID), ob_get_clean()) ; 
 			}
 				
 			if ($this->get_param('new_plugin')) {
@@ -802,6 +820,7 @@ class dev_toolbox extends pluginSedLex {
 			die() ;
 		} else {
 			$res = unserialize($request['body']);
+			$version_on_wordpress = "" ; 
 			if ( ! $res ) {
 				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/trunk/'  );
 				if( is_wp_error( $response ) ) {
@@ -1803,7 +1822,438 @@ class dev_toolbox extends pluginSedLex {
 		echo $textdiff->show_only_difference() ;
 		die() ; 
 	}
+	
+	/** ====================================================================================================================================================
+	* Check an imap inbox folder to check if translations should be imported
+	* 
+	* @access private
+	* @return void
+	*/
+	function check_mail($server, $login, $password) {
+		global $submenu ; 
 		
+		echo "<h3>".__("Import translations from email",$this->pluginID)."</h3>" ; 
+		
+		$imap = imap_open($server, $login, $password);
+		
+		$plugin_lang = array() ; 
+				
+		// We identify which mails have .po file in it 
+		// and we import the file into the correct folders
+		//---------------------------------------------------------
+		
+		$result = imap_search($imap, 'UNSEEN');
+		$result_imported = "" ; 
+		if ($result!==FALSE) {
+			foreach ($result as $r) {
+				$struct = imap_fetchstructure ( $imap , $r ) ; 
+				if (isset($struct->parts)) {
+					$num_part = 1 ; 
+					foreach($struct->parts as $s) {
+						if ((isset($s->disposition))&&($s->disposition == "attachment")) {
+							if (preg_match("/po$/", $s->parameters[0]->value)) {
+								if (preg_match("/(.*)-([a-z]{2}_[A-Z]{2})\.po/", $s->parameters[0]->value , $match)) {
+									// We identify the $path
+									$path_match = "" ;
+									if ($match[1]!="SL_framework") {
+										if (isset($submenu)) {
+											foreach ($submenu['sedlex.php'] as $i => $ov) {
+												$url = $ov[2] ; 
+												$plugin_name = explode("/",$url) ;
+												$plugin_name[count($plugin_name)-1] = "lang" ; 
+												if (is_file(WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/".$match[1].".pot")) {
+													$path_match = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
+												}
+											}
+										}
+									} else {
+										$path_match = SL_FRAMEWORK_DIR.'/core/lang/'; 
+									}
+									// We know the path, now we write the file in the folder
+									if ($path_match!="") {
+										$att = imap_fetchbody($imap, $r, $num_part);
+										if($s->encoding == 3) { // 3 = BASE64
+											$att = base64_decode($att);
+										}
+										elseif($s->encoding == 4) { // 4 = QUOTED-PRINTABLE
+											$att = quoted_printable_decode($att);
+										}
+										if ($att == "") {
+											echo "<div class='error fade'>".sprintf(__('The file %s cannot be extracted from mail attachments',$this->pluginID),'<code>'.$match[0].'</code>')."</div>" ; 
+											return ; 
+										}
+										$r = @file_put_contents($path_match.$match[0].".tmp".$r, $att) ; 
+										if ($r===false) {
+											echo "<div class='error fade'><p>".sprintf(__('The file %s cannot be written in the %s folder',$this->pluginID),'<code>'.$match[0].'</code>', '<code>'.$path_match.'</code>')."</p></div>" ; 
+											return ; 
+										}
+										$result_imported .= "<p>".sprintf(__('The file %s has been imported in the %s folder',$this->pluginID),'<code>'.$match[0].".tmp".$r.'</code>', '<code>'.$path_match.'</code>')."</p>" ; 
+									}
+								}
+							}
+						}
+						$num_part++ ; 
+					}
+				}
+			}
+		}
+		if ($result_imported!="") {
+			echo "<div class='updated fade'>".$result_imported."</div>" ; 
+			echo "<p>".$result_imported."</p>" ; 
+		} else {
+			echo "<p>".__("No translation has been imported this time.",$this->pluginID)."</p>" ; 
+		}
+		
+		// We identify which folders contains .tmp files 
+		// and we identify the differences
+		//---------------------------------------------------------
+		
+		$table = new adminTable() ;
+		$table->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Information', $this->pluginID)) ) ;
+		$table2 = new adminTable() ;
+		$table2->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Information', $this->pluginID)) ) ;
+		
+		$nb_ligne = 0 ; 
+		$nb_ligne2 = 0 ; 
+		
+		if (isset($submenu)) {
+			foreach ($submenu['sedlex.php'] as $i => $ov) {
+				$url = $ov[2] ; 
+				$plugin_name = explode("/",$url) ;
+				$plugin_name[count($plugin_name)-1] = "lang" ; 
+				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
+				if ($ov[2]=="sedlex.php") {
+					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
+				}
+				// We scan the folder for new translations file
+				if (is_dir($dir)) {
+					$root = scandir($dir);
+					foreach($root as $value) {
+						if (preg_match("/(.*)-(.*)[.]tmp([0-9]*)$/", $value, $match)) {
+							$cible_file = $match[1]."-".$match[2] ; 
+							if (!is_file($dir.$cible_file)) {
+								// The sent translation is new and can be imported without difficulties 
+								$info = translationSL::get_info(file($dir.$match[0]),file($dir.$match[1].".pot")) ; 
+								if ($info['translated']!=0) {
+									$cel1 = new adminCell("<p>".$match[1]." (n&deg;".$match[3].")</p>") ;
+									$cel2 = new adminCell("<p>".str_replace(".po", "", $match[2])."</p>") ;
+									$cel3 = new adminCell("<p>".(sprintf(__("%s sentences have been translated (i.e. %s).",$this->pluginID), "<b>".$info['translated']."/".$info['total']."</b>", "<b>".(floor($info['translated']/$info['total']*1000)/10)."%</b>"))."</p>") ;
+									$cel1->add_action(__("Delete", $this->pluginID), "deleteTranslation('".$dir.$value."')") ; 
+									$cel1->add_action(__("See the new translation file and merge",$this->pluginID) , "seeTranslation('".$dir.$value."', '".$dir.$cible_file."')") ; 
+									$table->add_line(array($cel1, $cel2, $cel3), '1') ;
+									$nb_ligne ++ ; 
+								} else {
+									@unlink($dir.$value) ; 
+								}
+							} else {
+								// The sent translation is NOT new and it should be compare with the existing one before importing 
+								$info = translationSL::compare_info(file($dir.$value),file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
+								$info2 = translationSL::get_info(file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
+								if (($info['modified']!=0) || ($info['new']!=0)) {
+									$cel1 = new adminCell("<p>".$match[1]." (n&deg;".$match[3].")</p>") ;
+									$cel2 = new adminCell("<p>".str_replace(".po", "", $match[2])."</p>") ;
+									$cel3 = new adminCell("<p>".(sprintf(__("%s sentences have been newly translated and %s sentences have been modified (the old file has %s translated sentences).",$this->pluginID), "<b>".$info['new']."</b>", "<b>".$info['modified']."</b>", "<b>".$info2['translated']."/".$info2['total']."</b>"))."</p>") ;
+									$cel1->add_action(__("Delete", $this->pluginID), "deleteTranslation('".$dir.$value."')") ; 
+									if ($info['modified']!=0) {
+										$cel1->add_action(__("See the modifications/new translations and Merge",$this->pluginID) , "seeTranslation('".$dir.$value."', '".$dir.$cible_file."')") ; 
+									} else {
+										$cel1->add_action(__("See the new translations and Merge",$this->pluginID) , "seeTranslation('".$dir.$value."', '".$dir.$cible_file."')") ; 
+									}
+									$table2->add_line(array($cel1, $cel2, $cel3), '1') ;
+									$nb_ligne2 ++ ; 
+								} else {
+									@unlink($dir.$value) ; 
+								}
+							}
+						}
+					} 
+				}
+			}
+		}
+			
+		echo "<h3>".__("New translations",$this->pluginID)."</h3>" ; 
+		if ($nb_ligne!=0) {
+			echo $table->flush() ;
+		} else {
+			echo "<p>".__("No new translation.",$this->pluginID)."</p>" ; 		
+		}
+		echo "<h3>".__("Updates of translations are available",$this->pluginID)."</h3>" ; 
+		if ($nb_ligne2!=0) {
+			echo $table2->flush() ;
+		} else {
+			echo "<p>".__("No new update.",$this->pluginID)."</p>" ; 				
+		}
+		
+		echo "<div id='console_trans'></div>" ; 
+		
+		//Die in order to avoid the 0 character to be printed at the end
+		//die() ;
+	}
+
+	/** ====================================================================================================================================================
+	* Callback for deleting a translation file
+	* 
+	* @access private
+	* @return void
+	*/
+	
+	function deleteTranslation() {
+		$path1 = $_POST['path1'] ; 
+		@unlink($path1) ; 	
+		SL_Debug::log(get_class(), "Delete the translation ".$path1, 4) ; 
+		die() ; 
+	}
+			
+			
+	/** ====================================================================================================================================================
+	* Callback for seeing differnces bewteen translation files
+	* 
+	* @access private
+	* @return void
+	*/
+	
+	function seeTranslation() {
+		$path1 = $_POST['path1'] ; 
+		$path2 = $_POST['path2'] ; 
+		
+		$title = __('What are the differences between these two files?', $this->pluginID) ;
+		
+		$pathpot = preg_replace("/(.*)-(.*)[.]po*$/", "$1.pot" , $path2) ; 
+
+		$content_pot = file($pathpot) ; 
+		if (is_file($path2)) {
+			$content_po2 = file($path2) ; 
+		} else {
+			$content_po2 = array() ; 
+		}
+		$content_po1 = file($path1) ; 
+		
+		echo "<span id='info_translation_merge'>" ; 
+		ob_start() ;
+			// We build an array with all the sentences for pot
+			$pot_array = array() ; 
+			$all_count = 0 ; 
+			foreach ($content_pot as $ligne_pot) {
+				if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_pot), $match)) {
+					$pot_array[md5(trim($match[1]))] = trim($match[1]) ; 
+					$all_count ++ ; 
+				}
+			}	
+
+			// We build an array with all the sentences for old po
+			$po2_array = array() ; 
+			$msgid = "" ; 
+			foreach ($content_po2 as $ligne_po) {
+				if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+					$msgid = $match[1] ; 			
+				} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+					if (trim($match[1])!="") {
+						$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+					}
+				}
+			}
+			
+			$table = new adminTable() ; 
+			$table->title(array(__('Sentence to translate', $this->pluginID) , __('Old sentence', $this->pluginID), __('New sentence', $this->pluginID), __('To replace?', $this->pluginID)) ) ;
+							
+			// We build an array with all the sentences for new po
+			$po1_array = array() ; 
+			$msgid = "" ; 
+			foreach ($content_po1 as $ligne_po) {
+				if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+					$msgid = $match[1] ; 			
+				} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+					if (trim($match[1])!="") {
+						$po1_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+						if (isset($pot_array[md5(trim($msgid))])) {
+						
+							if (!isset($po2_array[md5(trim($msgid))][1]))
+								$po2_array[md5(trim($msgid))][1] = "" ; 
+							if (!isset($po1_array[md5(trim($msgid))][1]))
+								$po1_array[md5(trim($msgid))][1] = "" ; 
+								
+							if ($po2_array[md5(trim($msgid))][1]!=$po1_array[md5(trim($msgid))][1]) {
+								$cel1 = new adminCell("<p>".$msgid."</p>") ;
+								$cel2 = new adminCell("<p>".$po2_array[md5(trim($msgid))][1]."</p>") ;
+								$diff = new textDiff() ; 
+								$diff->diff($po2_array[md5(trim($msgid))][1],$po1_array[md5(trim($msgid))][1]) ; 
+								$cel3 = new adminCell("<p>".$diff->show_simple_difference()."</p>") ;
+								$cel4 = new adminCell("<p><input type='CHECKBOX' name='new_".md5(trim($msgid))."' checked='yes' >Replace the old sentence with the new one?</input></p>") ;
+								$table->add_line(array($cel1, $cel2, $cel3, $cel4), '1') ; 
+							}
+						}
+					}
+				}
+			}
+			echo $table->flush() ; 
+			echo "<p><input type='submit' name='set' class='button-primary validButton' onclick='mergeTranslationDifferences(\"".$path1."\", \"".$path2."\");return false;' value='".__('Merge',$this->pluginID)."' />" ; 
+			$x = WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__)) ; 
+			echo "<img id='wait_translation_merge' src='".$x."/img/ajax-loader.gif' style='display:none;'><p/>" ; 	
+			echo "</span>" ; 
+		
+		$content = ob_get_clean() ; 	
+							
+		$popup = new popupAdmin($title, $content) ; 
+		$popup->render() ; 
+		die() ; 
+	}
+	
+	/** ====================================================================================================================================================
+	* Callback for importing a translation file with managing differences with the old one
+	* 
+	* @access private
+	* @return void
+	*/
+	
+	function mergeTranslationDifferences() {
+		$md5 = $_POST['md5'] ; 
+		$path1 = $_POST['path1'] ; 
+		$path2 = $_POST['path2'] ; 
+		
+		$pathpot = preg_replace("/(.*)-(.*)[.]po*$/", "$1.pot" , $path2) ; 
+		$lang = preg_replace("/(.*)-(.*)[.]po*$/", "$2" , $path2) ; 
+		$content_pot = file($pathpot) ; 
+		if (is_file($path2)) {
+			$content_po2 = file($path2) ; 
+		} else {
+			$content_po2 = array() ; 
+		}
+		$content_po1 = file($path1) ; 
+		
+		$translators = array() ; 
+		
+		// We recreate a new po file according to the 2 files
+		
+		// We build an array with all the sentences for pot
+		$pot_array = array() ; 
+		$all_count = 0 ; 
+		foreach ($content_pot as $ligne_pot) {
+			if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_pot), $match)) {
+				$pot_array[md5(trim($match[1]))] = trim($match[1]) ; 
+				$all_count ++ ; 
+			}
+		}	
+
+		// We build an array with all the sentences for old po
+		$po2_array = array() ; 
+		$msgid = "" ; 
+		foreach ($content_po2 as $ligne_po) {
+			if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+				$msgid = $match[1] ; 			
+			} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+				if (trim($match[1])!="") {
+					$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+				}
+			} else if (preg_match("/Last-Translator: (.*) \<(.*)\>/", trim($ligne_po), $match)) {
+				$translators[md5(trim($match[0]))] = $match[0] ; 
+			}
+		}
+						
+		// We build an array with all the sentences for new po
+		$po1_array = array() ; 
+		$msgid = "" ; 
+		foreach ($content_po1 as $ligne_po) {
+			if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+				$msgid = $match[1] ; 			
+			} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+				if (trim($match[1])!="") {
+					$po1_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+					if (isset($pot_array[md5(trim($msgid))])) {
+						if (isset($po2_array[md5(trim($msgid))])) {
+							if ($po2_array[md5(trim($msgid))][1]!=$po1_array[md5(trim($msgid))][1]) {
+								// We check if we said that we want to replace it from the new file
+								if (strpos($md5,"new_".md5(trim($msgid)))!==false) {
+									$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
+								}
+							}
+						} else {
+							$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
+						}
+					}
+				}
+			} else if (preg_match("/Last-Translator: (.*) \<(.*)\>/", trim($ligne_po), $match)) {
+				$translators[md5(trim($match[0]))] = $match[0] ; 
+			}
+		}
+		
+		// We create the po file
+		
+		require('core/translation.inc.php') ;
+	
+		$content = "" ; 
+		$content .= "msgid \"\"\n" ; 
+		$content .= "msgstr \"\"\n" ; 
+		$content .= "\"Generated: SL Framework (http://www.sedlex.fr)\\n\"\n";
+		$content .= "\"Project-Id-Version: \\n\"\n";
+		$content .= "\"Report-Msgid-Bugs-To: \\n\"\n";
+		$content .= "\"POT-Creation-Date: \\n\"\n";
+		$content .= "\"PO-Revision-Date: ".date("c")."\\n\"\n";
+		foreach ($translators as $translator) {
+			$content .= "\"".$translator."\\n\"\n" ; 
+		}		
+		$content .= "\"Language-Team: \\n\"\n";
+		$content .= "\"MIME-Version: 1.0\\n\"\n";
+		$content .= "\"Content-Type: text/plain; charset=UTF-8\\n\"\n";
+		$content .= "\"Content-Transfer-Encoding: 8bit\\n\"\n";
+		$plurals = "" ; 
+		foreach($countries as $code => $array) {
+			if (array_search($lang, $array)!==false) {
+				$plurals = $csp_l10n_plurals[$code] ; 
+			}
+		}
+		$content .= "\"Plural-Forms: ".$plurals."\\n\"\n";
+		$content .= "\"X-Poedit-Language: ".$code_locales[$lang]['lang']."\\n\"\n";
+		$content .= "\"X-Poedit-Country: ".$code_locales[$lang]['country']."\\n\"\n";
+		$content .= "\"X-Poedit-SourceCharset: utf-8\\n\"\n";
+		$content .= "\"X-Poedit-KeywordsList: __;\\n\"\n";
+		$content .= "\"X-Poedit-Basepath: \\n\"\n";
+		$content .= "\"X-Poedit-Bookmarks: \\n\"\n";
+		$content .= "\"X-Poedit-SearchPath-0: .\\n\"\n";
+		$content .= "\"X-Textdomain-Support: yes\\n\"\n\n" ; 
+		
+		$hash = array() ; 
+		foreach ($po2_array as $ligne) {
+			$content .= 'msgid "'.$ligne[0].'"'."\n" ; 
+			$content .= 'msgstr "'.$ligne[1].'"'."\n\n" ; 
+			$hash[] = array('msgid' => $ligne[0], 'msgstr' => $ligne[1]) ; 
+		}
+		
+		file_put_contents($path2,$content) ;
+		
+		SL_Debug::log(get_class(), "Write the mo file ".$path2, 4) ; 
+		translationSL::phpmo_write_mo_file($hash,preg_replace("/(.*)[.]po/", "$1.mo", $path2)) ; 
+		
+		// We delete all cache file
+		$path = preg_replace("/^(.*)\/([^\/]*)$/", "$1" , $path2) ; 
+		
+		$dir = @opendir(WP_CONTENT_DIR."/sedlex/translations"); 
+		while(false !== ($item = readdir($dir))) {
+			if ('.' == $item || '..' == $item)
+				continue;
+			if (preg_match("/\.html$/", $item, $h)) {
+				@unlink (WP_CONTENT_DIR."/sedlex/translations/".$item);
+			}
+		}
+		closedir($dir);
+		
+		// We force the update of the cache file for the given imported file
+		ob_start() ; 
+			$domain = preg_replace("/(.*)\/([^\/]*)-([^\/]*)[.]po$/", "$2" , $path2) ; 
+			if ($domain!="SL_framework") {
+				$plugin = preg_replace("/(.*)\/([^\/]*)\/lang\/(.*)po$/", "$2" , $path2) ; 
+				translationSL::installed_languages_plugin($domain, $plugin) ; 
+			} else {
+				$plugin = preg_replace("/(.*)\/([^\/]*)\/core\/lang\/(.*)po$/", "$2" , $path2) ; 
+				translationSL::installed_languages_framework($domain, $plugin) ; 
+			}
+		ob_get_clean() ; 
+		
+		echo "ok" ; 			
+		die() ; 
+	}
+
+
+
 }
 
 $dev_toolbox = dev_toolbox::getInstance();

@@ -56,7 +56,13 @@ Have fun !
 
 == Changelog ==
 
+= 1.0.2 =
+* Several bug fixes
+
+= 1.0.1 =
+* First release
+
 == Frequently Asked Questions ==
 
  
-InfoVersion:20c99cfe9467cab8bc61583a0ed177ab
+InfoVersion:209b3cfc4bf4668780dd2e068219db24
