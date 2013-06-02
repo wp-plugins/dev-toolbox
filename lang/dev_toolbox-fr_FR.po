@@ -1,0 +1,403 @@
+msgid ""
+msgstr ""
+"Generated: SL Framework (http://www.sedlex.fr)\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2013-04-07T12:56:49+00:00\n"
+"Last-Translator: SedLex <http://www.sedlex.fr>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: France\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes\n"
+
+msgid "title"
+msgstr "titre"
+
+msgid "SVN Client"
+msgstr "Client SVN"
+
+msgid "Activate the SVN client?"
+msgstr "Activer le client SVN ?"
+
+msgid "Wordpress Login:"
+msgstr ""
+
+msgid "You should have an account on %s before. Then, the login will be the same!"
+msgstr ""
+
+msgid "Wordpress Password:"
+msgstr ""
+
+msgid "Author Name that is displayed in your plugins:"
+msgstr ""
+
+msgid "Push from Dev to Prod"
+msgstr ""
+
+msgid "Activate the Dev to Prod interface?"
+msgstr ""
+
+msgid "Is this Wordpress installation a development site?"
+msgstr ""
+
+msgid "The path of the other site:"
+msgstr ""
+
+msgid "The root of this website is %s."
+msgstr ""
+
+msgid "The path %s seems valid."
+msgstr ""
+
+msgid "The path %s does not seem to be a valid Wordpress installation path."
+msgstr ""
+
+msgid "Creation of new plugins"
+msgstr ""
+
+msgid "Enable the creation of new plugins?"
+msgstr ""
+
+msgid "Automatic import of translations"
+msgstr ""
+
+msgid "Do you want to retrieve the translations files from your email when sent to you?"
+msgstr ""
+
+msgid "IMAP Server:"
+msgstr ""
+
+msgid "Should be something like %s"
+msgstr ""
+
+msgid "IMAP Login:"
+msgstr ""
+
+msgid "This is useful if you want that the framework retrieve automatically the translations file from an IMAP mailbox"
+msgstr ""
+
+msgid "IMAP Password:"
+msgstr ""
+
+msgid "Debug functions"
+msgstr ""
+
+msgid "Look for deprecated methods/use and display all error/warning/notice in the front page (no message in the front page):"
+msgstr ""
+
+msgid "Show messages/errors only for your own plugins:"
+msgstr ""
+
+msgid "Developers, you will appreciate this plugin I believe: your work will be much easier."
+msgstr ""
+
+msgid "Here is the plugin developed by %s."
+msgstr ""
+
+msgid "Plugin name"
+msgstr ""
+
+msgid "SVN Console"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Update plugin information..."
+msgstr ""
+
+msgid "Retrieving SVN information..."
+msgstr ""
+
+msgid "This plugin is not hosted by Wordpress as the Plugin URI is %s"
+msgstr ""
+
+msgid "This plugin has been created by %s and not by you (i.e. %s)"
+msgstr ""
+
+msgid "SVN client"
+msgstr ""
+
+msgid "This website is a *development* site"
+msgstr ""
+
+msgid "This website is a *production* site"
+msgstr ""
+
+msgid "Dev to Prod"
+msgstr ""
+
+msgid "Prod to Dev"
+msgstr ""
+
+msgid "The following allows you to easily create a new plugin."
+msgstr ""
+
+msgid "Follow the instructions step by step."
+msgstr ""
+
+msgid "Step 1 - Create a new plugin."
+msgstr ""
+
+msgid "Required field"
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Name of the plugin"
+msgstr ""
+
+msgid "For instance %s"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Your name"
+msgstr ""
+
+msgid "Your email"
+msgstr ""
+
+msgid "Your website"
+msgstr ""
+
+msgid "Step 2 - Install the new plugin."
+msgstr ""
+
+msgid "You just have to unzip the downloaded archive and copy the extracted folder by FTP in the following directory %s."
+msgstr ""
+
+msgid "Then, go to %s and activate the downloaded plugin."
+msgstr ""
+
+msgid "Step 3 - Understand and modify the plugin."
+msgstr ""
+
+msgid "The global structure of the folder of the plugin is the following:"
+msgstr ""
+
+msgid "The file %s should have been renamed according the name you give to the plugin."
+msgstr ""
+
+msgid "The %s file."
+msgstr ""
+
+msgid "This file should be the master piece of your plugin: most part of your code should be written in it."
+msgstr ""
+
+msgid "You just have to open it and it is well explained."
+msgstr ""
+
+msgid "Nevertheless, programming a plugin is not magic. Thus it is better to have basic knowledge in:"
+msgstr ""
+
+msgid "The %s folder."
+msgstr ""
+
+msgid "%s is called on the front side of your blog (i.e. the public side)."
+msgstr ""
+
+msgid "%s is called only on the back side of your blog (i.e. the admin side)."
+msgstr ""
+
+msgid "They are standard CSS files, then you can put whatever CSS code you want in them."
+msgstr ""
+
+msgid "They are standard JS files, then you can put whatever JS script you want in them."
+msgstr ""
+
+msgid "Create a new plugin"
+msgstr ""
+
+msgid "Parameters"
+msgstr ""
+
+msgid "Manage translations"
+msgstr ""
+
+msgid "Give feedback"
+msgstr ""
+
+msgid "Other plugins"
+msgstr ""
+
+msgid "The Wordpress page: %s"
+msgstr ""
+
+msgid "The SVN page: %s"
+msgstr ""
+
+msgid "The file %s cannot be found on the server. You have (probably) not commit this plugin yet."
+msgstr ""
+
+msgid "Update the core of the framework..."
+msgstr ""
+
+msgid "1) Update with the core with %s"
+msgstr ""
+
+msgid "1) The core of the plugin is up-to-date"
+msgstr ""
+
+msgid "2) Modify the readme.txt (the version is %s)"
+msgstr ""
+
+msgid "2) Modify the readme.txt (the local version is %s whereas the Wordpress version is %s)"
+msgstr ""
+
+msgid "3) Update the SVN repository (without modifying the version)"
+msgstr ""
+
+msgid "3) Update the SVN repository (and release a new version %s)"
+msgstr ""
+
+msgid "Refresh"
+msgstr ""
+
+msgid "Save Todo List"
+msgstr ""
+
+msgid "Todo list saved!"
+msgstr ""
+
+msgid "Change the plugin version for %s"
+msgstr ""
+
+msgid "Version number"
+msgstr ""
+
+msgid "The current version of the plugin %s is %s."
+msgstr ""
+
+msgid "Please modify the version:"
+msgstr ""
+
+msgid "Readme file"
+msgstr ""
+
+msgid "The current content of %s is:"
+msgstr ""
+
+msgid "The current text"
+msgstr ""
+
+msgid "The proposed text"
+msgstr ""
+
+msgid "Save these data"
+msgstr ""
+
+msgid "There is a problem with the header of %s. It appears that there is no Version header."
+msgstr ""
+
+msgid "Update of the SVN information"
+msgstr ""
+
+msgid "The data has been saved. You may close this window."
+msgstr ""
+
+msgid "SVN client for %s"
+msgstr ""
+
+msgid "Updating the local cache"
+msgstr ""
+
+msgid "folder created"
+msgstr ""
+
+msgid "folder creation has failed !"
+msgstr ""
+
+msgid "%s bytes transfered"
+msgstr ""
+
+msgid "An error occurred during the retrieval of files on the server ! Sorry ..."
+msgstr ""
+
+msgid "Local to SVN repository"
+msgstr ""
+
+msgid "Comparing %s with %s"
+msgstr ""
+
+msgid "Confirmation"
+msgstr ""
+
+msgid "Commit comment:"
+msgstr ""
+
+msgid "Create a new branch %s and then Update the SVN repository with version %s"
+msgstr ""
+
+msgid "Only update the SVN repository"
+msgstr ""
+
+msgid "Sending to the repository in progress..."
+msgstr ""
+
+msgid "Creation of a new branch %s"
+msgstr ""
+
+msgid "The commit has ended but there is an error!"
+msgstr ""
+
+msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing."
+msgstr ""
+
+msgid "Select all"
+msgstr ""
+
+msgid "Un-select all"
+msgstr ""
+
+msgid "Retrieving the modification of this file..."
+msgstr ""
+
+msgid "Documentation for the Framework"
+msgstr ""
+
+msgid "Here are the classes of the framework:"
+msgstr ""
+
+msgid "Here is the method of the class:"
+msgstr ""
+
+msgid "Methods"
+msgstr ""
+
+msgid "Details"
+msgstr ""
+
+msgid "Parameters:"
+msgstr ""
+
+msgid "[optional]"
+msgstr ""
+
+msgid "(by default, its value is:"
+msgstr ""
+
+msgid "No param"
+msgstr ""
+
+msgid "Return value:"
+msgstr ""
+
+msgid "Typical call:"
+msgstr ""
+
+msgid "See also:"
+msgstr ""
+

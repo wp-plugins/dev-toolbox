@@ -484,5 +484,78 @@ function mergeTranslationDifferences(path1, path2) {
 	});       
 }
 
+/* =====================================================================================
+*
+*  Modify a translation
+*
+*/
+
+function modify_trans_dev(plug_param,dom_param,is_framework,lang_param) {
+	jQuery("#wait_translation_create").show();
+	
+	var arguments = {
+		action: 'translate_modify', 
+		isFramework : is_framework,
+		lang : lang_param, 
+		plugin : plug_param, 
+		domain : dom_param,
+		actionOnClose : "translate_save_after_modification_dev"
+	} 
+	//POST the data and append the results to the results div
+	jQuery.post(ajaxurl, arguments, function(response) {
+		jQuery("#zone_edit_dev").html(response);
+	}).error(function(x,e) { 
+		if (x.status==0){
+			//Offline
+		} else if (x.status==500){
+			jQuery("#zone_edit_dev").html("Error 500: The ajax request is retried");
+			modify_trans_dev(plug_param,dom_param,is_framework,lang_param) ; 
+		} else {
+			jQuery("#zone_edit_dev").html("Error "+x.status+": No data retrieved");
+		}
+	});    
+}
+
+/* =====================================================================================
+*
+*  Save the modification of the translation
+*
+*/
+
+function translate_save_after_modification_dev (plug_param,dom_param,is_framework,lang_param, nombre) {
+
+	jQuery("#wait_translation_modify").show();
+	
+	var result = new Array() ; 
+	for (var i=0 ; i<nombre ; i++) {
+		result[i] = jQuery("#trad"+i).val()  ;
+	}
+		
+	var arguments = {
+		action: 'translate_create', 
+		idLink : result,
+		isFramework : is_framework,
+		name : jQuery("#nameAuthor").val(), 
+		email : jQuery("#emailAuthor").val(), 
+		lang : lang_param, 
+		plugin : plug_param, 
+		domain : dom_param
+	} 
+	//POST the data and append the results to the results div
+	jQuery.post(ajaxurl, arguments, function(response) {
+		window.location.href=window.location.href ;
+	}).error(function(x,e) { 
+		if (x.status==0){
+			//Offline
+		} else if (x.status==500){
+			jQuery("#zone_edit_dev").html("Error 500: The ajax request is retried");
+			translate_save_after_modification (plug_param,dom_param,is_framework,lang_param, nombre) ; 
+		} else {
+			jQuery("#zone_edit_dev").html("Error "+x.status+": No data retrieved");
+		}
+	});    
+}
+
+
 
 

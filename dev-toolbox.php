@@ -3,13 +3,13 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.0.2
+Version: 1.0.3
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
 Framework Email: sedlex@sedlex.fr
 Author URI: http://www.sedlex.fr/
-Plugin URI: http://wordpress.org/extend/plugins/dev-toolbox/
+Plugin URI: http://wordpress.org/plugins/dev-toolbox/
 License: GPL3
 */
 
@@ -302,10 +302,6 @@ class dev_toolbox extends pluginSedLex {
 			case 'trans_login'	: return ""			; break ; 
 			case 'trans_pass'	: return "[password]"			; break ; 
 			
-			case 'dev_prod' 		: return true		; break ; 
-			case 'dev_prod_dev' 		: return false		; break ; 
-			case 'dev_prod_path' 		: return ""		; break ; 
-
 			case 'deprecated' 		: return false		; break ; 
 			case 'deprecated_only_sedlex' 		: return false		; break ; 
 		}
@@ -338,18 +334,6 @@ class dev_toolbox extends pluginSedLex {
 				$params->add_param ("svn_pwd", __('Wordpress Password:',$this->pluginID)) ; 
 				$params->add_param ("svn_author", __('Author Name that is displayed in your plugins:',$this->pluginID)) ; 
 
-/*				$params->add_title(__('Push from Dev to Prod',  $this->pluginID)) ; 
-				$params->add_param ("dev_prod", __('Activate the Dev to Prod interface?',$this->pluginID), "", "", array('dev_prod_dev', 'dev_prod_path')) ; 
-				$params->add_param ("dev_prod_dev", __('Is this Wordpress installation a development site?',$this->pluginID)) ; 
-				$params->add_param ("dev_prod_path", __('The path of the other site:',$this->pluginID)) ; 
-				$params->add_comment (sprintf(__('The root of this website is %s.',$this->pluginID),"<code>".ABSPATH."</code>")) ;
-				if ($this->get_param('dev_prod_path')!="") {
-					if ((is_dir($this->get_param('dev_prod_path')))&&(is_dir($this->get_param('dev_prod_path')."/wp-admin"))) {
-						$params->add_comment ("<span style='color:#297A52'>".sprintf(__('The path %s seems valid.',$this->pluginID),"<code>".$this->get_param('dev_prod_path')."</code>")."</span>") ;
-					} else {
-						$params->add_comment ("<span style='color:#A30000'>".sprintf(__('The path %s does not seem to be a valid Wordpress installation path.',$this->pluginID),"<code>".$this->get_param('dev_prod_path')."</code>")."</span>") ;
-					}
-				} */
 				$params->add_title(__('Creation of new plugins',  $this->pluginID)) ; 
 				$params->add_param ("new_plugin", __('Enable the creation of new plugins?',$this->pluginID)) ; 
 
@@ -410,7 +394,7 @@ class dev_toolbox extends pluginSedLex {
 					
 					foreach($plugins_all as $url => $data) {
 						if ((strlen($this->get_param('svn_author'))!=0)&&(preg_match("/".$this->get_param('svn_author')."/i",$data['Author']))) {
-							if (preg_match("@wordpress\.org\/extend\/plugins\/([^/]*)@",$data['PluginURI'],$match)) {
+							if (preg_match("@wordpress\.org\/plugins\/([^/]*)@",$data['PluginURI'],$match)) {
 								ob_start() ; 
 									$slug = $match[1] ; 
 									
@@ -472,32 +456,15 @@ class dev_toolbox extends pluginSedLex {
 				$tabs->add_tab(__('SVN client',  $this->pluginID), ob_get_clean()) ; 	
 			}
 			
-			if ($this->get_param('dev_prod')) {
-				ob_start() ; 				
-					if ($this->get_param('dev_prod_path')!="") {
-						if ((is_dir($this->get_param('dev_prod_path')))&&(is_dir($this->get_param('dev_prod_path')."/wp-admin"))) {
-							if ($this->get_param('dev_prod_dev')) {
-								echo "<p style='font-size:150%'>".__('This website is a *development* site',  $this->pluginID)."</p>";
-							} else {
-								echo "<p style='font-size:150%'>".__('This website is a *production* site',  $this->pluginID)."</p>";
-							}
-
-						} else {
-							$params->add_comment ("<span style='color:#A30000'>".sprintf(__('The path %s does not seem to be a valid Wordpress installation path.',$this->pluginID),"<code>".$this->get_param('dev_prod_path')."</code>")."</span>") ;
-						}
-					}
-				if ($this->get_param('dev_prod_dev'))					
-					$tabs->add_tab(__('Dev to Prod',  $this->pluginID), ob_get_clean()) ; 
-				else 
-					$tabs->add_tab(__('Prod to Dev',  $this->pluginID), ob_get_clean()) ; 
-			}
-			
 			if ($this->get_param("update_trans")) {		
 				ob_start() ; 	
+					echo "<h2>".__('Import translations',  $this->pluginID)."</h2>" ; 
 					$this->check_mail($this->get_param("trans_server"), $this->get_param("trans_login"), $this->get_param("trans_pass")) ; 
-					//	translationSL::update_languages_plugin($this->domain, $this->plugin) ; 
-					//	translationSL::update_languages_framework($this->domain, $this->plugin) ; 
-				$tabs->add_tab(__('Import translations',  $this->pluginID), ob_get_clean()) ; 
+					echo "<h2>".__('Update POT',  $this->pluginID)."</h2>" ; 
+					$this->update_all_pot_translations() ; 
+					echo "<h2>".__('Errors in translations',  $this->pluginID)."</h2>" ; 
+					$this->check_bug_translation() ; 
+				$tabs->add_tab(__('New translations',  $this->pluginID), ob_get_clean()) ; 
 			}
 				
 			if ($this->get_param('new_plugin')) {
@@ -723,7 +690,7 @@ class dev_toolbox extends pluginSedLex {
 			if ( ! $res ) {
 				echo  "<p>".__('This plugin does not seem to be hosted on the wordpress repository.', $this->pluginID )."</p>";
 			} else {
-				echo "<p>".sprintf(__('The Wordpress page: %s', $this->pluginID),"<a href='http://wordpress.org/extend/plugins/$plugin_name'>http://wordpress.org/extend/plugins/$plugin_name</a>")."</p>" ; 
+				echo "<p>".sprintf(__('The Wordpress page: %s', $this->pluginID),"<a href='http://wordpress.org/plugins/$plugin_name'>http://wordpress.org/plugins/$plugin_name</a>")."</p>" ; 
 				echo "<p>".sprintf(__('The SVN page: %s', $this->pluginID),"<a href='http://svn.wp-plugins.org/$plugin_name'>http://svn.wp-plugins.org/$plugin_name</a>")."</p>" ; 
 				$lastUpdate = date_i18n(get_option('date_format') , strtotime($res->last_updated)) ; 
 				echo  "<p>".__('Last update:', $this->pluginID )." ".$lastUpdate."</p>";
@@ -764,7 +731,9 @@ class dev_toolbox extends pluginSedLex {
 			$info = file_get_contents(dirname($path).'/core.nfo') ; 
 			$info = explode("#", $info) ; 
 			if ($md5 != $info[0]) {
-				unlink(dirname($path).'/core.nfo') ; 
+				if (is_file(dirname($path).'/core.nfo')) {
+					unlink(dirname($path).'/core.nfo') ; 
+				}
 				$to_be_updated = true ; 
 			}
 			$date = $info[1] ; 
@@ -1400,7 +1369,31 @@ class dev_toolbox extends pluginSedLex {
 			echo "<h3>".__('Confirmation', $this->pluginID)."</h3>" ; 
 			
 			echo "<p>".__('Commit comment:', $this->pluginID)."</p>" ; 
-			echo "<p><textarea cols='70' rows='5' name='svn_comment' id='svn_comment'/></textarea></p>\n" ;  
+			$comment = "" ; 
+			// we recreate the readme.txt
+			if (is_file(WP_PLUGIN_DIR."/".$plugin."/readme.txt")) {
+				$lines = file( WP_PLUGIN_DIR."/".$plugin."/readme.txt" , FILE_IGNORE_NEW_LINES );
+				$found = false ; 
+				for ($i=0; $i<count($lines); $i++) {
+					// We convert if UTF-8
+					if (seems_utf8($lines[$i])) {
+						$lines[$i] = utf8_encode($lines[$i]) ; 
+					}
+		
+					if (($found)&&(preg_match("/= .* =/", $lines[$i]))) {
+						break ;
+					}
+					
+					if ($found) {
+						$comment .= $lines[$i] ; 
+					}
+					if (preg_match("/= ".str_replace(".", "\.", $version2)." =/", $lines[$i])) {
+						$found = true ;
+					}
+				}
+			}
+			
+			echo "<p><textarea cols='70' rows='5' name='svn_comment' id='svn_comment'>".$comment."</textarea></p>\n" ;  
 			if ($version1!=$version2) {
 				echo "<p id='svn_button'><input onclick='svn_to_repo(\"".$plugin."\", \"$random\", \"".$version1."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".sprintf(__('Create a new branch %s and then Update the SVN repository with version %s', $this->pluginID), $version1, $version2)."' /></p>" ;  
 				echo "<p id='svn_button'><input onclick='svn_to_repo(\"".$plugin."\", \"$random\", \"\") ; return false ; ' type='submit' name='submit' class='button validButton' value='".__('Only update the SVN repository', $this->pluginID)."' /></p>" ;  
@@ -1822,6 +1815,165 @@ class dev_toolbox extends pluginSedLex {
 		echo $textdiff->show_only_difference() ;
 		die() ; 
 	}
+
+	/** ====================================================================================================================================================
+	* Check an imap inbox folder to check if translations should be imported
+	* 
+	* @access private
+	* @return void
+	*/
+	function update_all_pot_translations() {
+		global $submenu ; 
+	 		
+		if (isset($submenu)) {
+			foreach ($submenu['sedlex.php'] as $i => $ov) {
+				$url = $ov[2] ; 
+				$plugin_name = explode("/",$url) ;
+				if (count($plugin_name)>=2) {
+					$plug = $plugin_name[count($plugin_name)-2] ; 
+				} else {
+					$plug = "" ; 
+				}
+				$plugin_name[count($plugin_name)-1] = "lang" ; 
+				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
+				if ($ov[2]=="sedlex.php") {
+					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
+					$plug = __("Framework", $this->pluginID) ; 
+				} 
+				// We scan the folder for translations file
+				if (is_dir($dir)) {
+					$root = scandir($dir);
+					foreach($root as $value) {
+						if (preg_match("/(.*)[.]pot$/", $value, $match)) {
+							// We update the langague file
+							if ($match[1] !="SL_framework") {
+								$domain = $match[1] ;
+								translationSL::update_languages_plugin($domain,$plug) ; 
+								echo "<p>".sprintf(__("Update the pot file for %s", $this->pluginID), "<code>$plug</code>")."</p>" ; 
+							} else {
+								translationSL::update_languages_framework() ; 
+								echo "<p>".__("Update the pot file for the framework", $this->pluginID)."</p>" ; 
+							}
+						} 
+					} 
+				}
+			}
+		}
+	}
+	
+	/** ====================================================================================================================================================
+	* Check an imap inbox folder to check if translations should be imported
+	* 
+	* @access private
+	* @return void
+	*/
+	function check_bug_translation() {
+		global $submenu ; 
+	
+		// We identify which folders contains .tmp files 
+		// and we identify the differences
+		//---------------------------------------------------------
+		
+		$table = new adminTable() ;
+		$table->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Sentence', $this->pluginID), __('Translation', $this->pluginID) )) ;
+		
+		$nb_ligne = 0 ; 
+ 		
+		if (isset($submenu)) {
+			foreach ($submenu['sedlex.php'] as $i => $ov) {
+				$url = $ov[2] ; 
+				$plugin_name = explode("/",$url) ;
+				if (count($plugin_name)>=2) {
+					$plug = $plugin_name[count($plugin_name)-2] ; 
+				} else {
+					$plug = "" ; 
+				}
+				$plugin_name[count($plugin_name)-1] = "lang" ; 
+				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
+				if ($ov[2]=="sedlex.php") {
+					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
+					$plug = __("Framework", $this->pluginID) ; 
+				} 
+				// We scan the folder for translations file
+				if (is_dir($dir)) {
+					$root = scandir($dir);
+					foreach($root as $value) {
+						if (preg_match("/(.*)-(.*)[.]po$/", $value, $match)) {
+							
+							$content_po = file($dir.'/'.$value) ; 
+							$lang = $match[2] ; 
+							$domain = $match[1] ; 
+							
+
+		
+							// We build an array with all the sentences for old po
+							$po_array = array() ; 
+							$msgid = "" ; 
+							foreach ($content_po as $ligne_po) {
+								if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+									$msgid = $match[1] ; 			
+								} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
+									if (trim($match[1])!="") {
+										$msgstr = trim($match[1]) ; 
+										// We check the number of %s
+										$count1 = substr_count($msgid, "%s") ; 
+										$count2 = substr_count($msgstr, "%s") ;
+										// If there is a mismatch
+										if ($count1!=$count2) {
+											$cel1 = new adminCell("<p>".$plug."</p>") ; 
+											if ($ov[2]=="sedlex.php") {
+												$framedir = explode("/", SL_FRAMEWORK_DIR) ; 
+												$cel1->add_action(__('Modify',$this->pluginID), "modify_trans_dev('".$framedir[count($framedir)-1]."','".$domain."', '".$framedir[count($framedir)-1]."', '".$lang."')" ) ; 
+											} else {
+												$cel1->add_action(__('Modify',$this->pluginID), "modify_trans_dev('".$plug."','".$domain."', 'false', '".$lang."')" ) ; 
+											}
+											$cel2 = new adminCell("<p>".$lang."</p>") ; 
+											$offset = 0 ; 
+											for ($i=1 ; $i<=max($count1,$count2) ; $i++) {
+												$offset = strpos($msgid, "%s", $offset);
+												if ($offset!==FALSE) {
+													if (($i<=$count1) && ($i<=$count2)) {
+														$new_tag = "<span style='background-color:green'>%s</span>" ; 
+														$msgid = substr($msgid, 0, $offset).$new_tag.substr($msgid, $offset+2) ; 
+														$offset += strlen($new_tag)-2 ; 
+													} else {
+														$new_tag = "<span style='background-color:red '>%s</span>" ; 
+														$msgid = substr($msgid, 0, $offset).$new_tag.substr($msgid, $offset+2) ; 
+														$offset += strlen($new_tag)-2 ;
+													}
+												}
+											}
+											$offset = 0 ; 
+											for ($i=1 ; $i<=max($count1,$count2) ; $i++) {
+												$offset = strpos($msgstr, "%s", $offset);
+												if ($offset!==FALSE) {
+													if (($i<=$count1) && ($i<=$count2)) {
+														$new_tag = "<span style='background-color:green'>%s</span>" ; 
+														$msgstr = substr($msgstr, 0, $offset).$new_tag.substr($msgstr, $offset+2) ; 
+														$offset += strlen($new_tag)-2 ; 
+													} else {
+														$new_tag = "<span style='background-color:red '>%s</span>" ; 
+														$msgstr = substr($msgstr, 0, $offset).$new_tag.substr($msgstr, $offset+2) ; 
+														$offset += strlen($new_tag)-2 ;
+													}
+												}
+											}
+											$cel3 = new adminCell("<p>".$msgid."</p>") ; 
+											$cel4 = new adminCell("<p>".$msgstr."</p>") ; 
+											$table->add_line(array($cel1, $cel2, $cel3, $cel4), '1') ; 
+										}
+									}
+								}
+							}
+						}
+					} 
+				}
+			}
+		}
+		echo $table->flush() ; 
+		echo "<div id='zone_edit_dev'></div>" ; 
+
+	}
 	
 	/** ====================================================================================================================================================
 	* Check an imap inbox folder to check if translations should be imported
@@ -1831,9 +1983,7 @@ class dev_toolbox extends pluginSedLex {
 	*/
 	function check_mail($server, $login, $password) {
 		global $submenu ; 
-		
-		echo "<h3>".__("Import translations from email",$this->pluginID)."</h3>" ; 
-		
+				
 		$imap = imap_open($server, $login, $password);
 		
 		$plugin_lang = array() ; 
@@ -1899,9 +2049,6 @@ class dev_toolbox extends pluginSedLex {
 		}
 		if ($result_imported!="") {
 			echo "<div class='updated fade'>".$result_imported."</div>" ; 
-			echo "<p>".$result_imported."</p>" ; 
-		} else {
-			echo "<p>".__("No translation has been imported this time.",$this->pluginID)."</p>" ; 
 		}
 		
 		// We identify which folders contains .tmp files 
@@ -1971,13 +2118,11 @@ class dev_toolbox extends pluginSedLex {
 			}
 		}
 			
-		echo "<h3>".__("New translations",$this->pluginID)."</h3>" ; 
 		if ($nb_ligne!=0) {
 			echo $table->flush() ;
 		} else {
 			echo "<p>".__("No new translation.",$this->pluginID)."</p>" ; 		
 		}
-		echo "<h3>".__("Updates of translations are available",$this->pluginID)."</h3>" ; 
 		if ($nb_ligne2!=0) {
 			echo $table2->flush() ;
 		} else {
@@ -1986,8 +2131,6 @@ class dev_toolbox extends pluginSedLex {
 		
 		echo "<div id='console_trans'></div>" ; 
 		
-		//Die in order to avoid the 0 character to be printed at the end
-		//die() ;
 	}
 
 	/** ====================================================================================================================================================

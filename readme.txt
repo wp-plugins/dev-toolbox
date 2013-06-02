@@ -3,7 +3,7 @@
 Author: SedLex
 Contributors: SedLex
 Author URI: http://www.sedlex.fr/
-Plugin URI: http://wordpress.org/extend/plugins/dev-toolbox/
+Plugin URI: http://wordpress.org/plugins/dev-toolbox/
 Tags: dev, prod, development, production, svn
 Requires at least: 3.0
 Tested up to: 3.5
@@ -30,6 +30,7 @@ This plugin is under GPL licence.
 = Localization =
 
 * English (United States), default language
+* French (France) translation provided by SedLex
 
 = Features of the framework =
 
@@ -56,6 +57,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.0.3 =
+* Automatic comment
+
 = 1.0.2 =
 * Several bug fixes
 
@@ -65,4 +69,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:dd8063340cc9c5b3bdccb920baf22b2d
+InfoVersion:fdaaf37086d02070a5b9b081432626ab
