@@ -506,173 +506,173 @@ msgstr ""
 msgid "Commit comment:"
 msgstr ""
 
-#: dev-toolbox.php:1399
+#: dev-toolbox.php:1398
 #@ dev_toolbox
 msgid "Create a new branch %s and then Update the SVN repository with version %s"
 msgstr ""
 
-#: dev-toolbox.php:1400
-#: dev-toolbox.php:1402
+#: dev-toolbox.php:1399
+#: dev-toolbox.php:1401
 #@ dev_toolbox
 msgid "Only update the SVN repository"
 msgstr ""
 
-#: dev-toolbox.php:1437
+#: dev-toolbox.php:1436
 #@ dev_toolbox
 msgid "Sending to the repository in progress..."
 msgstr ""
 
-#: dev-toolbox.php:1452
-#: dev-toolbox.php:1467
+#: dev-toolbox.php:1451
+#: dev-toolbox.php:1466
 #@ dev_toolbox
 msgid "Creation of a new branch %s"
 msgstr ""
 
-#: dev-toolbox.php:1462
-#: dev-toolbox.php:1790
+#: dev-toolbox.php:1461
+#: dev-toolbox.php:1789
 #@ dev_toolbox
 msgid "The commit has ended but there is an error!"
 msgstr ""
 
-#: dev-toolbox.php:1784
+#: dev-toolbox.php:1783
 #@ dev_toolbox
 msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing."
 msgstr ""
 
-#: dev-toolbox.php:1842
-#: dev-toolbox.php:1896
+#: dev-toolbox.php:1841
+#: dev-toolbox.php:1895
 #@ dev_toolbox
 msgid "Framework"
 msgstr ""
 
-#: dev-toolbox.php:1853
+#: dev-toolbox.php:1852
 #@ dev_toolbox
 msgid "Update the pot file for %s"
 msgstr ""
 
-#: dev-toolbox.php:1856
+#: dev-toolbox.php:1855
 #@ dev_toolbox
 msgid "Update the pot file for the framework"
 msgstr ""
 
-#: dev-toolbox.php:1879
-#: dev-toolbox.php:2060
-#: dev-toolbox.php:2062
+#: dev-toolbox.php:1878
+#: dev-toolbox.php:2059
+#: dev-toolbox.php:2061
 #@ dev_toolbox
 msgid "Plugin"
 msgstr ""
 
-#: dev-toolbox.php:1879
-#: dev-toolbox.php:2060
-#: dev-toolbox.php:2062
+#: dev-toolbox.php:1878
+#: dev-toolbox.php:2059
+#: dev-toolbox.php:2061
 #@ dev_toolbox
 msgid "Language"
 msgstr ""
 
-#: dev-toolbox.php:1879
+#: dev-toolbox.php:1878
 #@ dev_toolbox
 msgid "Sentence"
 msgstr ""
 
-#: dev-toolbox.php:1879
+#: dev-toolbox.php:1878
 #@ dev_toolbox
 msgid "Translation"
 msgstr ""
 
-#: dev-toolbox.php:1927
-#: dev-toolbox.php:1929
+#: dev-toolbox.php:1926
+#: dev-toolbox.php:1928
 #@ dev_toolbox
 msgid "Modify"
 msgstr ""
 
-#: dev-toolbox.php:2033
+#: dev-toolbox.php:2032
 #@ dev_toolbox
 msgid "The file %s cannot be extracted from mail attachments"
 msgstr ""
 
-#: dev-toolbox.php:2038
+#: dev-toolbox.php:2037
 #@ dev_toolbox
 msgid "The file %s cannot be written in the %s folder"
 msgstr ""
 
-#: dev-toolbox.php:2041
+#: dev-toolbox.php:2040
 #@ dev_toolbox
 msgid "The file %s has been imported in the %s folder"
 msgstr ""
 
-#: dev-toolbox.php:2060
-#: dev-toolbox.php:2062
+#: dev-toolbox.php:2059
+#: dev-toolbox.php:2061
 #@ dev_toolbox
 msgid "Information"
 msgstr ""
 
-#: dev-toolbox.php:2088
+#: dev-toolbox.php:2087
 #@ dev_toolbox
 msgid "%s sentences have been translated (i.e. %s)."
 msgstr ""
 
-#: dev-toolbox.php:2089
-#: dev-toolbox.php:2104
+#: dev-toolbox.php:2088
+#: dev-toolbox.php:2103
 #@ dev_toolbox
 msgid "Delete"
 msgstr ""
 
-#: dev-toolbox.php:2090
+#: dev-toolbox.php:2089
 #@ dev_toolbox
 msgid "See the new translation file and merge"
 msgstr ""
 
-#: dev-toolbox.php:2103
+#: dev-toolbox.php:2102
 #@ dev_toolbox
 msgid "%s sentences have been newly translated and %s sentences have been modified (the old file has %s translated sentences)."
 msgstr ""
 
-#: dev-toolbox.php:2106
+#: dev-toolbox.php:2105
 #@ dev_toolbox
 msgid "See the modifications/new translations and Merge"
 msgstr ""
 
-#: dev-toolbox.php:2108
+#: dev-toolbox.php:2107
 #@ dev_toolbox
 msgid "See the new translations and Merge"
 msgstr ""
 
-#: dev-toolbox.php:2125
+#: dev-toolbox.php:2124
 #@ dev_toolbox
 msgid "No new translation."
 msgstr ""
 
-#: dev-toolbox.php:2130
+#: dev-toolbox.php:2129
 #@ dev_toolbox
 msgid "No new update."
 msgstr ""
 
-#: dev-toolbox.php:2163
+#: dev-toolbox.php:2162
 #@ dev_toolbox
 msgid "What are the differences between these two files?"
 msgstr ""
 
-#: dev-toolbox.php:2201
+#: dev-toolbox.php:2200
 #@ dev_toolbox
 msgid "Sentence to translate"
 msgstr ""
 
-#: dev-toolbox.php:2201
+#: dev-toolbox.php:2200
 #@ dev_toolbox
 msgid "Old sentence"
 msgstr ""
 
-#: dev-toolbox.php:2201
+#: dev-toolbox.php:2200
 #@ dev_toolbox
 msgid "New sentence"
 msgstr ""
 
-#: dev-toolbox.php:2201
+#: dev-toolbox.php:2200
 #@ dev_toolbox
 msgid "To replace?"
 msgstr ""
 
-#: dev-toolbox.php:2233
+#: dev-toolbox.php:2232
 #@ dev_toolbox
 msgid "Merge"
 msgstr ""
