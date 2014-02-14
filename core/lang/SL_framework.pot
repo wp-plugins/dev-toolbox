@@ -149,9 +149,174 @@ msgstr ""
 msgid "Please see below:"
 msgstr ""
 
-#: core/popup.class.php:74
+#: core/admin_table.class.php:191
 #@ SL_framework
-msgid "Close popup"
+msgid "Filter: %s"
+msgstr ""
+
+#: core/admin_table.class.php:223
+#@ SL_framework
+msgid "%s of %s"
+msgstr ""
+
+#: core/admin_table.class.php:223
+#@ SL_framework
+msgid "Current Page"
+msgstr ""
+
+#: core/feedback.class.php:39
+#@ SL_framework
+msgid "Donate"
+msgstr ""
+
+#: core/feedback.class.php:40
+#@ SL_framework
+msgid "If you like the plugin, do not hesitate to donate. Please note that this plugin is developed in my spare time for free."
+msgstr ""
+
+#: core/feedback.class.php:41
+#@ SL_framework
+msgid "This is not mandatory! but it may be a sign that this plugin fits you needs: it makes me happy..."
+msgstr ""
+
+#: core/feedback.class.php:54
+#@ SL_framework
+msgid "Feedback form"
+msgstr ""
+
+#: core/feedback.class.php:55
+#@ SL_framework
+msgid "This form is an easy way to contact the author and to discuss issues/incompatibilities/etc. with him"
+msgstr ""
+
+#: core/feedback.class.php:60
+#@ SL_framework
+msgid "Contact the author"
+msgstr ""
+
+#: core/feedback.class.php:62
+#: core/translation.class.php:216
+#: core/translation.class.php:339
+#@ SL_framework
+msgid "Your name:"
+msgstr ""
+
+#: core/feedback.class.php:66
+#@ SL_framework
+msgid "Your email:"
+msgstr ""
+
+#: core/feedback.class.php:66
+#@ SL_framework
+msgid "Useful... so that the author will be able to anwser you."
+msgstr ""
+
+#: core/feedback.class.php:70
+#@ SL_framework
+msgid "Your comments:"
+msgstr ""
+
+#: core/feedback.class.php:70
+#@ SL_framework
+msgid "Please note that additional information on your wordpress installation will be sent to the author in order to help the debugging if needed (such as : the wordpress version, the installed plugins, etc.)"
+msgstr ""
+
+#: core/feedback.class.php:76
+#@ SL_framework
+msgid "Send feedback"
+msgstr ""
+
+#: core/feedback.class.php:81
+#@ SL_framework
+msgid "No email have been provided for the author of this plugin. Therefore, the feedback is impossible"
+msgstr ""
+
+#: core/feedback.class.php:168
+#@ SL_framework
+msgid "The feedback has been sent"
+msgstr ""
+
+#: core/feedback.class.php:173
+#: core/translation.class.php:583
+#@ SL_framework
+msgid "An error occured sending the email."
+msgstr ""
+
+#: core/feedback.class.php:173
+#: core/translation.class.php:583
+#@ SL_framework
+msgid "Make sure that your wordpress is able to send email."
+msgstr ""
+
+#: core/otherplugins.class.php:52
+#@ SL_framework
+msgid "Plugins that you may install"
+msgstr ""
+
+#: core/otherplugins.class.php:54
+#@ SL_framework
+msgid "The following plugins have been developed by the author and are not yet been installed:"
+msgstr ""
+
+#: core/otherplugins.class.php:56
+#@ SL_framework
+msgid "Plugin not yet installed"
+msgstr ""
+
+#: core/otherplugins.class.php:56
+#: core/otherplugins.class.php:87
+#@ SL_framework
+msgid "Description and Screenshots"
+msgstr ""
+
+#: core/otherplugins.class.php:78
+#@ SL_framework
+msgid "All author's plugins have been installed. Thank you!"
+msgstr ""
+
+#: core/otherplugins.class.php:84
+#@ SL_framework
+msgid "Installed plugins"
+msgstr ""
+
+#: core/otherplugins.class.php:85
+#@ SL_framework
+msgid "You have already installed the following author's plugins:"
+msgstr ""
+
+#: core/otherplugins.class.php:87
+#@ SL_framework
+msgid "Plugin already installed"
+msgstr ""
+
+#: core/otherplugins.class.php:144
+#@ SL_framework
+msgid "The Wordpress page: %s"
+msgstr ""
+
+#: core/otherplugins.class.php:170
+#@ SL_framework
+msgid "An Unexpected HTTP Error occurred during the API request."
+msgstr ""
+
+#: core/otherplugins.class.php:175
+#@ SL_framework
+msgid "Last update:"
+msgstr ""
+
+#: core/otherplugins.class.php:176
+#@ SL_framework
+msgid "Rating: %s"
+msgstr ""
+
+#: core/otherplugins.class.php:185
+#@ SL_framework
+msgid "by %s persons"
+msgstr ""
+
+#: core/otherplugins.class.php:187
+#@ SL_framework
+msgid "Number of download:"
 msgstr ""
 
 #: core/parameters.class.php:53
@@ -252,6 +417,11 @@ msgstr ""
 msgid "Parameters have been reset to their default values!"
 msgstr ""
 
+#: core/popup.class.php:74
+#@ SL_framework
+msgid "Close popup"
+msgstr ""
+
 #: core/translation.class.php:134
 #@ SL_framework
 msgid "Here, you may configure three levels of translations: at the plugin level, at the framework level, and at the dashboard level."
@@ -295,13 +465,6 @@ msgid "Translation"
 msgstr ""
 
 #: core/translation.class.php:216
-#: core/translation.class.php:339
-#: core/feedback.class.php:62
-#@ SL_framework
-msgid "Your name:"
-msgstr ""
-
-#: core/translation.class.php:216
 #@ SL_framework
 msgid "(if your name/pseudo is already in the list, there is no need to fill this input)"
 msgstr ""
@@ -318,8 +481,8 @@ msgid "Create the translation files"
 msgstr ""
 
 #: core/translation.class.php:224
-#: core/translation.class.php:1142
-#: core/translation.class.php:1451
+#: core/translation.class.php:1140
+#: core/translation.class.php:1446
 #@ SL_framework
 msgid "Add a new translation"
 msgstr ""
@@ -346,15 +509,15 @@ msgid "Modify translations"
 msgstr ""
 
 #: core/translation.class.php:545
-#: core/translation.class.php:1120
-#: core/translation.class.php:1429
+#: core/translation.class.php:1118
+#: core/translation.class.php:1424
 #@ SL_framework
 msgid "%s sentences have been translated (i.e. %s)."
 msgstr ""
 
 #: core/translation.class.php:547
-#: core/translation.class.php:1122
-#: core/translation.class.php:1431
+#: core/translation.class.php:1120
+#: core/translation.class.php:1426
 #@ SL_framework
 msgid "%s sentences have been translated (i.e. %s) %s %s sentences have to be checked because they are close (but not identical) to those to translate.%s"
 msgstr ""
@@ -362,18 +525,6 @@ msgstr ""
 #: core/translation.class.php:578
 #@ SL_framework
 msgid "The translation %s have been sent"
-msgstr ""
-
-#: core/translation.class.php:583
-#: core/feedback.class.php:173
-#@ SL_framework
-msgid "An error occured sending the email."
-msgstr ""
-
-#: core/translation.class.php:583
-#: core/feedback.class.php:173
-#@ SL_framework
-msgid "Make sure that your wordpress is able to send email."
 msgstr ""
 
 #: core/translation.class.php:588
@@ -425,90 +576,90 @@ msgstr ""
 msgid "Confirmation"
 msgstr ""
 
-#: core/translation.class.php:1021
-#: core/translation.class.php:1336
+#: core/translation.class.php:1020
+#: core/translation.class.php:1332
 #@ SL_framework
 msgid "Summary cached %s"
 msgstr ""
 
-#: core/translation.class.php:1041
+#: core/translation.class.php:1039
 #@ SL_framework
 msgid "The sentences used in this plugin are in English. Help the others users using the same language as you by translating this plugin."
 msgstr ""
 
-#: core/translation.class.php:1042
+#: core/translation.class.php:1040
 #@ SL_framework
 msgid "This plugin is available in %s languages."
 msgstr ""
 
-#: core/translation.class.php:1056
+#: core/translation.class.php:1054
 #@ SL_framework
 msgid "There are %s sentences to be translated in this plugin."
 msgstr ""
 
-#: core/translation.class.php:1061
-#: core/translation.class.php:1371
+#: core/translation.class.php:1059
+#: core/translation.class.php:1366
 #@ SL_framework
 msgid "Language"
 msgstr ""
 
-#: core/translation.class.php:1061
-#: core/translation.class.php:1371
+#: core/translation.class.php:1059
+#: core/translation.class.php:1366
 #@ SL_framework
 msgid "Ratio %"
 msgstr ""
 
-#: core/translation.class.php:1061
-#: core/translation.class.php:1371
+#: core/translation.class.php:1059
+#: core/translation.class.php:1366
 #@ SL_framework
 msgid "Translators"
 msgstr ""
 
-#: core/translation.class.php:1092
-#: core/translation.class.php:1402
+#: core/translation.class.php:1090
+#: core/translation.class.php:1397
 #@ SL_framework
 msgid "This is the default language of the plugin. It cannot be modified."
 msgstr ""
 
-#: core/translation.class.php:1113
-#: core/translation.class.php:1422
+#: core/translation.class.php:1111
+#: core/translation.class.php:1417
 #@ SL_framework
 msgid "Modify"
 msgstr ""
 
-#: core/translation.class.php:1115
+#: core/translation.class.php:1113
 #@ SL_framework
 msgid "Send to the author of the plugin"
 msgstr ""
 
-#: core/translation.class.php:1143
-#: core/translation.class.php:1452
+#: core/translation.class.php:1141
+#: core/translation.class.php:1447
 #@ SL_framework
 msgid "You may add a new translation hereafter (Please note that it is recommended to send your translation to the author so that he would be able to add your translation to the future release of the plugin !)"
 msgstr ""
 
-#: core/translation.class.php:1156
-#: core/translation.class.php:1465
+#: core/translation.class.php:1154
+#: core/translation.class.php:1460
 #@ SL_framework
 msgid "Add"
 msgstr ""
 
-#: core/translation.class.php:1355
+#: core/translation.class.php:1350
 #@ SL_framework
 msgid "The 'SL framework' is a framework used for developping many plugins like this one. Thus, if you participate translating the framework, it will be very helpful for a bunch of plugins."
 msgstr ""
 
-#: core/translation.class.php:1356
+#: core/translation.class.php:1351
 #@ SL_framework
 msgid "There is %s languages supported for the 'SL framework'."
 msgstr ""
 
-#: core/translation.class.php:1366
+#: core/translation.class.php:1361
 #@ SL_framework
 msgid "There is %s sentence to be translated in the framework."
 msgstr ""
 
-#: core/translation.class.php:1424
+#: core/translation.class.php:1419
 #@ SL_framework
 msgid "Send to the author of the framework"
 msgstr ""
@@ -526,156 +677,5 @@ msgstr ""
 #: core/utils.class.php:152
 #@ SL_framework
 msgid "GB"
-msgstr ""
-
-#: core/otherplugins.class.php:52
-#@ SL_framework
-msgid "Plugins that you may install"
-msgstr ""
-
-#: core/otherplugins.class.php:54
-#@ SL_framework
-msgid "The following plugins have been developed by the author and are not yet been installed:"
-msgstr ""
-
-#: core/otherplugins.class.php:56
-#@ SL_framework
-msgid "Plugin not yet installed"
-msgstr ""
-
-#: core/otherplugins.class.php:56
-#: core/otherplugins.class.php:87
-#@ SL_framework
-msgid "Description and Screenshots"
-msgstr ""
-
-#: core/otherplugins.class.php:78
-#@ SL_framework
-msgid "All author's plugins have been installed. Thank you!"
-msgstr ""
-
-#: core/otherplugins.class.php:84
-#@ SL_framework
-msgid "Installed plugins"
-msgstr ""
-
-#: core/otherplugins.class.php:85
-#@ SL_framework
-msgid "You have already installed the following author's plugins:"
-msgstr ""
-
-#: core/otherplugins.class.php:87
-#@ SL_framework
-msgid "Plugin already installed"
-msgstr ""
-
-#: core/otherplugins.class.php:144
-#@ SL_framework
-msgid "The Wordpress page: %s"
-msgstr ""
-
-#: core/otherplugins.class.php:170
-#@ SL_framework
-msgid "An Unexpected HTTP Error occurred during the API request."
-msgstr ""
-
-#: core/otherplugins.class.php:175
-#@ SL_framework
-msgid "Last update:"
-msgstr ""
-
-#: core/otherplugins.class.php:176
-#@ SL_framework
-msgid "Rating: %s"
-msgstr ""
-
-#: core/otherplugins.class.php:185
-#@ SL_framework
-msgid "by %s persons"
-msgstr ""
-
-#: core/otherplugins.class.php:187
-#@ SL_framework
-msgid "Number of download:"
-msgstr ""
-
-#: core/feedback.class.php:39
-#@ SL_framework
-msgid "Donate"
-msgstr ""
-
-#: core/feedback.class.php:40
-#@ SL_framework
-msgid "If you like the plugin, do not hesitate to donate. Please note that this plugin is developed in my spare time for free."
-msgstr ""
-
-#: core/feedback.class.php:41
-#@ SL_framework
-msgid "This is not mandatory! but it may be a sign that this plugin fits you needs: it makes me happy..."
-msgstr ""
-
-#: core/feedback.class.php:54
-#@ SL_framework
-msgid "Feedback form"
-msgstr ""
-
-#: core/feedback.class.php:55
-#@ SL_framework
-msgid "This form is an easy way to contact the author and to discuss issues/incompatibilities/etc. with him"
-msgstr ""
-
-#: core/feedback.class.php:60
-#@ SL_framework
-msgid "Contact the author"
-msgstr ""
-
-#: core/feedback.class.php:66
-#@ SL_framework
-msgid "Your email:"
-msgstr ""
-
-#: core/feedback.class.php:66
-#@ SL_framework
-msgid "Useful... so that the author will be able to anwser you."
-msgstr ""
-
-#: core/feedback.class.php:70
-#@ SL_framework
-msgid "Your comments:"
-msgstr ""
-
-#: core/feedback.class.php:70
-#@ SL_framework
-msgid "Please note that additional information on your wordpress installation will be sent to the author in order to help the debugging if needed (such as : the wordpress version, the installed plugins, etc.)"
-msgstr ""
-
-#: core/feedback.class.php:76
-#@ SL_framework
-msgid "Send feedback"
-msgstr ""
-
-#: core/feedback.class.php:81
-#@ SL_framework
-msgid "No email have been provided for the author of this plugin. Therefore, the feedback is impossible"
-msgstr ""
-
-#: core/feedback.class.php:168
-#@ SL_framework
-msgid "The feedback has been sent"
-msgstr ""
-
-#: core/admin_table.class.php:191
-#@ SL_framework
-msgid "Filter: %s"
-msgstr ""
-
-#: core/admin_table.class.php:223
-#@ SL_framework
-msgid "%s of %s"
-msgstr ""
-
-#: core/admin_table.class.php:223
-#@ SL_framework
-msgid "Current Page"
 msgstr ""
 
