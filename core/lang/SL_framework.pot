@@ -8,143 +8,143 @@ msgstr ""
 
 #: core.class.php:554
 #: core.class.php:575
-#: core.class.php:1188
+#: core.class.php:1198
 #@ SL_framework
 msgid "Settings"
 msgstr ""
 
-#: core.class.php:1113
+#: core.class.php:1123
 #@ SL_framework
 msgid "Log options"
 msgstr ""
 
-#: core.class.php:1114
+#: core.class.php:1124
 #@ SL_framework
 msgid "What is the debug level:"
 msgstr ""
 
-#: core.class.php:1115
+#: core.class.php:1125
 #@ SL_framework
 msgid "See the debug logs"
 msgstr ""
 
-#: core.class.php:1116
+#: core.class.php:1126
 #@ SL_framework
 msgid "1=log only the critical errors;"
 msgstr ""
 
-#: core.class.php:1117
+#: core.class.php:1127
 #@ SL_framework
 msgid "2=log only the critical errors and the standard errors;"
 msgstr ""
 
-#: core.class.php:1118
+#: core.class.php:1128
 #@ SL_framework
 msgid "3=log only the critical errors, the standard errors and the warnings;"
 msgstr ""
 
-#: core.class.php:1119
+#: core.class.php:1129
 #@ SL_framework
 msgid "4=log information;"
 msgstr ""
 
-#: core.class.php:1120
+#: core.class.php:1130
 #@ SL_framework
 msgid "5=log verbose;"
 msgstr ""
 
-#: core.class.php:1123
+#: core.class.php:1133
 #@ SL_framework
 msgid "Multisite Management"
 msgstr ""
 
-#: core.class.php:1124
+#: core.class.php:1134
 #@ SL_framework
 msgid "Do you want to allow sub-blogs to modify the translations of the plugins:"
 msgstr ""
 
-#: core.class.php:1125
+#: core.class.php:1135
 #@ SL_framework
 msgid "If this option is unchecked, the translation tab won't be displayed in the blog administration panel."
 msgstr ""
 
-#: core.class.php:1139
+#: core.class.php:1149
 #@ SL_framework
 msgid "Summary page for the plugins developped with the SL framework"
 msgstr ""
 
-#: core.class.php:1159
+#: core.class.php:1169
 #@ SL_framework
 msgid "For now, you have installed %s plugins including %s plugins developped with the SedLex's framework"
 msgstr ""
 
-#: core.class.php:1160
+#: core.class.php:1170
 #@ SL_framework
 msgid "The core plugin is located at %s"
 msgstr ""
 
-#: core.class.php:1171
+#: core.class.php:1181
 #@ SL_framework
 msgid "Plugin name"
 msgstr ""
 
-#: core.class.php:1171
+#: core.class.php:1181
 #@ SL_framework
 msgid "Description"
 msgstr ""
 
-#: core.class.php:1196
+#: core.class.php:1206
 #@ SL_framework
 msgid "There is a SQL database for this plugin"
 msgstr ""
 
-#: core.class.php:1200
+#: core.class.php:1210
 #@ SL_framework
 msgid "Version: %s by %s"
 msgstr ""
 
-#: core.class.php:1208
+#: core.class.php:1218
 #@ SL_framework
 msgid "List of SL plugins"
 msgstr ""
 
-#: core.class.php:1217
+#: core.class.php:1227
 #@ SL_framework
 msgid "Parameters of the framework"
 msgstr ""
 
-#: core.class.php:1231
+#: core.class.php:1241
 #@ SL_framework
 msgid "Manage translation of the framework"
 msgstr ""
 
-#: core.class.php:1368
+#: core.class.php:1378
 #@ SL_framework
 msgid "The folder %s is not %s !"
 msgstr ""
 
-#: core.class.php:1370
+#: core.class.php:1380
 #@ SL_framework
 msgid "The file %s is not %s !"
 msgstr ""
 
-#: core.class.php:1377
-#: core.class.php:1384
+#: core.class.php:1387
+#: core.class.php:1394
 #@ SL_framework
 msgid "The folder %s does not exists and cannot be created !"
 msgstr ""
 
-#: core.class.php:1389
+#: core.class.php:1399
 #@ SL_framework
 msgid "The file %s does not exists and cannot be created !"
 msgstr ""
 
-#: core.class.php:1396
+#: core.class.php:1406
 #@ SL_framework
 msgid "There are some issues with folders rights. Please corret them as soon as possible as they could induce bugs and instabilities."
 msgstr ""
 
-#: core.class.php:1396
+#: core.class.php:1406
 #@ SL_framework
 msgid "Please see below:"
 msgstr ""
@@ -152,6 +152,104 @@ msgstr ""
 #: core/popup.class.php:74
 #@ SL_framework
 msgid "Close popup"
+msgstr ""
+
+#: core/parameters.class.php:53
+#@ SL_framework
+msgid "Add new"
+msgstr ""
+
+#: core/parameters.class.php:202
+#@ SL_framework
+msgid "Error: the submitted value is not an integer and thus, the parameter has not been updated!"
+msgstr ""
+
+#: core/parameters.class.php:219
+#@ SL_framework
+msgid "Error: the submitted string does not match the constrains"
+msgstr ""
+
+#: core/parameters.class.php:280
+#@ SL_framework
+msgid "Error: the submitted file can not be uploaded!"
+msgstr ""
+
+#: core/parameters.class.php:297
+#@ SL_framework
+msgid "Error: security issue!"
+msgstr ""
+
+#: core/parameters.class.php:353
+#: core/parameters.class.php:505
+#: core/parameters.class.php:537
+#@ SL_framework
+msgid "Parameters"
+msgstr ""
+
+#: core/parameters.class.php:356
+#@ SL_framework
+msgid "Here are the parameters of the plugin. Modify them at will to fit your needs."
+msgstr ""
+
+#: core/parameters.class.php:358
+#@ SL_framework
+msgid "Here are the parameters of the framework. Modify them at will to fit your needs."
+msgstr ""
+
+#: core/parameters.class.php:449
+#@ SL_framework
+msgid "(Delete)"
+msgstr ""
+
+#: core/parameters.class.php:505
+#: core/parameters.class.php:537
+#@ SL_framework
+msgid "Values"
+msgstr ""
+
+#: core/parameters.class.php:593
+#@ SL_framework
+msgid "Warning: some characters have been removed because they are not allowed here"
+msgstr ""
+
+#: core/parameters.class.php:651
+#@ SL_framework
+msgid "(integer)"
+msgstr ""
+
+#: core/parameters.class.php:813
+#@ SL_framework
+msgid "(If you want to delete this file, please check this box %s)"
+msgstr ""
+
+#: core/parameters.class.php:828
+#@ SL_framework
+msgid "Update"
+msgstr ""
+
+#: core/parameters.class.php:829
+#@ SL_framework
+msgid "Reset to default values"
+msgstr ""
+
+#: core/parameters.class.php:841
+#@ SL_framework
+msgid "Some parameters have not been updated due to errors (see below)!"
+msgstr ""
+
+#: core/parameters.class.php:847
+#@ SL_framework
+msgid "Parameters have been updated (but with some warnings)!"
+msgstr ""
+
+#: core/parameters.class.php:854
+#@ SL_framework
+msgid "Parameters have been updated successfully!"
+msgstr ""
+
+#: core/parameters.class.php:860
+#@ SL_framework
+msgid "Parameters have been reset to their default values!"
 msgstr ""
 
 #: core/translation.class.php:134
@@ -198,7 +296,7 @@ msgstr ""
 
 #: core/translation.class.php:216
 #: core/translation.class.php:339
-#: core/feedback.class.php:63
+#: core/feedback.class.php:62
 #@ SL_framework
 msgid "Your name:"
 msgstr ""
@@ -267,13 +365,13 @@ msgid "The translation %s have been sent"
 msgstr ""
 
 #: core/translation.class.php:583
-#: core/feedback.class.php:174
+#: core/feedback.class.php:173
 #@ SL_framework
 msgid "An error occured sending the email."
 msgstr ""
 
 #: core/translation.class.php:583
-#: core/feedback.class.php:174
+#: core/feedback.class.php:173
 #@ SL_framework
 msgid "Make sure that your wordpress is able to send email."
 msgstr ""
@@ -415,102 +513,19 @@ msgstr ""
 msgid "Send to the author of the framework"
 msgstr ""
 
-#: core/parameters.class.php:53
+#: core/utils.class.php:145
 #@ SL_framework
-msgid "Add new"
+msgid "KB"
 msgstr ""
 
-#: core/parameters.class.php:202
+#: core/utils.class.php:149
 #@ SL_framework
-msgid "Error: the submitted value is not an integer and thus, the parameter has not been updated!"
+msgid "MB"
 msgstr ""
 
-#: core/parameters.class.php:219
+#: core/utils.class.php:152
 #@ SL_framework
-msgid "Error: the submitted string does not match the constrains"
-msgstr ""
-
-#: core/parameters.class.php:280
-#@ SL_framework
-msgid "Error: the submitted file can not be uploaded!"
-msgstr ""
-
-#: core/parameters.class.php:297
-#@ SL_framework
-msgid "Error: security issue!"
-msgstr ""
-
-#: core/parameters.class.php:353
-#: core/parameters.class.php:505
-#: core/parameters.class.php:537
-#@ SL_framework
-msgid "Parameters"
-msgstr ""
-
-#: core/parameters.class.php:356
-#@ SL_framework
-msgid "Here are the parameters of the plugin. Modify them at will to fit your needs."
-msgstr ""
-
-#: core/parameters.class.php:358
-#@ SL_framework
-msgid "Here are the parameters of the framework. Modify them at will to fit your needs."
-msgstr ""
-
-#: core/parameters.class.php:449
-#@ SL_framework
-msgid "(Delete)"
-msgstr ""
-
-#: core/parameters.class.php:505
-#: core/parameters.class.php:537
-#@ SL_framework
-msgid "Values"
-msgstr ""
-
-#: core/parameters.class.php:593
-#@ SL_framework
-msgid "Warning: some characters have been removed because they are not allowed here"
-msgstr ""
-
-#: core/parameters.class.php:651
-#@ SL_framework
-msgid "(integer)"
-msgstr ""
-
-#: core/parameters.class.php:813
-#@ SL_framework
-msgid "(If you want to delete this file, please check this box %s)"
-msgstr ""
-
-#: core/parameters.class.php:828
-#@ SL_framework
-msgid "Update"
-msgstr ""
-
-#: core/parameters.class.php:829
-#@ SL_framework
-msgid "Reset to default values"
-msgstr ""
-
-#: core/parameters.class.php:841
-#@ SL_framework
-msgid "Some parameters have not been updated due to errors (see below)!"
-msgstr ""
-
-#: core/parameters.class.php:847
-#@ SL_framework
-msgid "Parameters have been updated (but with some warnings)!"
-msgstr ""
-
-#: core/parameters.class.php:854
-#@ SL_framework
-msgid "Parameters have been updated successfully!"
-msgstr ""
-
-#: core/parameters.class.php:860
-#@ SL_framework
-msgid "Parameters have been reset to their default values!"
+msgid "GB"
 msgstr ""
 
 #: core/otherplugins.class.php:52
@@ -520,7 +535,7 @@ msgstr ""
 
 #: core/otherplugins.class.php:54
 #@ SL_framework
-msgid "The following plugins have been developed by the author and are not yet installed:"
+msgid "The following plugins have been developed by the author and are not yet been installed:"
 msgstr ""
 
 #: core/otherplugins.class.php:56
@@ -529,74 +544,59 @@ msgid "Plugin not yet installed"
 msgstr ""
 
 #: core/otherplugins.class.php:56
-#: core/otherplugins.class.php:84
+#: core/otherplugins.class.php:87
 #@ SL_framework
 msgid "Description and Screenshots"
 msgstr ""
 
-#: core/otherplugins.class.php:75
+#: core/otherplugins.class.php:78
 #@ SL_framework
 msgid "All author's plugins have been installed. Thank you!"
 msgstr ""
 
-#: core/otherplugins.class.php:81
+#: core/otherplugins.class.php:84
 #@ SL_framework
 msgid "Installed plugins"
 msgstr ""
 
-#: core/otherplugins.class.php:82
+#: core/otherplugins.class.php:85
 #@ SL_framework
 msgid "You have already installed the following author's plugins:"
 msgstr ""
 
-#: core/otherplugins.class.php:84
+#: core/otherplugins.class.php:87
 #@ SL_framework
 msgid "Plugin already installed"
 msgstr ""
 
-#: core/otherplugins.class.php:141
+#: core/otherplugins.class.php:144
 #@ SL_framework
 msgid "The Wordpress page: %s"
 msgstr ""
 
-#: core/otherplugins.class.php:167
+#: core/otherplugins.class.php:170
 #@ SL_framework
 msgid "An Unexpected HTTP Error occurred during the API request."
 msgstr ""
 
-#: core/otherplugins.class.php:172
+#: core/otherplugins.class.php:175
 #@ SL_framework
 msgid "Last update:"
 msgstr ""
 
-#: core/otherplugins.class.php:173
+#: core/otherplugins.class.php:176
 #@ SL_framework
 msgid "Rating: %s"
 msgstr ""
 
-#: core/otherplugins.class.php:182
+#: core/otherplugins.class.php:185
 #@ SL_framework
 msgid "by %s persons"
 msgstr ""
 
-#: core/otherplugins.class.php:184
+#: core/otherplugins.class.php:187
 #@ SL_framework
 msgid "Number of download:"
-msgstr ""
-
-#: core/admin_table.class.php:191
-#@ SL_framework
-msgid "Filter: %s"
-msgstr ""
-
-#: core/admin_table.class.php:223
-#@ SL_framework
-msgid "%s of %s"
-msgstr ""
-
-#: core/admin_table.class.php:223
-#@ SL_framework
-msgid "Current Page"
 msgstr ""
 
 #: core/feedback.class.php:39
@@ -614,165 +614,68 @@ msgstr ""
 msgid "This is not mandatory! but it may be a sign that this plugin fits you needs: it makes me happy..."
 msgstr ""
 
-#: core/feedback.class.php:55
+#: core/feedback.class.php:54
 #@ SL_framework
 msgid "Feedback form"
 msgstr ""
 
-#: core/feedback.class.php:56
+#: core/feedback.class.php:55
 #@ SL_framework
 msgid "This form is an easy way to contact the author and to discuss issues/incompatibilities/etc. with him"
 msgstr ""
 
-#: core/feedback.class.php:61
+#: core/feedback.class.php:60
 #@ SL_framework
 msgid "Contact the author"
 msgstr ""
 
-#: core/feedback.class.php:67
+#: core/feedback.class.php:66
 #@ SL_framework
 msgid "Your email:"
 msgstr ""
 
-#: core/feedback.class.php:67
+#: core/feedback.class.php:66
 #@ SL_framework
 msgid "Useful... so that the author will be able to anwser you."
 msgstr ""
 
-#: core/feedback.class.php:71
+#: core/feedback.class.php:70
 #@ SL_framework
 msgid "Your comments:"
 msgstr ""
 
-#: core/feedback.class.php:71
+#: core/feedback.class.php:70
 #@ SL_framework
 msgid "Please note that additional information on your wordpress installation will be sent to the author in order to help the debugging if needed (such as : the wordpress version, the installed plugins, etc.)"
 msgstr ""
 
-#: core/feedback.class.php:77
+#: core/feedback.class.php:76
 #@ SL_framework
 msgid "Send feedback"
 msgstr ""
 
-#: core/feedback.class.php:82
+#: core/feedback.class.php:81
 #@ SL_framework
 msgid "No email have been provided for the author of this plugin. Therefore, the feedback is impossible"
 msgstr ""
 
-#: core/feedback.class.php:169
+#: core/feedback.class.php:168
 #@ SL_framework
 msgid "The feedback has been sent"
 msgstr ""
 
-#: core/utils.class.php:145
+#: core/admin_table.class.php:191
 #@ SL_framework
-msgid "KB"
+msgid "Filter: %s"
 msgstr ""
 
-#: core/utils.class.php:149
+#: core/admin_table.class.php:223
 #@ SL_framework
-msgid "MB"
+msgid "%s of %s"
 msgstr ""
 
-#: core/utils.class.php:152
+#: core/admin_table.class.php:223
 #@ SL_framework
-msgid "GB"
-msgstr ""
-
-#: include/zip.class.php:24
-#@ SL_framework
-msgid "Error: %s function is not found"
-msgstr ""
-
-#: include/zip.class.php:148
-#: include/zip.class.php:213
-#: include/zip.class.php:250
-#: include/zip.class.php:450
-#: include/database.class.php:94
-#: include/database.class.php:118
-#@ SL_framework
-msgid "The file %s cannot be read. You should have a problem with file permissions or security restrictions."
-msgstr ""
-
-#: include/zip.class.php:159
-#@ SL_framework
-msgid "The folder %s cannot be opened. You should have a problem with folder permissions or security restrictions."
-msgstr ""
-
-#: include/zip.class.php:210
-#: include/zip.class.php:229
-#: include/zip.class.php:248
-#: include/zip.class.php:270
-#: include/zip.class.php:333
-#: include/zip.class.php:369
-#: include/zip.class.php:403
-#: include/zip.class.php:412
-#: include/zip.class.php:448
-#: include/zip.class.php:461
-#: include/zip.class.php:544
-#: include/zip.class.php:562
-#: include/zip.class.php:587
-#: include/zip.class.php:604
-#: include/zip.class.php:617
-#: include/zip.class.php:682
-#: include/zip.class.php:723
-#: include/zip.class.php:739
-#: include/zip.class.php:752
-#: include/zip.class.php:774
-#: include/zip.class.php:785
-#: include/zip.class.php:787
-#: include/zip.class.php:794
-#: include/database.class.php:173
-#: include/database.class.php:224
-#: include/database.class.php:227
-#@ SL_framework
-msgid "The file %s cannot be deleted. You should have a problem with file permissions or security restrictions."
-msgstr ""
-
-#: include/zip.class.php:218
-#: include/database.class.php:98
-#@ SL_framework
-msgid "An other process is still running (it runs for %s seconds)"
-msgstr ""
-
-#: include/zip.class.php:231
-#: include/zip.class.php:335
-#: include/zip.class.php:371
-#: include/zip.class.php:405
-#: include/zip.class.php:546
-#: include/zip.class.php:564
-#: include/zip.class.php:589
-#: include/zip.class.php:606
-#: include/zip.class.php:619
-#: include/zip.class.php:684
-#: include/zip.class.php:725
-#: include/zip.class.php:741
-#: include/database.class.php:104
-#: include/database.class.php:169
-#: include/database.class.php:220
-#@ SL_framework
-msgid "The file %s cannot be modified/created. You should have a problem with file permissions or security restrictions."
-msgstr ""
-
-#: include/zip.class.php:272
-#: include/database.class.php:141
-#@ SL_framework
-msgid "The file %s cannot be created. You should have a problem with file permissions or security restrictions."
-msgstr ""
-
-#: include/zip.class.php:463
-#@ SL_framework
-msgid "The file %s cannot be compressed."
-msgstr ""
-
-#: include/zip.class.php:754
-#: include/zip.class.php:776
-#@ SL_framework
-msgid "The file %s cannot be renamed. You should have a problem with file permissions or security restrictions."
-msgstr ""
-
-#: include/database.class.php:165
-#@ SL_framework
-msgid "The file %s cannot be modified. You should have a problem with file permissions or security restrictions."
+msgid "Current Page"
 msgstr ""
 

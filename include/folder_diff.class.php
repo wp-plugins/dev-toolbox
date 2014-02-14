@@ -212,7 +212,7 @@ if (!class_exists("foldDiff")) {
 			$binary = "" ;
 			$loupe = "" ; 
 			$tick = "" ;
-			$icone = "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/default.png'/>\n" ; 
+			$icone = "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/default.png'/>\n" ; 
 			
 			// Test modification
 			//----------------------
@@ -240,17 +240,17 @@ if (!class_exists("foldDiff")) {
 			//------------------------
 			if ($item[2]=="binary_file") {
 				$binary = "*" ; 
-				$icone = "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/binary.png'/>\n" ; 
+				$icone = "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/binary.png'/>\n" ; 
 			}	
 			
 			if (preg_match("/\.php$/i", $item[0]))
-				$icone = "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/php.png'/>\n" ; 
+				$icone = "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/php.png'/>\n" ; 
 			
 			if (preg_match("/\.(gif|png|jpg|jpeg)$/i", $item[0])) 
-				$icone = "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/img.png'/>\n" ; 
+				$icone = "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/img.png'/>\n" ; 
 
 			if ($item[2]=="directory") {
-				$icone = "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/folder.png'/>\n" ;  ; 
+				$icone = "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/folder.png'/>\n" ;  ; 
 			}
 			
 			//Test whether the text diff should be displayed
@@ -258,11 +258,11 @@ if (!class_exists("foldDiff")) {
 			$text_diff = "" ; 
 			if ((($item[1]==3)||($item[1]==2)||($item[1]==1))&&($item[2]=="text_file")) {
 				$loupe =  "<a href='#' onclick='diffToggle".$random."(\"".md5($item[3].$random)."\") ; return false ; '>" ; 
-				$loupe .= "<img style='border:0px' src='".WP_PLUGIN_URL.'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/loupe.png'/>"  ; 
+				$loupe .= "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/loupe.png'/>"  ; 
 				$loupe .=  "</a>\n" ; 
 				$text_diff = "<div id='diff_".md5($item[3].$random)."' style='display:none;padding:0px;margin:0px;'>\n" ; 
 
-					$text_diff .= "<div id='wait_diff_".md5($item[3].$random)."' style='display:none;' ><img src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."../core/img/ajax-loader.gif'> ".__('Retrieving the modification of this file...', $this->pluginID)."</div>" ; 
+					$text_diff .= "<div id='wait_diff_".md5($item[3].$random)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."../core/img/ajax-loader.gif'> ".__('Retrieving the modification of this file...', $this->pluginID)."</div>" ; 
 					ob_start() ; 
 ?>
 					<script>

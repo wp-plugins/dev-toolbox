@@ -420,9 +420,10 @@ if (!class_exists("svnAdmin")) {
 		function getAllFiles($base, $vcc, $rev, $store, $credentials=true) {
 			$result = $this->sendSVNRequest($this->host, $vcc, "REPORT", "<?xml version=\"1.0\" encoding=\"utf-8\"?><S:update-report send-all=\"true\" xmlns:S=\"svn:\" xmlns:D=\"DAV:\"><S:src-path>http://".$this->host.":".$this->port.$base."</S:src-path><S:target-revision>".$rev."</S:target-revision><S:depth>infinity</S:depth><S:entry rev=\"".$rev."\" depth=\"infinity\"  start-empty=\"true\"></S:entry></S:update-report>", array(), $credentials) ; 		
 			$is_err = false ; 
+			
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 		
 				$xml = $this->xmlContentParse($result['content']) ;
-				$info = array() ; 
+				$info = array() ;  
 				
 				// On s'occupe des folders
 				$dir = $xml->getElementsByTagNameNS ( 'svn:' , 'add-directory' );
@@ -433,7 +434,7 @@ if (!class_exists("svnAdmin")) {
 					if (count($tmp)==2) {
 						$url = $tmp[1] ; 
 					}
-					// On crée les folders
+					// On cree les folders
 					if (@mkdir($store.$url, 0755, true)) {
 						$info[] = array("url"=>$url, "ok"=>true, "folder"=>true)  ; 
 					} else {
@@ -471,9 +472,6 @@ if (!class_exists("svnAdmin")) {
 							$offset = $debut_text+$data_length ;
 						}
 						
-						
-						
-						
 						$tmp = explode($base, $url, 2) ; 
 						if (count($tmp)==2) {
 							$url = $tmp[1] ; 
@@ -483,7 +481,7 @@ if (!class_exists("svnAdmin")) {
 						$entities = array('%20');
 						$url = str_replace($entities, $replacements, $url);
 						
-						// On crée les  fichiers en cache
+						// On cree les  fichiers en cache
 						if (@file_put_contents($store.$url, $true_content)!==false) {
 							$info[] = array("url"=>$url, "ok"=>true, "folder"=>false , "size"=>strlen($content) )  ; 
 						} else {
@@ -526,7 +524,7 @@ if (!class_exists("svnAdmin")) {
 					$uuid .= substr($chars,16,4) . '-';
 					$uuid .= substr($chars,20,12) ;
 					$act = $this->createActivity($activity['activity_folder'].$uuid , $credentials) ; 
-					if ($act['isOK']) {					
+					if ($act['isOK']) {	
 						$revision = $this->getRevision($base, $credentials) ; 
 						if ($revision['isOK']) {
 							$url_comment = $this->getCommitCommentURL($vcc['vcc'], $activity['activity_folder'].$uuid , $credentials) ; 
@@ -535,7 +533,6 @@ if (!class_exists("svnAdmin")) {
 								if ($res['isOK']) {
 									$versionFolder = $this->getVersionFolder($base, $credentials) ; 
 									if ($versionFolder['isOK']) {
-										
 										$urlDepot = $this->getPutFolder($versionFolder['version_folder'], $activity['activity_folder'].$uuid , $credentials) ; 
 										if ($urlDepot['isOK']) {
 											
@@ -585,7 +582,7 @@ if (!class_exists("svnAdmin")) {
 			$entities = array(' ');
 			$relative_uri = str_replace($entities, $replacements, $relative_uri);
 
-			$header = $type." ".$relative_uri." HTTP/1.1\r\n" ;
+			$header = $type." ".$relative_uri." HTTP/1.0\r\n" ;
 			$header .= "Host: ".$host."\r\n" ;
 			$header .= "User-Agent: ".$this->user_agent."\r\n" ;
 			$noContentType = false ; 
@@ -603,15 +600,16 @@ if (!class_exists("svnAdmin")) {
 			$header .= "Content-Length: ".strlen($content)."\r\n" ;
 			$header .= "\r\n";
 			
-			
-			$fp = fsockopen($host, $this->port, $errno, $errstr, 30);
+			$fp = fsockopen($host, $this->port, $errno, $errstr, 10);
 			if (!$fp) {
     			return "$errstr ($errno)";
 			} else {
 				fwrite($fp, $header.$content);
 				$result = "" ; 
 				while (!feof($fp)) {
-					$result .= fgets($fp, 128);
+					$temp_result = fgets($fp, 2048);
+					//$temp_result = fread($fp, 2048);
+					$result .= $temp_result ; 
 				}
 				fclose($fp);
 				return array_merge(array("sent"=> array('header' => $header, 'content' => $content) ), $this->httpMessageParse($result) ) ; 
@@ -628,8 +626,13 @@ if (!class_exists("svnAdmin")) {
 		
 		function httpMessageParse($message) {
 			$tmp = explode("\r\n\r\n", $message, 2) ; 
-			$header = $tmp[0] ; 
-			$content = $tmp[1] ;
+			if (isset($tmp[1])) {
+				$header = $tmp[0] ; 
+				$content = $tmp[1] ;
+			} else {
+				$header = $tmp[0] ; 
+				$content = $tmp[0] ;			
+			}
 			$lh = explode("\r\n", $header) ; 
 			$rh = array() ; 
 			foreach ($lh as $l) {

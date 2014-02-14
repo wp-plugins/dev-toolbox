@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2013-04-07T12:56:49+00:00\n"
+"PO-Revision-Date: 2013-12-10T18:27:54+00:00\n"
 "Last-Translator: SedLex <http://www.sedlex.fr>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,40 +30,19 @@ msgid "Activate the SVN client?"
 msgstr "Activer le client SVN ?"
 
 msgid "Wordpress Login:"
-msgstr ""
+msgstr "Identifiant Wordpress :"
 
 msgid "You should have an account on %s before. Then, the login will be the same!"
 msgstr ""
 
 msgid "Wordpress Password:"
-msgstr ""
+msgstr "Mot de passe Wordpress : "
 
 msgid "Author Name that is displayed in your plugins:"
 msgstr ""
 
-msgid "Push from Dev to Prod"
-msgstr ""
-
-msgid "Activate the Dev to Prod interface?"
-msgstr ""
-
-msgid "Is this Wordpress installation a development site?"
-msgstr ""
-
-msgid "The path of the other site:"
-msgstr ""
-
-msgid "The root of this website is %s."
-msgstr ""
-
-msgid "The path %s seems valid."
-msgstr ""
-
-msgid "The path %s does not seem to be a valid Wordpress installation path."
-msgstr ""
-
 msgid "Creation of new plugins"
-msgstr ""
+msgstr "Création de nouveaux plugins"
 
 msgid "Enable the creation of new plugins?"
 msgstr ""
@@ -87,7 +66,7 @@ msgid "This is useful if you want that the framework retrieve automatically the 
 msgstr ""
 
 msgid "IMAP Password:"
-msgstr ""
+msgstr "Mot de passe IMAP :"
 
 msgid "Debug functions"
 msgstr ""
@@ -113,6 +92,9 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+msgid "(Deactivated)"
+msgstr ""
+
 msgid "Update plugin information..."
 msgstr ""
 
@@ -128,16 +110,16 @@ msgstr ""
 msgid "SVN client"
 msgstr ""
 
-msgid "This website is a *development* site"
+msgid "Import translations"
 msgstr ""
 
-msgid "This website is a *production* site"
+msgid "Update POT"
 msgstr ""
 
-msgid "Dev to Prod"
+msgid "Errors in translations"
 msgstr ""
 
-msgid "Prod to Dev"
+msgid "New translations"
 msgstr ""
 
 msgid "The following allows you to easily create a new plugin."
@@ -354,6 +336,84 @@ msgid "The commit has ended but there is an error!"
 msgstr ""
 
 msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing."
+msgstr ""
+
+msgid "Framework"
+msgstr ""
+
+msgid "Update the pot file for %s"
+msgstr ""
+
+msgid "Update the pot file for the framework"
+msgstr ""
+
+msgid "Plugin"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Sentence"
+msgstr ""
+
+msgid "Translation"
+msgstr ""
+
+msgid "Modify"
+msgstr ""
+
+msgid "The file %s cannot be extracted from mail attachments"
+msgstr ""
+
+msgid "The file %s cannot be written in the %s folder"
+msgstr ""
+
+msgid "The file %s has been imported in the %s folder"
+msgstr ""
+
+msgid "Information"
+msgstr ""
+
+msgid "%s sentences have been translated (i.e. %s)."
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "See the new translation file and merge"
+msgstr ""
+
+msgid "%s sentences have been newly translated and %s sentences have been modified (the old file has %s translated sentences)."
+msgstr ""
+
+msgid "See the modifications/new translations and Merge"
+msgstr ""
+
+msgid "See the new translations and Merge"
+msgstr ""
+
+msgid "No new translation."
+msgstr ""
+
+msgid "No new update."
+msgstr ""
+
+msgid "What are the differences between these two files?"
+msgstr ""
+
+msgid "Sentence to translate"
+msgstr ""
+
+msgid "Old sentence"
+msgstr ""
+
+msgid "New sentence"
+msgstr ""
+
+msgid "To replace?"
+msgstr ""
+
+msgid "Merge"
 msgstr ""
 
 msgid "Select all"

@@ -3,7 +3,8 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.0.3
+Version: 1.0.4
+
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -257,7 +258,7 @@ class dev_toolbox extends pluginSedLex {
 	
 	function add_tinymce_buttons() {
 		$buttons = array() ; 
-		//$buttons[] = array(__('title', $this->pluginID), '[tag]', '[/tag]', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename( __FILE__)).'img/img_button.png') ; 
+		//$buttons[] = array(__('title', $this->pluginID), '[tag]', '[/tag]', plugin_dir_url("/").'/'.str_replace(basename( __FILE__),"",plugin_basename( __FILE__)).'img/img_button.png') ; 
 		return $buttons ; 
 	}
 	
@@ -410,7 +411,7 @@ class dev_toolbox extends pluginSedLex {
 									<?php							
 									}
 									
-									echo "<div id='infoPlugin_".md5($url)."' style='display:none;' ><img src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update plugin information...', $this->pluginID)."</div>" ; 
+									echo "<div id='infoPlugin_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update plugin information...', $this->pluginID)."</div>" ; 
 									?>
 									<script>
 										setTimeout("timePlugin<?php echo md5($url) ?>()", Math.floor(Math.random()*4000)); 
@@ -424,7 +425,7 @@ class dev_toolbox extends pluginSedLex {
 									
 								
 								ob_start() ; 
-									echo "<div id='corePlugin_".md5($url)."' style='display:none;' ><img src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Retrieving SVN information...', $this->pluginID)."</div>" ; 
+									echo "<div id='corePlugin_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Retrieving SVN information...', $this->pluginID)."</div>" ; 
 									?>
 									<script>
 										setTimeout("timeCore<?php echo md5($url) ?>()", Math.floor(Math.random()*4000)+1000); 
@@ -513,7 +514,7 @@ class dev_toolbox extends pluginSedLex {
 					
 					echo "<h2>".__("Step 3 - Understand and modify the plugin.",$this->pluginID)."</h2>" ; 
 					echo "<p>".__("The global structure of the folder of the plugin is the following:",$this->pluginID)."</p>" ; 
-					echo '<p><img class="aligncenter" src="'.WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__)).'img/files_and_folders.png" width="800"/></p>' ; 
+					echo '<p><img class="aligncenter" src="'.plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__)).'img/files_and_folders.png" width="800"/></p>' ; 
 					echo "<p>".sprintf(__("The file %s should have been renamed according the name you give to the plugin.",$this->pluginID), "<code>my-plugin.php</code>")."</p>" ; 
 
 					echo "<h3>".sprintf(__("The %s file.",$this->pluginID), "<code>my-plugin.php</code>")."</h3>" ; 
@@ -570,7 +571,7 @@ class dev_toolbox extends pluginSedLex {
 
 
 				
-			$tabs->add_tab(__('Parameters',  $this->pluginID), $parameters , WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_param.png") ; 	
+			$tabs->add_tab(__('Parameters',  $this->pluginID), $parameters , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_param.png") ; 	
 			
 			$frmk = new coreSLframework() ;  
 			if (((is_multisite())&&($blog_id == 1))||(!is_multisite())||($frmk->get_param('global_allow_translation_by_blogs'))) {
@@ -578,14 +579,14 @@ class dev_toolbox extends pluginSedLex {
 					$plugin = str_replace("/","",str_replace(basename(__FILE__),"",plugin_basename( __FILE__))) ; 
 					$trans = new translationSL($this->pluginID, $plugin) ; 
 					$trans->enable_translation() ; 
-				$tabs->add_tab(__('Manage translations',  $this->pluginID), ob_get_clean() , WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_trad.png") ; 	
+				$tabs->add_tab(__('Manage translations',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_trad.png") ; 	
 			}
 
 			ob_start() ; 
 				$plugin = str_replace("/","",str_replace(basename(__FILE__),"",plugin_basename( __FILE__))) ; 
 				$trans = new feedbackSL($plugin, $this->pluginID) ; 
 				$trans->enable_feedback() ; 
-			$tabs->add_tab(__('Give feedback',  $this->pluginID), ob_get_clean() , WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_mail.png") ; 	
+			$tabs->add_tab(__('Give feedback',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_mail.png") ; 	
 			
 			ob_start() ; 
 				// A list of plugin slug to be excluded
@@ -593,7 +594,7 @@ class dev_toolbox extends pluginSedLex {
 				// Replace sedLex by your own author name
 				$trans = new otherPlugins("sedLex", $exlude) ; 
 				$trans->list_plugins() ; 
-			$tabs->add_tab(__('Other plugins',  $this->pluginID), ob_get_clean() , WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_plug.png") ; 	
+			$tabs->add_tab(__('Other plugins',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_plug.png") ; 	
 			
 			echo $tabs->flush() ; 
 			
@@ -828,13 +829,13 @@ class dev_toolbox extends pluginSedLex {
 		// 1) Mise a jour framework
 		
 		if ($current_fingerprint_core_used != $info_core) {
-			$toBePrint .= "<div id='coreUpdate_".md5($url)."' style='display:none;' ><img src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update the core of the framework...', $this->pluginID)."</div>" ; 
+			$toBePrint .= "<div id='coreUpdate_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update the core of the framework...', $this->pluginID)."</div>" ; 
 			$toBePrint .= "<p style='".$styleToDo."'>" ; 
 			$toBeDone = true ; 
 			$toBePrint .= "<a href='#' onclick='coreUpdate(\"coreUpdate_".md5($url)."\", \"corePlugin_".md5($url)."\", \"".$url."\" , \"".$plugin_name."\") ; return false ; '>";
 			$toBePrint .= sprintf(__('1) Update with the core with %s ', $this->pluginID), str_replace(WP_PLUGIN_DIR, "", SL_FRAMEWORK_DIR)) ; 
 			$toBePrint .= "</a>" ; 
-			$toBePrint .= "<img id='wait_corePlugin_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_corePlugin_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .= "</p>" ;  
 		} else {
 			$toBePrint .= "<p style='".$styleDone."'>" ; 
@@ -849,7 +850,7 @@ class dev_toolbox extends pluginSedLex {
 			$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 			$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 			$toBePrint .= "</a>" ; 
-			$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .= "</p>" ; 	
 		} else {
 			if ((!$toBeDone) && ($version_on_wordpress == $info['Version'])) {
@@ -858,7 +859,7 @@ class dev_toolbox extends pluginSedLex {
 				$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 				$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 					$toBePrint .= "</a>" ; 
-				$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+				$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 				$toBePrint .= "</p>" ; 	
 			} else {
 				if ($version_on_wordpress == $info['Version']) {
@@ -866,14 +867,14 @@ class dev_toolbox extends pluginSedLex {
 					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 					$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 					$toBePrint .= "</a>" ; 
-					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 					$toBePrint .= "</p>" ; 						
 				} else {
 					$toBePrint .=  "<p style='".$styleDone."'>" ; 	
 					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 					$toBePrint .= sprintf(__("2) Modify the readme.txt (the local version is %s whereas the Wordpress version is %s)", $this->pluginID), $info['Version'], $version_on_wordpress) ;
 					$toBePrint .= "</a>" ; 
-					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 					$toBePrint .= "</p>" ; 	
 				}
 			}	
@@ -886,7 +887,7 @@ class dev_toolbox extends pluginSedLex {
 			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
 			$toBePrint .= sprintf(__("3) Update the SVN repository (without modifying the version)", $this->pluginID), $info['Version']) ;
 			$toBePrint .=  "</a>" ;
-			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .=  "</p>" ;
 		} else {
 			if ((!$toBeDone)) {
@@ -898,7 +899,7 @@ class dev_toolbox extends pluginSedLex {
 			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
 			$toBePrint .= sprintf(__("3) Update the SVN repository (and release a new version %s)", $this->pluginID), $info['Version']) ;
 			$toBePrint .=  "</a>" ;
-			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .=  "</p>" ;			
 		}
 		
@@ -911,7 +912,7 @@ class dev_toolbox extends pluginSedLex {
 		}
 		$toBePrint .=  "<p><textarea id='txt_savetodo_".md5($url)."' style='font:80% courier; width:100%' rows='5'>".stripslashes(htmlentities(utf8_decode($content), ENT_QUOTES, "UTF-8"))."</textarea></p>" ; 
 		$toBePrint .=  "<p><input onclick='saveTodo(\"".md5($url)."\", \"".$plugin_name."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save Todo List', $this->pluginID)."' />" ; 
-		$toBePrint .= "<img id='wait_savetodo_".md5($url)."' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+		$toBePrint .= "<img id='wait_savetodo_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 		$toBePrint .= "<span id='savedtodo_".md5($url)."' style='display:none;'>".__("Todo list saved!", $this->pluginID)."</span>" ; 
 		$toBePrint .= "<span id='errortodo_".md5($url)."'></span>" ; 
 		$toBePrint .= "</p>" ; 
@@ -1109,7 +1110,7 @@ class dev_toolbox extends pluginSedLex {
 			$table->add_line(array($cel1, $cel2), '1') ;
 			$content = $entete.$table->flush() ;
 			
-			$content .= "<p id='svn_button'><input onclick='saveVersionReadme(\"".$plugin."\", \"".$url."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save these data', $this->pluginID)."' /><img id='wait_save' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p></div>" ;  
+			$content .= "<p id='svn_button'><input onclick='saveVersionReadme(\"".$plugin."\", \"".$url."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save these data', $this->pluginID)."' /><img id='wait_save' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p></div>" ;  
 		
 		} else {
 			$content = "<div class='error fade'><p>".sprintf(__('There is a problem with the header of %s. It appears that there is no Version header.', $this->pluginID), "<code>".$plugin."/".$plugin.".php</code>")."</p></div>"; 
@@ -1118,7 +1119,7 @@ class dev_toolbox extends pluginSedLex {
 		$current_fingerprint_core_used = dev_toolbox::checkCoreOfThePlugin(SL_FRAMEWORK_DIR."/core.php") ; 
 					 ; 
 
-		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".WP_PLUGIN_URL."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
+		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -1331,7 +1332,7 @@ class dev_toolbox extends pluginSedLex {
 			
 		$content = ob_get_clean() ; 	
 		
-		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".WP_PLUGIN_URL."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
+		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -1403,7 +1404,7 @@ class dev_toolbox extends pluginSedLex {
 			echo "<script>jQuery('#innerPopupForm').animate({scrollTop: 0}, 10);</script>\r\n" ; 
 			echo "</div>" ; 
 			
-			echo "<p><img id='wait_svn1' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p>" ; 
+			echo "<p><img id='wait_svn1' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p>" ; 
 			
 			echo "<p>&nbsp;</p>" ; 
 			echo "<p>&nbsp;</p>" ; 
@@ -1411,7 +1412,7 @@ class dev_toolbox extends pluginSedLex {
 			echo "<script>jQuery('#innerPopupForm').animate({scrollTop: 0}, 10);</script>\r\n" ; 
 			echo "</div>" ; 
 			
-			echo "<p><img id='wait_svn2' src='".WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p>" ; 
+			echo "<p><img id='wait_svn2' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'></p>" ; 
 
 		
 		echo "<div id='console_svn'></div>\r\n" ; 
@@ -1432,6 +1433,7 @@ class dev_toolbox extends pluginSedLex {
 		$comment = $_POST['comment'] ;
 		$files = $_POST['files'] ;
 
+
 		echo "<div class='console' id='svn_console2'>\n" ; 
 		echo __("Sending to the repository in progress...", $this->pluginID)."<br/>----------<br/>" ; 
 					
@@ -1439,6 +1441,7 @@ class dev_toolbox extends pluginSedLex {
 		$local_cache = WP_CONTENT_DIR."/sedlex/svn" ;
 		$root = "/".$plugin."/trunk/" ; 
 		$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
+		
 		
 		// If we have to create a new branch we do it now !
 		foreach ($files as $f) {
@@ -1480,8 +1483,10 @@ class dev_toolbox extends pluginSedLex {
 			}
 		}
 			
+
 		
 		$result = $svn->prepareCommit($root, $comment, true) ; 
+			
 		if ($result['isOK']) {
 			echo "</div>\n" ; 
 			$nb_fichier = 0 ; 
@@ -2230,7 +2235,7 @@ class dev_toolbox extends pluginSedLex {
 			}
 			echo $table->flush() ; 
 			echo "<p><input type='submit' name='set' class='button-primary validButton' onclick='mergeTranslationDifferences(\"".$path1."\", \"".$path2."\");return false;' value='".__('Merge',$this->pluginID)."' />" ; 
-			$x = WP_PLUGIN_URL.'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__)) ; 
+			$x = plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__)) ; 
 			echo "<img id='wait_translation_merge' src='".$x."/img/ajax-loader.gif' style='display:none;'><p/>" ; 	
 			echo "</span>" ; 
 		
