@@ -602,7 +602,7 @@ if (!class_exists("svnAdmin")) {
 			
 			$fp = fsockopen($host, $this->port, $errno, $errstr, 10);
 			if (!$fp) {
-    			return "$errstr ($errno)";
+    			return array("header"=>array('Return-Code-HTTP'=>"0"), "error"=>"$errstr ($errno)");
 			} else {
 				fwrite($fp, $header.$content);
 				$result = "" ; 
@@ -717,7 +717,7 @@ if (!class_exists("svnAdmin")) {
 			}
 			if ($raw['header']['Return-Code-HTTP']=='500'){
 				if (strpos($raw['content'], "previous representation is currently being written")===false) {
-					//return "<span style='color:#CC0000'>".__("This file have not been written in the repository due to server problem. Nevertheless, you should retry as it often works better with a second try !", "SL_framework")."</span>" ; 
+					return "<span style='color:#CC0000'>".__("This file have not been written in the repository due to server problem. Nevertheless, you should retry as it often works better with a second try !", "SL_framework")."</span>" ; 
 				}
 			}
 			return "<span style='color:#CC0000'>".nl2br(str_replace(" ", "&nbsp;", htmlentities(print_r($raw, true))))."</span>" ;  

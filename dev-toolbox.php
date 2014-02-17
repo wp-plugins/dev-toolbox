@@ -3,7 +3,8 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.0.4
+Version: 1.1.0
+
 
 Framework: SL_Framework
 Author: SedLex
@@ -73,6 +74,9 @@ class dev_toolbox extends pluginSedLex {
 		add_action('wp_ajax_svn_put_file_in_repo', array($this,'svn_put_file_in_repo')) ; 
 		add_action('wp_ajax_svn_put_folder_in_repo', array($this,'svn_put_folder_in_repo')) ; 
 		add_action('wp_ajax_svn_delete_in_repo', array($this,'svn_delete_in_repo')) ; 
+
+		add_action('wp_ajax_svn_show_banner', array($this,'svn_show_banner')) ; 
+		add_action('wp_ajax_svn_upload_banners', array($this,'svn_upload_banners')) ; 
 		
 		// We add an ajax call for Todo Change
 		add_action('wp_ajax_saveTodo', array($this,'saveTodo')) ; 
@@ -903,6 +907,14 @@ class dev_toolbox extends pluginSedLex {
 			$toBePrint .=  "</p>" ;			
 		}
 		
+		// 4) Upload Banner files
+		$toBePrint .=  "<p style='".$styleDone."'>" ; 	
+		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".md5($url)."\", \"".$plugin_name."\"); return false;'>" ;
+		$toBePrint .= __("4) (Optionnal) Upload Banners for Wordpress directory", $this->pluginID) ;
+		$toBePrint .=  "</a>" ;
+		$toBePrint .= "<img id='wait_banner_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+		$toBePrint .=  "</p>" ;
+
 		$toBePrint .=  "<p style='".$styleComment."'><a href='#' onclick='coreInfo(\"corePlugin_".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false ; '>".__('Refresh', $this->pluginID)."</a></p>" ; 
 
 		// Display the TODO zone for developers
@@ -1241,6 +1253,297 @@ class dev_toolbox extends pluginSedLex {
 	}
 	
 	/** ====================================================================================================================================================
+	* Callback for displaying the banner uploading screen
+	* 
+	* @access private
+	* @return void
+	*/		
+	
+	function svn_show_banner() {
+	
+		// get the arguments
+		$plugin = $_POST['plugin'];
+				
+		$title = sprintf(__('Banner uploading for %s', $this->pluginID),'<em>'.$plugin.'</em>') ;
+		
+		ob_start() ; 
+		
+			// SVN preparation
+			$local_cache = WP_CONTENT_DIR."/sedlex/svn" ; 
+			Utils::rm_rec($local_cache."/".$plugin."_banners") ;
+			@mkdir($local_cache."/".$plugin."_banners", 0755, true) ; 
+			$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
+				
+			$revision = $svn->getRevision("/".$plugin."/assets", true) ;
+			$vcc = $svn->getVCC("/".$plugin."/assets", true) ;
+			$revision = $revision['revision'] ; 
+			$vcc = $vcc['vcc'] ; 
+			
+			$res = $svn->getAllFiles("/".$plugin."/assets", $vcc, $revision, $local_cache."/".$plugin."_banners", true) ; 
+			SL_Debug::log(get_class(), "Got all banners from "."/".$plugin."/assets", 4) ; 
+			echo "<div id='svn_div'>" ; 
+			
+			// On met a jour le cache local !
+			echo "<h3>".__('Updating the local cache for banners', $this->pluginID)."</h3>" ; 
+
+			echo "<div class='console' id='svn_console'>\n" ; 
+			$i=0 ; 
+			foreach ($res['info'] as $inf) {
+				$i++ ; 
+				if ($inf['folder']) {
+					if ($inf['ok']) {
+						echo $i.". ".$inf['url']." <span style='color:#669900'>OK</span> (".__('folder created', $this->pluginID).")<br/>" ; 
+					} else {
+						echo $i.". ".$inf['url']." <span style='color:#CC0000'>KO</span> (".__('folder creation has failed !', $this->pluginID).")<br/>" ; 						
+					}
+				} else {
+					if ($inf['ok']) {
+						echo $i.". ".$inf['url']." <span style='color:#669900'>OK</span> (".sprintf(__("%s bytes transfered", $this->pluginID), $inf['size']).")<br/>" ; 
+					} else {
+						echo $i.". ".$inf['url']." <span style='color:#CC0000'>KO</span><br/>" ; 						
+					}						
+				}
+			}
+			
+
+			if ($res['isOK']) {
+				echo "</div>\n" ; 
+				
+				echo "<h3>".__('Synthesis', $this->pluginID)."</h3>" ; 
+				// Banniere standard
+				if (is_file($local_cache."/".$plugin."_banners/banner-772x250.png")) {
+					echo "<p style='color:#669900'>".__("A standard banner 772x250 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-772x250.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+				} elseif (is_file($local_cache."/".$plugin."_banners/banner-772x250.jpg")) {
+					echo "<p style='color:#669900'>".__("A standard banner 772x250 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-772x250.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+				} else {
+					echo "<p style='color:#CC0000'>".__("No standard banner 772x250 is present on the repository",$this->pluginID)."</p>" ; 
+				}
+				echo '<p>'.__('New standard banner:',$this->pluginID).' <input id="low_banner" type="file" accept="image/x-png, image/jpeg"/></p>' ; 
+				echo "<p>".__('The size of the standard banner should be exactly 772x250 and the type of the image should be PNG or JPG only.',$this->pluginID)."</p>" ; 
+
+				// Banniere haute resolution retina
+				if (is_file($local_cache."/".$plugin."_banners/banner-1544x500.png")) {
+					echo "<p style='color:#669900'>".__("A high resolution banner 1544x500 for retina display is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-1544x500.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+				} elseif (is_file($local_cache."/".$plugin."_banners/banner-1544x500.jpg")) {
+					echo "<p style='color:#669900'>".__("A high resolution banner 1544x500 for retina displayis present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-1544x500.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+				} else {
+					echo "<p style='color:#CC0000'>".__("No high resolution banner 1544x500 for retina display is present on the repository",$this->pluginID)."</p>" ; 
+				}
+				echo '<p>'.__('New high resolution banner:',$this->pluginID).' <input id="high_banner" type="file" accept="image/x-png, image/jpeg" /></p>' ;
+				echo "<p>".__('The size of the high resolution banner should be exactly 1544x500 and the type of the image should be PNG or JPG only.',$this->pluginID)."</p>" ; 
+
+				echo "<h3>".__('Upload', $this->pluginID)."</h3>" ; 
+				echo "<p>".__('The banners will be replaced only if a new file is uploaded.',$this->pluginID)."</p>" ; 
+				echo '<p id="infoResult"><input type="submit" class="button-primary validButton" value = "'.__('Upload these banners',$this->pluginID).'" id="uploadNewBanner" onclick="uploadNewBanner(\''.$plugin.'\');return false;"/>' ; 
+				echo "<img id='wait_uploadNewBanner' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+				echo '</p>' ; 
+				
+			} else {
+				echo __('An error occurred during the retrieval of files on the server ! Sorry ...', $this->pluginID)."<br/>\n" ; 
+				$svn->printRawResult($res['raw_result']) ; 	
+				echo "</div>\n" ; 					
+			}
+			echo "</div>\n" ; 	
+			
+		$content = ob_get_clean() ; 	
+		
+		$popup = new popupAdmin($title, $content) ; 
+		$popup->render() ; 
+		die() ; 
+	}
+	
+		
+	/** ====================================================================================================================================================
+	* Upload banners
+	* 
+	* @access private
+	* @return void
+	*/		
+	
+	function svn_upload_banners() {
+		ob_start() ; 
+	
+			// get the arguments
+			$plugin = $_POST['plugin'];	
+			
+			$low_path = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/banner-772x250_new" ;
+			$high_path = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/banner-1544x500_new" ;
+			
+			@unlink($low_path.".png") ; 
+			@unlink($low_path.".jpg") ; 
+			@unlink($high_path.".png") ; 
+			@unlink($high_path.".jpg") ; 
+			
+			$new_low = "" ; 
+			$new_high = "" ; 
+					
+			echo "<h4>".__("Upload the standard resolution image")."</h4>" ; 
+		
+			if(isset($_FILES["file_low"])){
+				if ($_FILES["file_low"]["error"] > 0){
+					echo "<p style='color:#CC0000'>".sprintf(__("Error: %s", $this->pluginID), $_FILES["file_low"]["error"])."<p>";
+				} else {
+					// Check the type
+					$filecheck = basename($_FILES['file_low']['name']);
+					$ext = substr($filecheck, strrpos($filecheck, '.') + 1);
+					// JPG
+					if (($ext == "jpg") && ($_FILES["file_low"]["type"] == "image/jpeg")) {
+						$size = getimagesize($_FILES['file_low']['tmp_name']) ; 
+						if (($size[0]==772)&&($size[1]==250)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["file_low"]["tmp_name"],$low_path.".jpg");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_low = $low_path.".jpg" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "772x250")."</p>";
+						}
+					// PNG
+					} elseif (($ext == "png") && ($_FILES["file_low"]["type"] == "image/png")) {
+						$size = getimagesize($_FILES['file_low']['tmp_name']) ; 
+						if (($size[0]==772)&&($size[1]==250)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["file_low"]["tmp_name"],$low_path.".png");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_low = $low_path.".png" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "772x250")."</p>";
+						}
+					} else {
+						echo sprintf(__("The uploaded file is not a JPG or a PNG (but %s).", $this->pluginID), "<b>$ext</b>, <b>".$_FILES["file_low"]["type"]."</b>")."<br/>";
+					}
+				}
+			} else {
+				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
+			}
+			
+			echo "<h4>".__("Upload the high resolution image")."</h4>" ; 
+
+			if(isset($_FILES["file_high"])){
+				//Filter the file types, if you want.
+				if ($_FILES["file_high"]["error"] > 0){
+					echo "<p style='color:#CC0000'>".sprintf(__("Error: %s", $this->pluginID), $_FILES["file_high"]["error"])."<p>";
+				} else {
+					// Check the type
+					$filecheck = basename($_FILES['file_high']['name']);
+					$ext = substr($filecheck, strrpos($filecheck, '.') + 1);
+					// JPG
+  					if (($ext == "jpg") && ($_FILES["file_high"]["type"] == "image/jpeg")) {
+						$size = getimagesize($_FILES['file_high']['tmp_name']) ; 
+						if (($size[0]==1544)&&($size[1]==500)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["file_high"]["tmp_name"],$high_path.".jpg");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_high = $high_path.".jpg" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "1544x500")."</p>";
+						}
+					// PNG
+					} elseif (($ext == "png") && ($_FILES["file_high"]["type"] == "image/png")) {
+						$size = getimagesize($_FILES['file_high']['tmp_name']) ; 
+						if (($size[0]==1544)&&($size[1]==500)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["file_high"]["tmp_name"],$high_path.".png");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_high = $high_path.".png" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "1544x500")."</p>";
+						}
+					} else {
+						echo sprintf(__("The uploaded file is not a JPG or a PNG (but %s).", $this->pluginID), "<b>$ext</b>, <b>".$_FILES["file_low"]["type"]."</b>")."<br/>";
+					}
+				}
+			} else {
+				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
+			}
+			
+			echo "<h4>".__("Send files to the repository")."</h4>" ; 
+			
+			if ((($new_low!="")&&(is_file($new_low)))||(($new_high!="")&&(is_file($new_high)))) {
+			
+				echo "<div class='console' id='svn_console2'>\n" ; 
+				echo __("Sending to the repository in progress...", $this->pluginID)."<br/>----------<br/>" ; 
+					
+				// SVN preparation
+				$local_cache = WP_CONTENT_DIR."/sedlex/svn" ;
+				$root = "/".$plugin."/assets/" ; 
+				$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
+
+				$result = $svn->prepareCommit($root, "Update the banners for a display in http://wordpress.org/plugins/".$plugin, true) ; 
+			
+				if ($result['isOK']) {
+			
+					// LOW RESOLUTION PUT
+
+					if (($new_low!="")&&(is_file($new_low))) { 
+
+						$urldepot = $result['putFolder']."/".str_replace("_new","",basename($new_low)) ;
+		
+						// PUT the file
+						$res = $svn->putFile($urldepot, $new_low , true) ; 
+						if ($res['isOK']) {
+							SL_Debug::log(get_class(), "The file ".$new_low." has been uploaded into the assets repository", 4) ; 
+							echo str_replace("_new","",basename($new_low))." <span style='color:#669900'>OK</span>" ; 
+						} else {
+							SL_Debug::log(get_class(), "The file ".$new_low." cannot be uploaded into the assets repository", 2) ; 
+							echo " <span style='color:#CC0000'>KO</span><br/>" ;
+							echo 	"SVN header : <br/>" ; 
+							print_r($res['svn_header']) ; 
+							echo "<br/>" ; 
+							echo $svn->printRawResult($res['raw_result']) ; 
+						}
+					}
+				
+					// HIGH RESOLUTION PUT
+				
+					if (($new_high!="")&&(is_file($new_high))) { 
+
+						$urldepot = $result['putFolder']."/".str_replace("_new","",basename($new_high)) ;
+
+						// PUT the file
+						$res = $svn->putFile($urldepot, $new_high , true) ; 
+						if ($res['isOK']) {
+							SL_Debug::log(get_class(), "The file ".$new_high." has been uploaded into the assets repository", 4) ; 
+							echo str_replace("_new","",basename($new_high))." <span style='color:#669900'>OK</span>" ; 
+						} else {
+							SL_Debug::log(get_class(), "The file ".$new_high." cannot be uploaded into the assets repository", 2) ; 
+							echo " <span style='color:#CC0000'>KO</span><br/>" ;
+							echo 	"SVN header : <br/>" ; 
+							print_r($res['svn_header']) ; 
+							echo "<br/>" ; 
+							echo $svn->printRawResult($res['raw_result']) ; 
+						}
+					}
+				
+					// COMMIT
+					$res = $svn->merge($root, $result['activityFolder'].$result['uuid'],  true) ; 
+					if ($res['isOK']) {
+						SL_Debug::log(get_class(), "The modification has been merged within the repository", 4) ; 
+						echo " <span style='color:#669900'>".sprintf(__("The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing.",$this->pluginID), $res['commit_info'])."</span>" ; 	
+					} else {
+						SL_Debug::log(get_class(), "The modification cannot be merged within the repository", 2) ; 
+						echo " <span style='color:#CC0000'>".__("The commit has ended but there is an error!",$this->pluginID)."</span>" ; 
+						echo $svn->printRawResult($res['raw_result']) ; 
+					}
+				
+					echo "</div>\n" ; 
+				} else {
+					echo "<p style='color:#CC0000;'>" ; 
+						print_r($result) ; 
+					echo "</p>" ; 
+					echo "</div>" ; 
+				}
+			} else {
+				echo "<p>".__("Nothing to do here...", $this->pluginID)."</p>" ; 
+			}
+		
+		echo json_encode(ob_get_clean()) ; 
+		
+		die() ; 
+	}
+
+
+	
+	/** ====================================================================================================================================================
 	* Callback for displaying the SVN popup
 	* 
 	* @access private
@@ -1250,7 +1553,6 @@ class dev_toolbox extends pluginSedLex {
 	function svn_show_popup() {
 	
 		// get the arguments
-		$url = $_POST['url'];
 		$plugin = $_POST['plugin'];
 		$version1 = $_POST['version1'];
 		$version2 = $_POST['version2'];
@@ -1262,6 +1564,7 @@ class dev_toolbox extends pluginSedLex {
 			// SVN preparation
 			$local_cache = WP_CONTENT_DIR."/sedlex/svn" ; 
 			Utils::rm_rec($local_cache."/".$plugin) ;
+			@mkdir($local_cache."/".$plugin, 0755, true) ; 
 			$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
 				
 			$revision = $svn->getRevision("/".$plugin."/trunk", true) ;
@@ -1909,8 +2212,6 @@ class dev_toolbox extends pluginSedLex {
 							$lang = $match[2] ; 
 							$domain = $match[1] ; 
 							
-
-		
 							// We build an array with all the sentences for old po
 							$po_array = array() ; 
 							$msgid = "" ; 

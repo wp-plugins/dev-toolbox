@@ -57,6 +57,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.0 =
+* NEW: Support of banners for the SVN
+
 = 1.0.4 =
 * BUG: modification of the framework due to several little bugs
 
@@ -72,4 +75,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:451a0c83856f530e59a148bcdee5c4df
+InfoVersion:7f874f8bbff0cad1b63428356a314e3f
