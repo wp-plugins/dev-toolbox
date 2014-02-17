@@ -1556,6 +1556,7 @@ class dev_toolbox extends pluginSedLex {
 		$plugin = $_POST['plugin'];
 		$version1 = $_POST['version1'];
 		$version2 = $_POST['version2'];
+		$url = $_POST['url'];
 		
 		$title = sprintf(__('SVN client for %s', $this->pluginID),'<em>'.$plugin.'</em>') ;
 		
