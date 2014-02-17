@@ -57,22 +57,19 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.1 =
+* NEW: Create assets if does not exists
+
 = 1.1.0 =
 * NEW: Support of banners for the SVN
 
-= 1.0.4 =
+= 1.0.1 -&gt; 1.0.4 =
 * BUG: modification of the framework due to several little bugs
-
-= 1.0.3 =
 * Automatic comment
-
-= 1.0.2 =
 * Several bug fixes
-
-= 1.0.1 =
 * First release
 
 == Frequently Asked Questions ==
 
  
-InfoVersion:c5871af67bb10cf794cccc501a7221e5
+InfoVersion:e992a7001981613b6f688fb8340d61cd

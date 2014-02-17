@@ -13,6 +13,44 @@ function uploadNewBanner(plugin) {
 	data.append('file_high', jQuery("#high_banner")[0].files[0]);
 	data.append('action', "svn_upload_banners");
 	data.append('plugin', plugin);
+	data.append('create_assets', "NO");
+
+	jQuery.ajax({
+		url: ajaxurl,
+		type: 'POST',
+		data: data,
+		cache: false,
+		dataType: 'json',
+		processData: false, // Don't process the files
+		contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+		success: function(data, textStatus, jqXHR) {
+			// Success so call function to process the form
+			jQuery('#infoResult').html(data) ;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+			// Handle errors here
+			console.log('ERRORS: ' + textStatus);
+			// STOP LOADING SPINNER
+		}
+	});
+}
+
+/* =====================================================================================
+*
+*  Create the folder assets and Upload the banners
+*
+*/
+
+function createAsset_uploadNewBanner(plugin) {
+	jQuery("#uploadNewBanner").hide() ;
+	jQuery("#wait_uploadNewBanner").show() ;
+
+	var data = new FormData();
+	data.append('file_low', jQuery("#low_banner")[0].files[0]);
+	data.append('file_high', jQuery("#high_banner")[0].files[0]);
+	data.append('action', "svn_upload_banners");
+	data.append('plugin', plugin);
+	data.append('create_assets', "YES");
 
 	jQuery.ajax({
 		url: ajaxurl,
