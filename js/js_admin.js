@@ -110,10 +110,11 @@ function showSvnPopup(md5, plugin, url, version1, version2) {
 *
 */
 
-function showUploadBanner(md5, plugin) {
+function showUploadBanner(md5, plugin, url) {
 	jQuery("#wait_banner_"+md5).show();
 	var arguments = {
 		action: 'svn_show_banner', 
+		url : url,
 		plugin : plugin
 	} 
 	//POST the data and append the results to the results div

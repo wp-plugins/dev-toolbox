@@ -57,6 +57,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.2 =
+* NEW: Improvement of display for the banners files
+
 = 1.1.1 =
 * NEW: Create assets if does not exists
 
@@ -72,4 +75,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:e992a7001981613b6f688fb8340d61cd
+InfoVersion:ebea4274c4db1379e82525801507a85f

@@ -3,7 +3,8 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.1
+Version: 1.1.2
+
 
 
 
@@ -909,14 +910,59 @@ class dev_toolbox extends pluginSedLex {
 		}
 		
 		// 4) Upload Banner files
+		
+		$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/banner-772x250.png' );
+		$low_banner = "(<span style='color:#669900'>772x250</span>)" ; 
+		if( is_wp_error( $response ) ) {
+			$low_banner = "(<span style='color:#CC0000'>772x250</span>)" ; 
+		} else {
+			if ( 200 == $response['response']['code'] ) {
+				$low_banner = "(<span style='color:#669900'>772x250</span>)" ; 
+			} else {
+				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/banner-772x250.jpg' );
+				$low_banner = "(<span style='color:#669900'>772x250</span>)" ; 
+				if( is_wp_error( $response ) ) {
+					$low_banner = "(<span style='color:#CC0000'>772x250</span>)" ; 
+				} else {
+					if ( 200 == $response['response']['code'] ) {
+						$low_banner = "(<span style='color:#669900'>772x250</span>)" ; 
+					} else {
+						$low_banner = "(<span style='color:#CC0000'>772x250</span>)" ; 
+					}
+				}
+			}
+		}
+		
+		$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/banner-1544x500.png' );
+		$high_banner = "(<span style='color:#669900'>1544x500</span>)" ; 
+		if( is_wp_error( $response ) ) {
+			$high_banner = "(<span style='color:#CC0000'>1544x500</span>)" ; 
+		} else {
+			if ( 200 == $response['response']['code'] ) {
+				$high_banner = "(<span style='color:#669900'>1544x500</span>)" ; 
+			} else {
+				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/banner-1544x500.jpg' );
+				$high_banner = "(<span style='color:#669900'>1544x500</span>)" ; 
+				if( is_wp_error( $response ) ) {
+					$high_banner = "(<span style='color:#CC0000'>1544x500</span>)" ; 
+				} else {
+					if ( 200 == $response['response']['code'] ) {
+						$high_banner = "(<span style='color:#669900'>1544x500</span>)" ; 
+					} else {
+						$high_banner = "(<span style='color:#CC0000'>1544x500</span>)" ; 
+					}
+				}
+			}
+		}
+		
 		$toBePrint .=  "<p style='".$styleDone."'>" ; 	
-		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".md5($url)."\", \"".$plugin_name."\"); return false;'>" ;
-		$toBePrint .= __("4) (Optionnal) Upload Banners for Wordpress directory", $this->pluginID) ;
+		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\"); return false;'>" ;
+		$toBePrint .= __("4) (Optional) Upload Banners for Wordpress directory", $this->pluginID)." ".$low_banner." ".$high_banner ;
 		$toBePrint .=  "</a>" ;
 		$toBePrint .= "<img id='wait_banner_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 		$toBePrint .=  "</p>" ;
 
-		$toBePrint .=  "<p style='".$styleComment."'><a href='#' onclick='coreInfo(\"corePlugin_".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false ; '>".__('Refresh', $this->pluginID)."</a></p>" ; 
+		$toBePrint .=  "<p style='".$styleComment."'><a href='#' onclick='jQuery(\"#corePlugin_".md5($url)."\").html(\"<p>".__("Refreshing the SVN information", $this->pluginID)." <img src=\\\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\\\"></p>\"); coreInfo(\"corePlugin_".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false ; '>".__('Refresh', $this->pluginID)."</a></p>" ; 
 
 		// Display the TODO zone for developers
 		$content = "" ; 
@@ -1264,6 +1310,7 @@ class dev_toolbox extends pluginSedLex {
 	
 		// get the arguments
 		$plugin = $_POST['plugin'];
+		$url = $_POST['url'];
 				
 		$title = sprintf(__('Banner uploading for %s', $this->pluginID),'<em>'.$plugin.'</em>') ;
 		
@@ -1357,7 +1404,7 @@ class dev_toolbox extends pluginSedLex {
 			
 		$content = ob_get_clean() ; 	
 		
-		$popup = new popupAdmin($title, $content) ; 
+		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -1825,8 +1872,6 @@ class dev_toolbox extends pluginSedLex {
 			}
 		}
 			
-
-		
 		$result = $svn->prepareCommit($root, $comment, true) ; 
 			
 		if ($result['isOK']) {
