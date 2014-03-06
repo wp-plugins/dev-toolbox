@@ -3,11 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.2
-
-
-
-
+Version: 1.1.3
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -50,10 +46,6 @@ class dev_toolbox extends pluginSedLex {
 		// The name of the SQL table (Do no modify except if you know what you do)
 		$this->table_name = $wpdb->prefix . "pluginSL_" . get_class() ; 
 
-		//Initilisation of plugin variables if needed (Please modify)
-		$this->your_var1 = 1 ; 
-		$this->your_var2 = array() ; 
-		$this->your_varn = "n" ; 
 
 		//Configuration of callbacks, shortcode, ... (Please modify)
 		// For instance, see 
@@ -361,16 +353,18 @@ class dev_toolbox extends pluginSedLex {
 			$parameters = ob_get_clean() ; 		
 				
 		?>
-		<div class="wrap">
-			<div id="icon-themes" class="icon32"><br></div>
+		<div class="plugin-titleSL">
 			<h2><?php echo $this->pluginName ?></h2>
 		</div>
-		<div style="padding:20px;">			
+		
+		<div class="plugin-contentSL">		
+			<?php echo $this->signature ; ?>
+	
 			<?php
 			//===============================================================================================
 			// After this comment, you may modify whatever you want
 			?>
-			<p><?php echo __("Developers, you will appreciate this plugin I believe: your work will be much easier.", $this->pluginID) ;?></p>
+			<p><?php echo __("You should have here powerful tools for developping a plugin: creating an Hello World plugin, consulting documentation on the framework, commiting your plugin with the embedded SVN client.", $this->pluginID) ;?></p>
 			<?php
 			
 			// We check rights
@@ -969,7 +963,7 @@ class dev_toolbox extends pluginSedLex {
 		if (is_file(WP_PLUGIN_DIR."/".$plugin_name."/todo.txt")) {
 			$content = @file_get_contents(WP_PLUGIN_DIR."/".$plugin_name."/todo.txt") ; 
 		}
-		$toBePrint .=  "<p><textarea id='txt_savetodo_".md5($url)."' style='font:80% courier; width:100%' rows='5'>".stripslashes(htmlentities(utf8_decode($content), ENT_QUOTES, "UTF-8"))."</textarea></p>" ; 
+		$toBePrint .=  "<p><div style='width:100%'><textarea id='txt_savetodo_".md5($url)."' style='font:80% courier; width:100%' rows='5'>".stripslashes(htmlentities(utf8_decode($content), ENT_QUOTES, "UTF-8"))."</textarea></div></p>" ; 
 		$toBePrint .=  "<p><input onclick='saveTodo(\"".md5($url)."\", \"".$plugin_name."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save Todo List', $this->pluginID)."' />" ; 
 		$toBePrint .= "<img id='wait_savetodo_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 		$toBePrint .= "<span id='savedtodo_".md5($url)."' style='display:none;'>".__("Todo list saved!", $this->pluginID)."</span>" ; 
@@ -1158,9 +1152,9 @@ class dev_toolbox extends pluginSedLex {
 
 			$default_text .= "InfoVersion:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\n" ; 
 
-			$content = "<p><textarea id='ReadmeModify' rows='".(count(explode("\n", $readme))+1)."' cols='100%'>".$readme."</textarea></p>" ; 
+			$content = "<p><div style='width:100%'><textarea id='ReadmeModify' rows='".(count(explode("\n", $readme))+1)."' style='width:100%'>".$readme."</textarea></div></p>" ; 
 			
-			$default_text = "<p><textarea id='ReadmePropose' rows='".(count(explode("\n", $readme))+1)."' cols='100%'>".$default_text."</textarea></p>" ; 
+			$default_text = "<p><div style='width:100%'><textarea id='ReadmePropose' rows='".(count(explode("\n", $readme))+1)."' style='width:100%'>".$default_text."</textarea></div></p>" ; 
 			
 			$table = new adminTable() ;
 			$table->title(array(__("The current text", $this->pluginID), __("The proposed text", $this->pluginID)) ) ;
@@ -1783,7 +1777,7 @@ class dev_toolbox extends pluginSedLex {
 				}
 			}
 			
-			echo "<p><textarea cols='70' rows='5' name='svn_comment' id='svn_comment'>".$comment."</textarea></p>\n" ;  
+			echo "<p><div style='width:100%'><textarea style='width:100%' rows='5' name='svn_comment' id='svn_comment'>".$comment."</textarea></div></p>\n" ;  
 			if ($version1!=$version2) {
 				echo "<p id='svn_button'><input onclick='svn_to_repo(\"".$plugin."\", \"$random\", \"".$version1."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".sprintf(__('Create a new branch %s and then Update the SVN repository with version %s', $this->pluginID), $version1, $version2)."' /></p>" ;  
 				echo "<p id='svn_button'><input onclick='svn_to_repo(\"".$plugin."\", \"$random\", \"\") ; return false ; ' type='submit' name='submit' class='button validButton' value='".__('Only update the SVN repository', $this->pluginID)."' /></p>" ;  

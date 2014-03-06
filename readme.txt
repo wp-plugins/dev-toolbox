@@ -55,7 +55,16 @@ Have fun !
 
 == Screenshots ==
 
+1. Synthesis of the plugin and interface to the SVN tools
+2. Create a new plugin (download a zip)
+3. SVN diff tools
+4. SVN client
+
 == Changelog ==
+
+= 1.1.3 =
+* BUG: Correct the look of text area for editing the readme.txt
+* NEW: improve the look of the configuration page
 
 = 1.1.2 =
 * NEW: Improvement of display for the banners files
@@ -75,4 +84,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:ebea4274c4db1379e82525801507a85f
+InfoVersion:57e7eeb47fcedda7e80f6c01b0622cc1

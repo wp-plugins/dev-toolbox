@@ -332,7 +332,7 @@ if (!class_exists("foldDiff")) {
 				fclose($fh);
 				clearstatcache();
 
-				return (0 or substr_count($blk, "^ -~", "^\r\n")/512 > 0.3	or substr_count($blk, "\x00") > 0);
+				return (0 or substr_count($blk, "^ -~")/512 > 0.3 or substr_count($blk, "^\r\n")/512 > 0.3 or substr_count($blk, "\x00") > 0);
 			}
 			return 0;
 		} 	
