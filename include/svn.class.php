@@ -43,7 +43,7 @@ if (!class_exists("svnAdmin")) {
 		
 		function listFilesInRepository($base, $rec=true, $credentials=false) {
 
-			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<?xml version=\"1.0\"?><D:propfind xmlns:D=\"DAV:\"><D:allprop/></D:propfind>", array("Depth: 1") ) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<"."?xml version=\"1.0\"?><D:propfind xmlns:D=\"DAV:\"><D:allprop/></D:propfind>", array("Depth: 1") ) ; 		
 			
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$doc = $this->xmlContentParse($result['content']) ;
@@ -93,7 +93,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getActivityFolder($base, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $base, "OPTIONS", "<?xml version=\"1.0\" encoding=\"utf-8\"?><D:options xmlns:D=\"DAV:\"><D:activity-collection-set/></D:options>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "OPTIONS", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><D:options xmlns:D=\"DAV:\"><D:activity-collection-set/></D:options>", array(), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$xml = $this->xmlContentParse($result['content']) ;
 				$activity = $xml->getElementsByTagNameNS ( 'DAV:' , 'href' )->item(0)->textContent ;
@@ -112,7 +112,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getVCC($base, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><version-controlled-configuration xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><version-controlled-configuration xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$xml = $this->xmlContentParse($result['content']) ;
 				$vcc = $xml->getElementsByTagNameNS ( 'DAV:' , 'version-controlled-configuration' )->item(0)->textContent ;
@@ -131,7 +131,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getRevision($base, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><version-name xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><version-name xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$xml = $this->xmlContentParse($result['content']) ;
 				$rev = $xml->getElementsByTagNameNS ( 'DAV:' , 'version-name' )->item(0)->textContent ;
@@ -171,7 +171,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getCommitCommentURL($vcc, $activity_n_uuid, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $vcc, "CHECKOUT", "<?xml version=\"1.0\" encoding=\"utf-8\"?><D:checkout xmlns:D=\"DAV:\"><D:activity-set><D:href>".$activity_n_uuid."</D:href></D:activity-set><D:apply-to-version/></D:checkout>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $vcc, "CHECKOUT", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><D:checkout xmlns:D=\"DAV:\"><D:activity-set><D:href>".$activity_n_uuid."</D:href></D:activity-set><D:apply-to-version/></D:checkout>", array(), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$url = str_replace("http://".$this->host, "", $result["header"]["Location"]) ; 
 				return array("isOK" => true, "url" => $url, "raw_result" => $result) ;  
@@ -196,7 +196,7 @@ if (!class_exists("svnAdmin")) {
 			$entities = array('<', '>');
 			$comment = str_replace($entities, $replacements, $comment);
 			
-			$result = $this->sendSVNRequest($this->host, $comment_url, "PROPPATCH", "<?xml version=\"1.0\" encoding=\"utf-8\"?><D:propertyupdate xmlns:D=\"DAV:\" xmlns:V=\"http://subversion.tigris.org/xmlns/dav/\" xmlns:C=\"http://subversion.tigris.org/xmlns/custom/\" xmlns:S=\"http://subversion.tigris.org/xmlns/svn/\"><D:set><D:prop><S:log >".$comment."</S:log></D:prop></D:set></D:propertyupdate>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $comment_url, "PROPPATCH", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><D:propertyupdate xmlns:D=\"DAV:\" xmlns:V=\"http://subversion.tigris.org/xmlns/dav/\" xmlns:C=\"http://subversion.tigris.org/xmlns/custom/\" xmlns:S=\"http://subversion.tigris.org/xmlns/svn/\"><D:set><D:prop><S:log >".$comment."</S:log></D:prop></D:set></D:propertyupdate>", array(), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				return array("isOK" => true, "raw_result" => $result) ; 
 			} else {
@@ -213,7 +213,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getVersionFolder($base, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><checked-in xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "PROPFIND", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><propfind xmlns=\"DAV:\"><prop><checked-in xmlns=\"DAV:\"/></prop></propfind>", array("Depth: 0"), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$xml = $this->xmlContentParse($result['content']) ;
 				$vf = $xml->getElementsByTagNameNS ( 'DAV:' , 'checked-in' )->item(0)->firstChild->textContent ;
@@ -235,7 +235,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getPutFolder($version, $activity_n_uuid, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $version, "CHECKOUT", "<?xml version=\"1.0\" encoding=\"utf-8\"?><D:checkout xmlns:D=\"DAV:\"><D:activity-set><D:href>".$activity_n_uuid."</D:href></D:activity-set></D:checkout>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $version, "CHECKOUT", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><D:checkout xmlns:D=\"DAV:\"><D:activity-set><D:href>".$activity_n_uuid."</D:href></D:activity-set></D:checkout>", array(), $credentials) ; 		
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 
 				$url = str_replace("http://".$this->host, "", $result["header"]["Location"]) ; 
 				return array("put_folder" => $url, "isOK" => true, "raw_result" => $result) ; 
@@ -367,7 +367,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function merge($base, $activity_n_uuid, $credentials=false) {
-			$result = $this->sendSVNRequest($this->host, $base, "MERGE", "<?xml version=\"1.0\" encoding=\"utf-8\"?><D:merge xmlns:D=\"DAV:\"><D:source><D:href>".$activity_n_uuid."</D:href></D:source><D:no-auto-merge/><D:no-checkout/><D:prop><D:checked-in/><D:version-name/><D:resourcetype/><D:creationdate/><D:creator-displayname/></D:prop></D:merge>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $base, "MERGE", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><D:merge xmlns:D=\"DAV:\"><D:source><D:href>".$activity_n_uuid."</D:href></D:source><D:no-auto-merge/><D:no-checkout/><D:prop><D:checked-in/><D:version-name/><D:resourcetype/><D:creationdate/><D:creator-displayname/></D:prop></D:merge>", array(), $credentials) ; 		
 			
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 				
 				preg_match("/version-name>([^<]*)<([^>]*)version-name/", $result['content'], $rev) ;
@@ -418,7 +418,7 @@ if (!class_exists("svnAdmin")) {
 		*/			
 		
 		function getAllFiles($base, $vcc, $rev, $store, $credentials=true) {
-			$result = $this->sendSVNRequest($this->host, $vcc, "REPORT", "<?xml version=\"1.0\" encoding=\"utf-8\"?><S:update-report send-all=\"true\" xmlns:S=\"svn:\" xmlns:D=\"DAV:\"><S:src-path>http://".$this->host.":".$this->port.$base."</S:src-path><S:target-revision>".$rev."</S:target-revision><S:depth>infinity</S:depth><S:entry rev=\"".$rev."\" depth=\"infinity\"  start-empty=\"true\"></S:entry></S:update-report>", array(), $credentials) ; 		
+			$result = $this->sendSVNRequest($this->host, $vcc, "REPORT", "<"."?xml version=\"1.0\" encoding=\"utf-8\"?><S:update-report send-all=\"true\" xmlns:S=\"svn:\" xmlns:D=\"DAV:\"><S:src-path>http://".$this->host.":".$this->port.$base."</S:src-path><S:target-revision>".$rev."</S:target-revision><S:depth>infinity</S:depth><S:entry rev=\"".$rev."\" depth=\"infinity\"  start-empty=\"true\"></S:entry></S:update-report>", array(), $credentials) ; 		
 			$is_err = false ; 
 			
 			if (substr($result['header']['Return-Code-HTTP'], 0, 1)=="2") { 		

@@ -3,7 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.3
+Version: 1.1.4
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -778,7 +778,7 @@ class dev_toolbox extends pluginSedLex {
 		
 		$toBePrint = "" ; 
 		
-		// 0) Recuperartion de la version sur wordpress
+		// 0) Recuperation de la version sur wordpress
 		
 		$action = "plugin_information" ; 
 		
@@ -969,10 +969,34 @@ class dev_toolbox extends pluginSedLex {
 		$toBePrint .= "<span id='savedtodo_".md5($url)."' style='display:none;'>".__("Todo list saved!", $this->pluginID)."</span>" ; 
 		$toBePrint .= "<span id='errortodo_".md5($url)."'></span>" ; 
 		$toBePrint .= "</p>" ; 
+		
+		// FORMATTING ISSUE 
+		$path = WP_PLUGIN_DIR."/".$plugin_name."/" ;  
+		$toBePrint .= $this->checkPHPfile($path) ; 
 
 		echo $toBePrint  ; 
 
 		die() ; 
+	}
+	
+	function checkPHPfile($path) {
+		$tobePrinted = "" ; 
+		if (is_dir($path)) {
+			$objects = scandir($path) ;
+			foreach ($objects as $object) {
+				if ((is_dir($path.$object))&&($object!=".")&&($object!="..")) {
+					$tobePrinted .= $this->checkPHPfile($path.$object."/") ; 
+				}
+				if (strpos($object,".php")!==false) {
+					$contentFile = file_get_contents($path.$object) ; 
+					// Check <?php problem
+					if (preg_match("/<\?[^p]/i",$contentFile)) {
+						$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s instead of %s", $this->pluginID), $object, "&lt;?", "&lt;?php")."</p>" ; 
+					}
+				}
+			}
+		}
+		return $tobePrinted ;
 	}
 	
 	/** ====================================================================================================================================================

@@ -1171,7 +1171,7 @@ if (!class_exists('pluginSedLex')) {
 					padding:20px ; 
 					padding-top:110px ; 
 				}
-				<? } ?>
+				<?php } ?>
 
 
 				<?php if (is_file($path_high.".png")) { ?>

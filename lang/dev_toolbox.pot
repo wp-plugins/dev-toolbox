@@ -405,428 +405,433 @@ msgstr ""
 msgid "Todo list saved!"
 msgstr ""
 
-#: dev-toolbox.php:1047
+#: dev-toolbox.php:994
+#@ dev_toolbox
+msgid "The file %s contains %s instead of %s"
+msgstr ""
+
+#: dev-toolbox.php:1071
 #@ dev_toolbox
 msgid "Change the plugin version for %s"
 msgstr ""
 
-#: dev-toolbox.php:1051
+#: dev-toolbox.php:1075
 #@ dev_toolbox
 msgid "Version number"
 msgstr ""
 
-#: dev-toolbox.php:1052
+#: dev-toolbox.php:1076
 #@ dev_toolbox
 msgid "The current version of the plugin %s is %s."
 msgstr ""
 
-#: dev-toolbox.php:1053
+#: dev-toolbox.php:1077
 #@ dev_toolbox
 msgid "Please modify the version:"
 msgstr ""
 
-#: dev-toolbox.php:1054
+#: dev-toolbox.php:1078
 #@ dev_toolbox
 msgid "Readme file"
 msgstr ""
 
-#: dev-toolbox.php:1055
+#: dev-toolbox.php:1079
 #@ dev_toolbox
 msgid "The current content of %s is:"
 msgstr ""
 
-#: dev-toolbox.php:1160
+#: dev-toolbox.php:1184
 #@ dev_toolbox
 msgid "The current text"
 msgstr ""
 
-#: dev-toolbox.php:1160
+#: dev-toolbox.php:1184
 #@ dev_toolbox
 msgid "The proposed text"
 msgstr ""
 
-#: dev-toolbox.php:1166
+#: dev-toolbox.php:1190
 #@ dev_toolbox
 msgid "Save these data"
 msgstr ""
 
-#: dev-toolbox.php:1169
+#: dev-toolbox.php:1193
 #@ dev_toolbox
 msgid "There is a problem with the header of %s. It appears that there is no Version header."
 msgstr ""
 
-#: dev-toolbox.php:1175
-#: dev-toolbox.php:1401
-#: dev-toolbox.php:1718
+#: dev-toolbox.php:1199
+#: dev-toolbox.php:1425
+#: dev-toolbox.php:1742
 #@ dev_toolbox
 msgid "Update of the SVN information"
 msgstr ""
 
-#: dev-toolbox.php:1215
+#: dev-toolbox.php:1239
 #@ dev_toolbox
 msgid "The data has been saved. You may close this window."
 msgstr ""
 
-#: dev-toolbox.php:1309
+#: dev-toolbox.php:1333
 #@ dev_toolbox
 msgid "Banner uploading for %s"
 msgstr ""
 
-#: dev-toolbox.php:1333
+#: dev-toolbox.php:1357
 #@ dev_toolbox
 msgid "Updating the local cache for banners"
 msgstr ""
 
-#: dev-toolbox.php:1342
-#: dev-toolbox.php:1668
+#: dev-toolbox.php:1366
+#: dev-toolbox.php:1692
 #@ dev_toolbox
 msgid "folder created"
 msgstr ""
 
-#: dev-toolbox.php:1344
-#: dev-toolbox.php:1670
+#: dev-toolbox.php:1368
+#: dev-toolbox.php:1694
 #@ dev_toolbox
 msgid "folder creation has failed !"
 msgstr ""
 
-#: dev-toolbox.php:1348
-#: dev-toolbox.php:1674
+#: dev-toolbox.php:1372
+#: dev-toolbox.php:1698
 #@ dev_toolbox
 msgid "%s bytes transfered"
 msgstr ""
 
-#: dev-toolbox.php:1360
+#: dev-toolbox.php:1384
 #@ dev_toolbox
 msgid "An error occurred during the retrieval of files on the server ! Perhaps that means that the %s directory does not exists on the server"
 msgstr ""
 
-#: dev-toolbox.php:1365
+#: dev-toolbox.php:1389
 #@ dev_toolbox
 msgid "Synthesis"
 msgstr ""
 
-#: dev-toolbox.php:1368
-#: dev-toolbox.php:1370
+#: dev-toolbox.php:1392
+#: dev-toolbox.php:1394
 #@ dev_toolbox
 msgid "A standard banner 772x250 is present on the repository"
 msgstr ""
 
-#: dev-toolbox.php:1368
-#: dev-toolbox.php:1370
-#: dev-toolbox.php:1379
-#: dev-toolbox.php:1381
+#: dev-toolbox.php:1392
+#: dev-toolbox.php:1394
+#: dev-toolbox.php:1403
+#: dev-toolbox.php:1405
 #@ dev_toolbox
 msgid "Download"
 msgstr ""
 
-#: dev-toolbox.php:1372
+#: dev-toolbox.php:1396
 #@ dev_toolbox
 msgid "No standard banner 772x250 is present on the repository"
 msgstr ""
 
-#: dev-toolbox.php:1374
+#: dev-toolbox.php:1398
 #@ dev_toolbox
 msgid "New standard banner:"
 msgstr ""
 
-#: dev-toolbox.php:1375
+#: dev-toolbox.php:1399
 #@ dev_toolbox
 msgid "The size of the standard banner should be exactly 772x250 and the type of the image should be PNG or JPG only."
 msgstr ""
 
-#: dev-toolbox.php:1379
+#: dev-toolbox.php:1403
 #@ dev_toolbox
 msgid "A high resolution banner 1544x500 for retina display is present on the repository"
 msgstr ""
 
-#: dev-toolbox.php:1381
+#: dev-toolbox.php:1405
 #@ dev_toolbox
 msgid "A high resolution banner 1544x500 for retina displayis present on the repository"
 msgstr ""
 
-#: dev-toolbox.php:1383
+#: dev-toolbox.php:1407
 #@ dev_toolbox
 msgid "No high resolution banner 1544x500 for retina display is present on the repository"
 msgstr ""
 
-#: dev-toolbox.php:1385
+#: dev-toolbox.php:1409
 #@ dev_toolbox
 msgid "New high resolution banner:"
 msgstr ""
 
-#: dev-toolbox.php:1386
+#: dev-toolbox.php:1410
 #@ dev_toolbox
 msgid "The size of the high resolution banner should be exactly 1544x500 and the type of the image should be PNG or JPG only."
 msgstr ""
 
-#: dev-toolbox.php:1388
+#: dev-toolbox.php:1412
 #@ dev_toolbox
 msgid "Upload"
 msgstr ""
 
-#: dev-toolbox.php:1389
+#: dev-toolbox.php:1413
 #@ dev_toolbox
 msgid "The banners will be replaced only if a new file is uploaded."
 msgstr ""
 
-#: dev-toolbox.php:1391
+#: dev-toolbox.php:1415
 #@ dev_toolbox
 msgid "Upload these banners"
 msgstr ""
 
-#: dev-toolbox.php:1393
+#: dev-toolbox.php:1417
 #@ dev_toolbox
 msgid "Create %s directory and upload these banners"
 msgstr ""
 
-#: dev-toolbox.php:1444
-#: dev-toolbox.php:1484
+#: dev-toolbox.php:1468
+#: dev-toolbox.php:1508
 #@ dev_toolbox
 msgid "Error: %s"
 msgstr ""
 
-#: dev-toolbox.php:1455
-#: dev-toolbox.php:1466
-#: dev-toolbox.php:1495
-#: dev-toolbox.php:1506
+#: dev-toolbox.php:1479
+#: dev-toolbox.php:1490
+#: dev-toolbox.php:1519
+#: dev-toolbox.php:1530
 #@ dev_toolbox
 msgid "The file has been successfully uploaded."
 msgstr ""
 
-#: dev-toolbox.php:1458
-#: dev-toolbox.php:1469
-#: dev-toolbox.php:1498
-#: dev-toolbox.php:1509
+#: dev-toolbox.php:1482
+#: dev-toolbox.php:1493
+#: dev-toolbox.php:1522
+#: dev-toolbox.php:1533
 #@ dev_toolbox
 msgid "The size of the image is %s but should be %s"
 msgstr ""
 
-#: dev-toolbox.php:1472
-#: dev-toolbox.php:1512
+#: dev-toolbox.php:1496
+#: dev-toolbox.php:1536
 #@ dev_toolbox
 msgid "The uploaded file is not a JPG or a PNG (but %s)."
 msgstr ""
 
-#: dev-toolbox.php:1476
-#: dev-toolbox.php:1516
+#: dev-toolbox.php:1500
+#: dev-toolbox.php:1540
 #@ dev_toolbox
 msgid "No image uploaded."
 msgstr ""
 
-#: dev-toolbox.php:1524
-#: dev-toolbox.php:1821
+#: dev-toolbox.php:1548
+#: dev-toolbox.php:1845
 #@ dev_toolbox
 msgid "Sending to the repository in progress..."
 msgstr ""
 
-#: dev-toolbox.php:1600
+#: dev-toolbox.php:1624
 #@ dev_toolbox
 msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window now."
 msgstr ""
 
-#: dev-toolbox.php:1603
-#: dev-toolbox.php:1847
-#: dev-toolbox.php:2175
+#: dev-toolbox.php:1627
+#: dev-toolbox.php:1871
+#: dev-toolbox.php:2199
 #@ dev_toolbox
 msgid "The commit has ended but there is an error!"
 msgstr ""
 
-#: dev-toolbox.php:1615
+#: dev-toolbox.php:1639
 #@ dev_toolbox
 msgid "Nothing to do here..."
 msgstr ""
 
-#: dev-toolbox.php:1640
+#: dev-toolbox.php:1664
 #@ dev_toolbox
 msgid "SVN client for %s"
 msgstr ""
 
-#: dev-toolbox.php:1660
+#: dev-toolbox.php:1684
 #@ dev_toolbox
 msgid "Updating the local cache"
 msgstr ""
 
-#: dev-toolbox.php:1710
+#: dev-toolbox.php:1734
 #@ dev_toolbox
 msgid "An error occurred during the retrieval of files on the server ! Sorry ..."
 msgstr ""
 
-#: dev-toolbox.php:1743
+#: dev-toolbox.php:1767
 #@ dev_toolbox
 msgid "Local to SVN repository"
 msgstr ""
 
-#: dev-toolbox.php:1744
+#: dev-toolbox.php:1768
 #@ dev_toolbox
 msgid "Comparing %s with %s"
 msgstr ""
 
-#: dev-toolbox.php:1753
+#: dev-toolbox.php:1777
 #@ dev_toolbox
 msgid "Confirmation"
 msgstr ""
 
-#: dev-toolbox.php:1755
+#: dev-toolbox.php:1779
 #@ dev_toolbox
 msgid "Commit comment:"
 msgstr ""
 
-#: dev-toolbox.php:1782
+#: dev-toolbox.php:1806
 #@ dev_toolbox
 msgid "Create a new branch %s and then Update the SVN repository with version %s"
 msgstr ""
 
-#: dev-toolbox.php:1783
-#: dev-toolbox.php:1785
+#: dev-toolbox.php:1807
+#: dev-toolbox.php:1809
 #@ dev_toolbox
 msgid "Only update the SVN repository"
 msgstr ""
 
-#: dev-toolbox.php:1837
-#: dev-toolbox.php:1852
+#: dev-toolbox.php:1861
+#: dev-toolbox.php:1876
 #@ dev_toolbox
 msgid "Creation of a new branch %s"
 msgstr ""
 
-#: dev-toolbox.php:2169
+#: dev-toolbox.php:2193
 #@ dev_toolbox
 msgid "The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing."
 msgstr ""
 
-#: dev-toolbox.php:2227
-#: dev-toolbox.php:2281
+#: dev-toolbox.php:2251
+#: dev-toolbox.php:2305
 #@ dev_toolbox
 msgid "Framework"
 msgstr ""
 
-#: dev-toolbox.php:2238
+#: dev-toolbox.php:2262
 #@ dev_toolbox
 msgid "Update the pot file for %s"
 msgstr ""
 
-#: dev-toolbox.php:2241
+#: dev-toolbox.php:2265
 #@ dev_toolbox
 msgid "Update the pot file for the framework"
 msgstr ""
 
-#: dev-toolbox.php:2264
-#: dev-toolbox.php:2443
-#: dev-toolbox.php:2445
+#: dev-toolbox.php:2288
+#: dev-toolbox.php:2467
+#: dev-toolbox.php:2469
 #@ dev_toolbox
 msgid "Plugin"
 msgstr ""
 
-#: dev-toolbox.php:2264
-#: dev-toolbox.php:2443
-#: dev-toolbox.php:2445
+#: dev-toolbox.php:2288
+#: dev-toolbox.php:2467
+#: dev-toolbox.php:2469
 #@ dev_toolbox
 msgid "Language"
 msgstr ""
 
-#: dev-toolbox.php:2264
+#: dev-toolbox.php:2288
 #@ dev_toolbox
 msgid "Sentence"
 msgstr ""
 
-#: dev-toolbox.php:2264
+#: dev-toolbox.php:2288
 #@ dev_toolbox
 msgid "Translation"
 msgstr ""
 
-#: dev-toolbox.php:2310
-#: dev-toolbox.php:2312
+#: dev-toolbox.php:2334
+#: dev-toolbox.php:2336
 #@ dev_toolbox
 msgid "Modify"
 msgstr ""
 
-#: dev-toolbox.php:2416
+#: dev-toolbox.php:2440
 #@ dev_toolbox
 msgid "The file %s cannot be extracted from mail attachments"
 msgstr ""
 
-#: dev-toolbox.php:2421
+#: dev-toolbox.php:2445
 #@ dev_toolbox
 msgid "The file %s cannot be written in the %s folder"
 msgstr ""
 
-#: dev-toolbox.php:2424
+#: dev-toolbox.php:2448
 #@ dev_toolbox
 msgid "The file %s has been imported in the %s folder"
 msgstr ""
 
-#: dev-toolbox.php:2443
-#: dev-toolbox.php:2445
+#: dev-toolbox.php:2467
+#: dev-toolbox.php:2469
 #@ dev_toolbox
 msgid "Information"
 msgstr ""
 
-#: dev-toolbox.php:2471
+#: dev-toolbox.php:2495
 #@ dev_toolbox
 msgid "%s sentences have been translated (i.e. %s)."
 msgstr ""
 
-#: dev-toolbox.php:2472
-#: dev-toolbox.php:2487
+#: dev-toolbox.php:2496
+#: dev-toolbox.php:2511
 #@ dev_toolbox
 msgid "Delete"
 msgstr ""
 
-#: dev-toolbox.php:2473
+#: dev-toolbox.php:2497
 #@ dev_toolbox
 msgid "See the new translation file and merge"
 msgstr ""
 
-#: dev-toolbox.php:2486
+#: dev-toolbox.php:2510
 #@ dev_toolbox
 msgid "%s sentences have been newly translated and %s sentences have been modified (the old file has %s translated sentences)."
 msgstr ""
 
-#: dev-toolbox.php:2489
+#: dev-toolbox.php:2513
 #@ dev_toolbox
 msgid "See the modifications/new translations and Merge"
 msgstr ""
 
-#: dev-toolbox.php:2491
+#: dev-toolbox.php:2515
 #@ dev_toolbox
 msgid "See the new translations and Merge"
 msgstr ""
 
-#: dev-toolbox.php:2508
+#: dev-toolbox.php:2532
 #@ dev_toolbox
 msgid "No new translation."
 msgstr ""
 
-#: dev-toolbox.php:2513
+#: dev-toolbox.php:2537
 #@ dev_toolbox
 msgid "No new update."
 msgstr ""
 
-#: dev-toolbox.php:2546
+#: dev-toolbox.php:2570
 #@ dev_toolbox
 msgid "What are the differences between these two files?"
 msgstr ""
 
-#: dev-toolbox.php:2584
+#: dev-toolbox.php:2608
 #@ dev_toolbox
 msgid "Sentence to translate"
 msgstr ""
 
-#: dev-toolbox.php:2584
+#: dev-toolbox.php:2608
 #@ dev_toolbox
 msgid "Old sentence"
 msgstr ""
 
-#: dev-toolbox.php:2584
+#: dev-toolbox.php:2608
 #@ dev_toolbox
 msgid "New sentence"
 msgstr ""
 
-#: dev-toolbox.php:2584
+#: dev-toolbox.php:2608
 #@ dev_toolbox
 msgid "To replace?"
 msgstr ""
 
-#: dev-toolbox.php:2616
+#: dev-toolbox.php:2640
 #@ dev_toolbox
 msgid "Merge"
 msgstr ""

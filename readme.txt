@@ -62,6 +62,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.4 =
+* NEW: Automatically detect issues with &lt;? in the php file of the plugin
+
 = 1.1.3 =
 * BUG: Correct the look of text area for editing the readme.txt
 * NEW: improve the look of the configuration page
@@ -84,4 +87,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:57e7eeb47fcedda7e80f6c01b0622cc1
+InfoVersion:905c606f70f56c758aba5d55e08692e2
