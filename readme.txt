@@ -62,6 +62,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.5 =
+* NEW: Add deprecated functions to be searched in php files
+
 = 1.1.4 =
 * NEW: Automatically detect issues with &lt;? in the php file of the plugin
 
@@ -87,4 +90,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:905c606f70f56c758aba5d55e08692e2
+InfoVersion:28a7973baf5e8dc8ffec73f0eaa85072

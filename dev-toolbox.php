@@ -3,7 +3,8 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.4
+Version: 1.1.5
+
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -979,8 +980,138 @@ class dev_toolbox extends pluginSedLex {
 		die() ; 
 	}
 	
+	/** ====================================================================================================================================================
+	* recursive check into php file
+	* 
+	* @access private
+	* @return void
+	*/
+	
+	
 	function checkPHPfile($path) {
 		$tobePrinted = "" ; 
+		$wp_deprecated_function = array(
+			"2ngettext",
+			"admin_notice_multisite_activate_plugins_page",
+			"add_contextual_help",
+			"add_custom_background",
+			"add_custom_image_header",
+			"admin_notice_feed",
+			"attribute_escape",
+			"clean_url",
+			"comment_link_rss",
+			"comments_rss_link",
+			"dashboard_quota",
+			"delete_usermeta",
+			"dropdown_cats",
+			"fetch_rss",
+			"get_alloptions",
+			"get_archives",
+			"get_links",
+			"get_links_list",
+			"get_linksbyname",
+			"get_page",
+			"get_profile",
+			"get_rss",
+			"get_screen_icon",
+			"get_settings",
+			"get_theme",
+			"get_theme_data",
+			"get_themes",
+			"get_user_by_email",
+			"get_user_id_from_string",
+			"get_userdatabylogin",
+			"get_usermeta",
+			"get_usernumposts",
+			"get_users_of_blog",
+			"image_resize",
+			"index_rel_link",
+			"is_blog_user",
+			"is_post",
+			"is_taxonomy",
+			"is_term",
+			"js_escape",
+			"link_pages",
+			"list_authors",
+			"list_cats",
+			"make_url_footnote",
+			"next_post",
+			"permalink_single_rss",
+			"previous_post",
+			"register_sidebar_widget",
+			"register_widget_control",
+			"screen_icon",
+			"set_current_user",
+			"show_post_thumbnail_warning",
+			"sticky_class",
+			"the_author_aim",
+			"the_author_description",
+			"the_author_email",
+			"the_author_firstname",
+			"the_author_icq",
+			"the_author_ID",
+			"the_author_lastname",
+			"the_author_login",
+			"the_author_msn",
+			"the_author_nickname",
+			"the_author_url",
+			"the_author_yim",
+			"the_category_ID",
+			"the_content_rss",
+			"the_editor",
+			"unregister_sidebar_widget",
+			"unregister_widget_control",
+			"update_usermeta",
+			"user_pass_ok",
+			"wp_cache_reset",
+			"wp_convert_bytes_to_hr",
+			"wp_create_thumbnail",
+			"wp_explain_nonce",
+			"wp_get_cookie_login",
+			"wp_get_links",
+			"wp_get_linksbyname",
+			"wp_get_single_post",
+			"wp_list_cats",
+			"wp_load_image",
+			"wp_login",
+			"wp_rss",
+			"the_content_rss",
+			"generate_random_password",
+			"get_blog_list",
+			"get_most_active_blogs",
+			"get_user_details",
+			"is_blog_user",
+			"is_site_admin",
+			"validate_email"
+			) ; 
+		$php_deprecated_function = array(
+			"call_user_method",					//https://php.net/manual/en/migration53.deprecated.php
+			"call_user_method_array",
+			"define_syslog_variables",
+			"dl",
+			"ereg",
+			"ereg_replace",
+			"eregi",
+			"eregi_replace",
+			"set_magic_quotes_runtime",
+			"session_register",
+			"session_unregister",
+			"session_is_registered",
+			"set_socket_blocking",
+			"split",
+			"spliti",
+			"sql_regcase",
+			"mysql_db_query",
+			"mysql_escape_string",
+
+			"mcrypt_generic_end",				//https://php.net/manual/en/migration54.deprecated.php
+			"mysql_list_dbs",
+
+			"mcrypt_cbc", 						//https://php.net/manual/en/migration53.deprecated.php
+			"mcrypt_cfb",
+			"mcrypt_ecb"
+		
+			) ; 
 		if (is_dir($path)) {
 			$objects = scandir($path) ;
 			foreach ($objects as $object) {
@@ -992,6 +1123,16 @@ class dev_toolbox extends pluginSedLex {
 					// Check <?php problem
 					if (preg_match("/<\?[^p]/i",$contentFile)) {
 						$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s instead of %s", $this->pluginID), $object, "&lt;?", "&lt;?php")."</p>" ; 
+					}
+					foreach ($wp_deprecated_function as $wdf) {
+						if (preg_match("/[^\w]".$wdf."[\s]*\(/i",$contentFile)) {
+							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated WP function", $this->pluginID), $object, "<code>".$wdf."</code>")."</p>" ; 
+						}	
+					}
+					foreach ($php_deprecated_function as $pdf) {
+						if (preg_match("/[^\w]".$pdf."[\s]*\(/i",$contentFile)) {
+							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated PHP function", $this->pluginID), $object, "<code>".$pdf."</code>")."</p>" ; 
+						}	
 					}
 				}
 			}
@@ -1344,6 +1485,8 @@ class dev_toolbox extends pluginSedLex {
 			$vcc = $svn->getVCC("/".$plugin."/assets", true) ;
 			if (isset($revision['revision'])) {
 				$revision = $revision['revision'] ; 
+			} else {
+				$revision = "0.1" ; 
 			}
 			if (isset($vcc['vcc'])) {
 				$vcc = $vcc['vcc'] ; 
@@ -1673,7 +1816,13 @@ class dev_toolbox extends pluginSedLex {
 				
 			$revision = $svn->getRevision("/".$plugin."/trunk", true) ;
 			$vcc = $svn->getVCC("/".$plugin."/trunk", true) ;
-			$revision = $revision['revision'] ; 
+			
+			if (isset($revision['revision'])) {
+				$revision = $revision['revision'] ; 
+			} else {
+				$revision = "0.1" ; 
+			}
+			
 			$vcc = $vcc['vcc'] ; 
 			
 			$res = $svn->getAllFiles("/".$plugin."/trunk", $vcc, $revision, $local_cache."/".$plugin, true) ; 

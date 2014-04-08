@@ -345,7 +345,7 @@ function coreInfo(id_div, url, plugin_name) {
 			if (x.status==0){
 				//Offline
 			} else if (x.status==500){
-				jQuery('#corePlugin_'+md5).html("Error 500: The ajax request is retried");
+				jQuery('#'+id_div).html("Error 500: The ajax request is retried");
 				coreInfo(id_div, url, plugin_name) ; 
 			} else {
 				jQuery('#'+id_div).html("Error "+x.status+": No data retrieved");
