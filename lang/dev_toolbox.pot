@@ -1,25 +1,5 @@
 Content-Transfer-Encoding: 8bit
 
-#: core.class.php:1648
-#@ dev_toolbox
-msgid "Standard"
-msgstr ""
-
-#: core.class.php:1649
-#@ dev_toolbox
-msgid "under Plugins"
-msgstr ""
-
-#: core.class.php:1650
-#@ dev_toolbox
-msgid "under Tools"
-msgstr ""
-
-#: core.class.php:1651
-#@ dev_toolbox
-msgid "under Settings"
-msgstr ""
-
 #: dev-toolbox.php:265
 #@ dev_toolbox
 msgid "title"

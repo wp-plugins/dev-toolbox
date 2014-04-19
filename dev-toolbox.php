@@ -3,7 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.6
+Version: 1.1.7
 
 
 Framework: SL_Framework

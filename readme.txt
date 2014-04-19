@@ -57,6 +57,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.7 =
+* Bug for PHP version below 5.2 (now resolved)
+
 = 1.1.6 =
 * NEW: Add deprecated functions for PHP 5.5
 
@@ -88,4 +91,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:de40409fd72abda76d686b3cccaa5464
+InfoVersion:98872f0da4872416ed1450e531abf1ae
