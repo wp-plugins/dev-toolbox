@@ -3,7 +3,8 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.5
+Version: 1.1.6
+
 
 Framework: SL_Framework
 Author: SedLex
@@ -37,6 +38,10 @@ class dev_toolbox extends pluginSedLex {
 	static $instance = false;
 
 	protected function _init() {
+	
+		ini_set("display_errors", "1");
+  		error_reporting(E_ALL);
+  		
 		global $wpdb ; 
 
 		// Name of the plugin (Please modify)
@@ -729,8 +734,8 @@ class dev_toolbox extends pluginSedLex {
 		$md5 = md5($md5) ; 
 		
 		$to_be_updated = false ; 
-		if (is_file(dirname($path).'/core.nfo')) {
-			$info = file_get_contents(dirname($path).'/core.nfo') ; 
+		if (file_exists(dirname($path).'/core.nfo')) {
+			$info = @file_get_contents(dirname($path).'/core.nfo') ; 
 			$info = explode("#", $info) ; 
 			if ($md5 != $info[0]) {
 				if (is_file(dirname($path).'/core.nfo')) {
@@ -738,7 +743,9 @@ class dev_toolbox extends pluginSedLex {
 				}
 				$to_be_updated = true ; 
 			}
-			$date = $info[1] ; 
+			if (isset($info[1])) {
+				$date = $info[1] ; 
+			}
 		} else {
 			$to_be_updated = true ; 
 		}
@@ -1107,10 +1114,58 @@ class dev_toolbox extends pluginSedLex {
 			"mcrypt_generic_end",				//https://php.net/manual/en/migration54.deprecated.php
 			"mysql_list_dbs",
 
-			"mcrypt_cbc", 						//https://php.net/manual/en/migration53.deprecated.php
+			"mcrypt_cbc", 						//https://php.net/manual/en/migration55.deprecated.php
 			"mcrypt_cfb",
-			"mcrypt_ecb"
-		
+			"mcrypt_ecb",
+			"mcrypt_ofb", 
+			"mysql_affected_rows", 
+			"mysql_client_encoding", 
+			"mysql_close", 
+			"mysql_connect", 
+			"mysql_create_db", 
+			"mysql_data_seek", 
+			"mysql_db_name", 
+			"mysql_db_query", 
+			"mysql_drop_db", 
+			"mysql_errno", 
+			"mysql_error", 
+			"mysql_escape_string", 
+			"mysql_fetch_array", 
+			"mysql_fetch_assoc", 
+			"mysql_fetch_field", 
+			"mysql_fetch_lengths", 
+			"mysql_fetch_object", 
+			"mysql_fetch_row", 
+			"mysql_field_flags", 
+			"mysql_field_len", 
+			"mysql_field_name", 
+			"mysql_field_seek", 
+			"mysql_field_table", 
+			"mysql_field_type", 
+			"mysql_free_result", 
+			"mysql_get_client_info", 
+			"mysql_get_host_info", 
+			"mysql_get_proto_info", 
+			"mysql_get_server_info", 
+			"mysql_info", 
+			"mysql_insert_id", 
+			"mysql_list_dbs", 
+			"mysql_list_fields", 
+			"mysql_list_processes", 
+			"mysql_list_tables", 
+			"mysql_num_fields", 
+			"mysql_num_rows", 
+			"mysql_pconnect", 
+			"mysql_ping", 
+			"mysql_query", 
+			"mysql_real_escape_string", 
+			"mysql_result", 
+			"mysql_select_db", 
+			"mysql_set_charset", 
+			"mysql_stat", 
+			"mysql_tablename", 
+			"mysql_thread_id", 
+			"mysql_unbuffered_query"
 			) ; 
 		if (is_dir($path)) {
 			$objects = scandir($path) ;
@@ -2382,11 +2437,11 @@ class dev_toolbox extends pluginSedLex {
 	* @return void
 	*/
 	function update_all_pot_translations() {
-		global $submenu ; 
+		
+		global $SLpluginActivated ; 
 	 		
-		if (isset($submenu)) {
-			foreach ($submenu['sedlex.php'] as $i => $ov) {
-				$url = $ov[2] ; 
+		if (isset($SLpluginActivated)) {
+			foreach ($SLpluginActivated as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				if (count($plugin_name)>=2) {
 					$plug = $plugin_name[count($plugin_name)-2] ; 
@@ -2395,7 +2450,7 @@ class dev_toolbox extends pluginSedLex {
 				}
 				$plugin_name[count($plugin_name)-1] = "lang" ; 
 				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
-				if ($ov[2]=="sedlex.php") {
+				if ($url=="sedlex.php") {
 					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
 					$plug = __("Framework", $this->pluginID) ; 
 				} 
@@ -2427,7 +2482,7 @@ class dev_toolbox extends pluginSedLex {
 	* @return void
 	*/
 	function check_bug_translation() {
-		global $submenu ; 
+		global $SLpluginActivated ; 
 	
 		// We identify which folders contains .tmp files 
 		// and we identify the differences
@@ -2438,9 +2493,8 @@ class dev_toolbox extends pluginSedLex {
 		
 		$nb_ligne = 0 ; 
  		
-		if (isset($submenu)) {
-			foreach ($submenu['sedlex.php'] as $i => $ov) {
-				$url = $ov[2] ; 
+		if (isset($SLpluginActivated)) {
+			foreach ($SLpluginActivated as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				if (count($plugin_name)>=2) {
 					$plug = $plugin_name[count($plugin_name)-2] ; 
@@ -2449,7 +2503,7 @@ class dev_toolbox extends pluginSedLex {
 				}
 				$plugin_name[count($plugin_name)-1] = "lang" ; 
 				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
-				if ($ov[2]=="sedlex.php") {
+				if ($url=="sedlex.php") {
 					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
 					$plug = __("Framework", $this->pluginID) ; 
 				} 
@@ -2478,7 +2532,7 @@ class dev_toolbox extends pluginSedLex {
 										// If there is a mismatch
 										if ($count1!=$count2) {
 											$cel1 = new adminCell("<p>".$plug."</p>") ; 
-											if ($ov[2]=="sedlex.php") {
+											if ($url=="sedlex.php") {
 												$framedir = explode("/", SL_FRAMEWORK_DIR) ; 
 												$cel1->add_action(__('Modify',$this->pluginID), "modify_trans_dev('".$framedir[count($framedir)-1]."','".$domain."', '".$framedir[count($framedir)-1]."', '".$lang."')" ) ; 
 											} else {
@@ -2539,7 +2593,7 @@ class dev_toolbox extends pluginSedLex {
 	* @return void
 	*/
 	function check_mail($server, $login, $password) {
-		global $submenu ; 
+		global $SLpluginActivated ; 
 				
 		$imap = imap_open($server, $login, $password);
 		
@@ -2563,9 +2617,8 @@ class dev_toolbox extends pluginSedLex {
 									// We identify the $path
 									$path_match = "" ;
 									if ($match[1]!="SL_framework") {
-										if (isset($submenu)) {
-											foreach ($submenu['sedlex.php'] as $i => $ov) {
-												$url = $ov[2] ; 
+										if (isset($SLpluginActivated)) {
+											foreach ($SLpluginActivated as $i => $url) {
 												$plugin_name = explode("/",$url) ;
 												$plugin_name[count($plugin_name)-1] = "lang" ; 
 												if (is_file(WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/".$match[1].".pot")) {
@@ -2620,13 +2673,12 @@ class dev_toolbox extends pluginSedLex {
 		$nb_ligne = 0 ; 
 		$nb_ligne2 = 0 ; 
 		
-		if (isset($submenu)) {
-			foreach ($submenu['sedlex.php'] as $i => $ov) {
-				$url = $ov[2] ; 
+		if (isset($SLpluginActivated)) {
+			foreach ($SLpluginActivated as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				$plugin_name[count($plugin_name)-1] = "lang" ; 
 				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
-				if ($ov[2]=="sedlex.php") {
+				if ($url=="sedlex.php") {
 					$dir = SL_FRAMEWORK_DIR.'/core/lang/'; 
 				}
 				// We scan the folder for new translations file

@@ -6,7 +6,7 @@ Author URI: http://www.sedlex.fr/
 Plugin URI: http://wordpress.org/plugins/dev-toolbox/
 Tags: dev, prod, development, production, svn
 Requires at least: 3.0
-Tested up to: 3.8.1
+Tested up to: 3.9
 Stable tag: trunk
 
 Every thing you need to efficiently develop a fresh plugin. 
@@ -34,14 +34,9 @@ This plugin is under GPL licence.
 
 = Features of the framework =
 
-This plugin uses the SL framework. This framework eases the creation of new plugins by providing incredible tools and frames.
+This plugin uses the SL framework. This framework eases the creation of new plugins by providing tools and frames (see dev-toolbox plugin for more info).
 
-For instance, a new created plugin comes with
-
-* A translation interface to simplify the localization of the text of the plugin ; 
-* An embedded SVN client (subversion) to easily commit/update the plugin in wordpress.org repository ; 
-* A detailled documentation of all available classes and methodes ; 
-* etc.
+You may easily translate the text of the plugin and submit it to the developer, send a feedback, or choose the location of the plugin in the admin panel.
 
 Have fun !
 
@@ -61,6 +56,9 @@ Have fun !
 4. SVN client
 
 == Changelog ==
+
+= 1.1.6 =
+* NEW: Add deprecated functions for PHP 5.5
 
 = 1.1.5 =
 * NEW: Add deprecated functions to be searched in php files
@@ -90,4 +88,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:28a7973baf5e8dc8ffec73f0eaa85072
+InfoVersion:de40409fd72abda76d686b3cccaa5464
