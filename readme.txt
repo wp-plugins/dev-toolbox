@@ -57,6 +57,10 @@ Have fun !
 
 == Changelog ==
 
+= 1.1.8 =
+* NEW : how to
+* NEW some classes of the framework are deprecated
+
 = 1.1.7 =
 * Bug for PHP version below 5.2 (now resolved)
 
@@ -91,4 +95,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:98872f0da4872416ed1450e531abf1ae
+InfoVersion:3cee9c3ea50e760d50e059f62b05439eef561842

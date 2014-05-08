@@ -517,7 +517,7 @@ if (!class_exists("svnAdmin")) {
 				$vcc = $this->getVCC($base, $credentials) ; 
 				if ($vcc['isOK']) {
 					// We generate a new random UUID
-					$chars = md5(rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000));
+					$chars = sha1(rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000).rand(1, 1000));
 					$uuid  = substr($chars,0,8) . '-';
 					$uuid .= substr($chars,8,4) . '-';
 					$uuid .= substr($chars,12,4) . '-';

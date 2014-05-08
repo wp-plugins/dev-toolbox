@@ -3,9 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.7
-
-
+Version: 1.1.8
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -168,7 +166,7 @@ class dev_toolbox extends pluginSedLex {
 	*/
 	
 	public function _update() {
-		SL_Debug::log(get_class(), "Update the plugin." , 4) ; 
+		SLFramework_Debug::log(get_class(), "Update the plugin." , 4) ; 
 	}
 	
 	/**====================================================================================================================================================
@@ -331,7 +329,7 @@ class dev_toolbox extends pluginSedLex {
 		}
 
 			ob_start() ; 
-				$params = new parametersSedLex($this, "tab-parameters") ; 
+				$params = new SLFramework_Parameters($this, "tab-parameters") ; 
 				$params->add_title(__('SVN Client',  $this->pluginID)) ; 
 				$params->add_param ("svn_client", __('Activate the SVN client?',$this->pluginID), "", "", array('svn_login', 'svn_pwd', 'svn_author')) ; 
 				$params->add_param ("svn_login", __('Wordpress Login:',$this->pluginID)) ; 
@@ -376,7 +374,7 @@ class dev_toolbox extends pluginSedLex {
 			// We check rights
 			$this->check_folder_rights( array(array(WP_CONTENT_DIR."/sedlex/test/", "rwx")) ) ;
 			
-			$tabs = new adminTabs() ; 
+			$tabs = new SLFramework_Tabs() ; 
 			
 			if ($this->get_param('svn_client')) {
 				ob_start() ; 				
@@ -385,13 +383,13 @@ class dev_toolbox extends pluginSedLex {
 				//= Tab listing all the plugins
 				//======================================================================================
 		
-				$tabs = new adminTabs() ; 
+				$tabs = new SLFramework_Tabs() ; 
 									
 				ob_start() ; 
 				
 					echo "<p>".sprintf(__("Here is the plugin developed by %s.", $this->pluginID), "<code>".$this->get_param('svn_author')."</code>")."</p>" ; 
 			
-					$table = new adminTable() ; 
+					$table = new SLFramework_Table() ; 
 					
 					$table->title(array(__("Plugin name", $this->pluginID), __("SVN Console", $this->pluginID))) ; 
 					
@@ -408,21 +406,21 @@ class dev_toolbox extends pluginSedLex {
 									if (is_plugin_active($url)) {
 										?>
 										<p><b><?php echo $data['Name'] ; ?></b></p>
-										<p><a href='admin.php?page=<?php echo $url  ; ?>'><?php echo __('Settings', $this->pluginID) ; ?></a> | <?php echo Utils::byteSize(Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
+										<p><a href='admin.php?page=<?php echo $url  ; ?>'><?php echo __('Settings', $this->pluginID) ; ?></a> | <?php echo SLFramework_Utils::byteSize(SLFramework_Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
 									<?php
 									} else {
 									?>
 										<p style='color:#CCCCCC'><b><?php echo $data['Name']." ".__("(Deactivated)", $this->pluginID); ?></b></p>
-										<p><?php echo Utils::byteSize(Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
+										<p><?php echo SLFramework_Utils::byteSize(SLFramework_Utils::dirSize(dirname(WP_PLUGIN_DIR.'/'.$url ))) ;?></p>
 									<?php							
 									}
 									
-									echo "<div id='infoPlugin_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update plugin information...', $this->pluginID)."</div>" ; 
+									echo "<div id='infoPlugin_".sha1($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update plugin information...', $this->pluginID)."</div>" ; 
 									?>
 									<script>
-										setTimeout("timePlugin<?php echo md5($url) ?>()", Math.floor(Math.random()*4000)); 
-										function timePlugin<?php echo md5($url) ?>() {
-											pluginInfo('infoPlugin_<?php echo md5($url) ; ?>', '<?php echo $url ; ?>', '<?php echo $slug ; ?>') ; 
+										setTimeout("timePlugin<?php echo sha1($url) ?>()", Math.floor(Math.random()*4000)); 
+										function timePlugin<?php echo sha1($url) ?>() {
+											pluginInfo('infoPlugin_<?php echo sha1($url) ; ?>', '<?php echo $url ; ?>', '<?php echo $slug ; ?>') ; 
 										}
 									</script>
 									<?php
@@ -431,12 +429,12 @@ class dev_toolbox extends pluginSedLex {
 									
 								
 								ob_start() ; 
-									echo "<div id='corePlugin_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Retrieving SVN information...', $this->pluginID)."</div>" ; 
+									echo "<div id='corePlugin_".sha1($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Retrieving SVN information...', $this->pluginID)."</div>" ; 
 									?>
 									<script>
-										setTimeout("timeCore<?php echo md5($url) ?>()", Math.floor(Math.random()*4000)+1000); 
-										function timeCore<?php echo md5($url) ?>() {
-											coreInfo('corePlugin_<?php echo md5($url) ?>', '<?php echo $url ?>', '<?php echo $slug?>') ; 
+										setTimeout("timeCore<?php echo sha1($url) ?>()", Math.floor(Math.random()*4000)+1000); 
+										function timeCore<?php echo sha1($url) ?>() {
+											coreInfo('corePlugin_<?php echo sha1($url) ?>', '<?php echo $url ?>', '<?php echo $slug?>') ; 
 										}
 									</script>
 					
@@ -463,6 +461,36 @@ class dev_toolbox extends pluginSedLex {
 				$tabs->add_tab(__('SVN client',  $this->pluginID), ob_get_clean()) ; 	
 			}
 			
+			// HOW To
+			ob_start() ;
+				echo "<p>".sprintf(__("This plugin is designed to help the developers that would like to create a new plugin based on the SL framework and to handle versions on %s", $this->pluginID), "<a href='http://wordpress.org/'>Wordpress.org</a>")."</p>" ; 
+			$howto1 = new SLFramework_Box (__("Purpose of this plugin", $this->pluginID), ob_get_clean()) ; 
+			ob_start() ;
+				echo "<p>".__("A special tab is design to create new plugin, you just have to read it...", $this->pluginID)."</p>" ; 
+			$howto2 = new SLFramework_Box (__("Create a new plugin", $this->pluginID), ob_get_clean()) ; 
+			ob_start() ;
+				echo "<p>".__("By setting your name in your configuration and in the header of the PHP files, you will be able to see your plugin in the SVN tabs.", $this->pluginID)."</p>" ; 
+				echo "<p>".__("Once you are in the SVN tab, you will be able to perform several actions on your plugin, such as:", $this->pluginID)."</p>" ; 
+				echo "<ul style='list-style-type: disc;padding-left:40px;'>" ; 
+					echo "<li><p>".__("Updating the framework with the latest version.", $this->pluginID)."</p></li>" ; 
+					echo "<li><p>".sprintf(__("Updating the %s.", $this->pluginID), "<code>readme.txt</code>")."</p></li>" ; 
+					echo "<li><p>".__("Upload the plugin to Wordpress with an embedded SVN client.", $this->pluginID)."</p></li>" ; 
+					echo "<li><p>".__("Upload some banners for the presentation page of Wordpress.", $this->pluginID)."</p></li>" ; 
+				echo "</ul>" ; 
+			$howto3 = new SLFramework_Box (__("Managing your plugin", $this->pluginID), ob_get_clean()) ; 
+			ob_start() ;
+				echo "<p>".__("First you need to put your email in the header of your file: with this configuration, the user may be able to send you their translations with the feedback tab.", $this->pluginID)."</p>" ; 
+				echo "<p>".__("You can also allow the plugin to check if there is translation mail in your inbox and if so, download it.", $this->pluginID)."</p>" ; 
+				echo "<p>".__("There is a translation management tab.", $this->pluginID)."</p>" ; 
+			$howto4 = new SLFramework_Box (__("Managing the translations", $this->pluginID), ob_get_clean()) ; 
+			ob_start() ; 
+				 echo $howto1->flush() ; 
+				 echo $howto2->flush() ; 
+				 echo $howto3->flush() ; 
+				 echo $howto4->flush() ; 
+			$tabs->add_tab(__('How To',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_how.png") ; 	
+
+			
 			if ($this->get_param("update_trans")) {		
 				ob_start() ; 	
 					echo "<h2>".__('Import translations',  $this->pluginID)."</h2>" ; 
@@ -483,7 +511,7 @@ class dev_toolbox extends pluginSedLex {
 					
 					echo "<h2>".__("Step 1 - Create a new plugin.",$this->pluginID)."</h2>" ; 
 					
-					$table = new adminTable() ;
+					$table = new SLFramework_Table() ;
 					$table->title(array(__("Required field", $this->pluginID), __("Values", $this->pluginID)) ) ;
 					$cel1 = new adminCell("<p>".__("Name of the plugin", $this->pluginID)."</p><p style='color:#999999'>".sprintf(__("For instance %s", $this->pluginID), '"<i>My wonderful first plugin</i>"')."</p>") ;
 					$cel2 = new adminCell('<p><input type="text" name="namePlugin" id="namePlugin" onkeyup="if (value==\'\') {document.getElementById(\'downloadPlugin\').disabled=true; }else{document.getElementById(\'downloadPlugin\').disabled=false; }"/></p>') ;
@@ -583,14 +611,14 @@ class dev_toolbox extends pluginSedLex {
 			if (((is_multisite())&&($blog_id == 1))||(!is_multisite())||($frmk->get_param('global_allow_translation_by_blogs'))) {
 				ob_start() ; 
 					$plugin = str_replace("/","",str_replace(basename(__FILE__),"",plugin_basename( __FILE__))) ; 
-					$trans = new translationSL($this->pluginID, $plugin) ; 
+					$trans = new SLFramework_Translation($this->pluginID, $plugin) ; 
 					$trans->enable_translation() ; 
 				$tabs->add_tab(__('Manage translations',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_trad.png") ; 	
 			}
 
 			ob_start() ; 
 				$plugin = str_replace("/","",str_replace(basename(__FILE__),"",plugin_basename( __FILE__))) ; 
-				$trans = new feedbackSL($plugin, $this->pluginID) ; 
+				$trans = new SLFramework_Feedback($plugin, $this->pluginID) ; 
 				$trans->enable_feedback() ; 
 			$tabs->add_tab(__('Give feedback',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_mail.png") ; 	
 			
@@ -598,7 +626,7 @@ class dev_toolbox extends pluginSedLex {
 				// A list of plugin slug to be excluded
 				$exlude = array('wp-pirate-search') ; 
 				// Replace sedLex by your own author name
-				$trans = new otherPlugins("sedLex", $exlude) ; 
+				$trans = new SLFramework_OtherPlugins("sedLex", $exlude) ; 
 				$trans->list_plugins() ; 
 			$tabs->add_tab(__('Other plugins',  $this->pluginID), ob_get_clean() , plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/tab_plug.png") ; 	
 			
@@ -623,7 +651,7 @@ class dev_toolbox extends pluginSedLex {
 	
 	static function update_hash_plugin($path)  {
 
-		$hash_plugin = Utils::md5_rec($path, array('readme.txt', 'core', 'core.php', 'core.class.php')) ; // Par contre je conserve le core.nfo 
+		$hash_plugin = SLFramework_Utils::md5_rec($path, array('readme.txt', 'core', 'core', 'core.php', 'core.class.php', 'todo.txt')) ; // Par contre je conserve le core.nfo 
 		
 		// we recreate the readme.txt
 		if (is_file($path."/readme.txt")) {
@@ -725,13 +753,13 @@ class dev_toolbox extends pluginSedLex {
 		$resultat = "" ; 
 					
 		// We compute the hash of the core folder
-		$md5 = Utils::md5_rec(dirname($path).'/core/', array('SL_framework.pot', 'data')) ; 
+		$md5 = SLFramework_Utils::md5_rec(dirname($path).'/core/', array('SL_framework.pot', 'data')) ; 
 		if (is_file(dirname($path).'/core.php'))
 			$md5 .= file_get_contents(dirname($path).'/core.php') ; 
 		if (is_file(dirname($path).'/core.class.php'))
 			$md5 .= file_get_contents(dirname($path).'/core.class.php') ; 
 			
-		$md5 = md5($md5) ; 
+		$md5 = sha1($md5) ; 
 		
 		$to_be_updated = false ; 
 		if (file_exists(dirname($path).'/core.nfo')) {
@@ -837,13 +865,13 @@ class dev_toolbox extends pluginSedLex {
 		// 1) Mise a jour framework
 		
 		if ($current_fingerprint_core_used != $info_core) {
-			$toBePrint .= "<div id='coreUpdate_".md5($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update the core of the framework...', $this->pluginID)."</div>" ; 
+			$toBePrint .= "<div id='coreUpdate_".sha1($url)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif'> ".__('Update the core of the framework...', $this->pluginID)."</div>" ; 
 			$toBePrint .= "<p style='".$styleToDo."'>" ; 
 			$toBeDone = true ; 
-			$toBePrint .= "<a href='#' onclick='coreUpdate(\"coreUpdate_".md5($url)."\", \"corePlugin_".md5($url)."\", \"".$url."\" , \"".$plugin_name."\") ; return false ; '>";
+			$toBePrint .= "<a href='#' onclick='coreUpdate(\"coreUpdate_".sha1($url)."\", \"corePlugin_".sha1($url)."\", \"".$url."\" , \"".$plugin_name."\") ; return false ; '>";
 			$toBePrint .= sprintf(__('1) Update with the core with %s ', $this->pluginID), str_replace(WP_PLUGIN_DIR, "", SL_FRAMEWORK_DIR)) ; 
 			$toBePrint .= "</a>" ; 
-			$toBePrint .= "<img id='wait_corePlugin_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_corePlugin_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .= "</p>" ;  
 		} else {
 			$toBePrint .= "<p style='".$styleDone."'>" ; 
@@ -855,34 +883,34 @@ class dev_toolbox extends pluginSedLex {
 		
 		if ($readme_remote == $readme_local) {
 			$toBePrint .= "<p style='".$styleDone."'>" ; 
-			$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
+			$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".sha1($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 			$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 			$toBePrint .= "</a>" ; 
-			$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_changeVersionReadme_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .= "</p>" ; 	
 		} else {
 			if ((!$toBeDone) && ($version_on_wordpress == $info['Version'])) {
 				$toBePrint .=  "<p style='".$styleToDo."'>" ; 
 				$toBeDone = true ; 
-				$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
+				$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".sha1($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 				$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 					$toBePrint .= "</a>" ; 
-				$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+				$toBePrint .= "<img id='wait_changeVersionReadme_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 				$toBePrint .= "</p>" ; 	
 			} else {
 				if ($version_on_wordpress == $info['Version']) {
 					$toBePrint .=  "<p style='".$styleDone."'>" ; 	
-					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
+					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".sha1($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 					$toBePrint .= sprintf(__("2) Modify the readme.txt (the version is %s)", $this->pluginID), $info['Version']) ;
 					$toBePrint .= "</a>" ; 
-					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+					$toBePrint .= "<img id='wait_changeVersionReadme_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 					$toBePrint .= "</p>" ; 						
 				} else {
 					$toBePrint .=  "<p style='".$styleDone."'>" ; 	
-					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
+					$toBePrint .= "<a href='#' onClick='changeVersionReadme(\"".sha1($url)."\", \"".$url."\", \"".$plugin_name."\"); return false;'>" ; 
 					$toBePrint .= sprintf(__("2) Modify the readme.txt (the local version is %s whereas the Wordpress version is %s)", $this->pluginID), $info['Version'], $version_on_wordpress) ;
 					$toBePrint .= "</a>" ; 
-					$toBePrint .= "<img id='wait_changeVersionReadme_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+					$toBePrint .= "<img id='wait_changeVersionReadme_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 					$toBePrint .= "</p>" ; 	
 				}
 			}	
@@ -892,10 +920,10 @@ class dev_toolbox extends pluginSedLex {
 		
 		if ($version_on_wordpress == $info['Version']) {
 			$toBePrint .=  "<p style='".$styleDone."'>" ; 	
-			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
+			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".sha1($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
 			$toBePrint .= sprintf(__("3) Update the SVN repository (without modifying the version)", $this->pluginID), $info['Version']) ;
 			$toBePrint .=  "</a>" ;
-			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_popup_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .=  "</p>" ;
 		} else {
 			if ((!$toBeDone)) {
@@ -904,10 +932,10 @@ class dev_toolbox extends pluginSedLex {
 			} else {
 				$toBePrint .=  "<p style='".$styleDone."'>" ; 		
 			}
-			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
+			$toBePrint .= " <a href='#' onClick='showSvnPopup(\"".sha1($url)."\", \"".$plugin_name."\", \"".$url."\", \"".$version_on_wordpress."\", \"".$info['Version']."\"); return false;'>" ;
 			$toBePrint .= sprintf(__("3) Update the SVN repository (and release a new version %s)", $this->pluginID), $info['Version']) ;
 			$toBePrint .=  "</a>" ;
-			$toBePrint .= "<img id='wait_popup_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+			$toBePrint .= "<img id='wait_popup_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 			$toBePrint .=  "</p>" ;			
 		}
 		
@@ -958,24 +986,24 @@ class dev_toolbox extends pluginSedLex {
 		}
 		
 		$toBePrint .=  "<p style='".$styleDone."'>" ; 	
-		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".md5($url)."\", \"".$plugin_name."\", \"".$url."\"); return false;'>" ;
+		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".sha1($url)."\", \"".$plugin_name."\", \"".$url."\"); return false;'>" ;
 		$toBePrint .= __("4) (Optional) Upload Banners for Wordpress directory", $this->pluginID)." ".$low_banner." ".$high_banner ;
 		$toBePrint .=  "</a>" ;
-		$toBePrint .= "<img id='wait_banner_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+		$toBePrint .= "<img id='wait_banner_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 		$toBePrint .=  "</p>" ;
 
-		$toBePrint .=  "<p style='".$styleComment."'><a href='#' onclick='jQuery(\"#corePlugin_".md5($url)."\").html(\"<p>".__("Refreshing the SVN information", $this->pluginID)." <img src=\\\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\\\"></p>\"); coreInfo(\"corePlugin_".md5($url)."\", \"".$url."\", \"".$plugin_name."\"); return false ; '>".__('Refresh', $this->pluginID)."</a></p>" ; 
+		$toBePrint .=  "<p style='".$styleComment."'><a href='#' onclick='jQuery(\"#corePlugin_".sha1($url)."\").html(\"<p>".__("Refreshing the SVN information", $this->pluginID)." <img src=\\\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\\\"></p>\"); coreInfo(\"corePlugin_".sha1($url)."\", \"".$url."\", \"".$plugin_name."\"); return false ; '>".__('Refresh', $this->pluginID)."</a></p>" ; 
 
 		// Display the TODO zone for developers
 		$content = "" ; 
 		if (is_file(WP_PLUGIN_DIR."/".$plugin_name."/todo.txt")) {
 			$content = @file_get_contents(WP_PLUGIN_DIR."/".$plugin_name."/todo.txt") ; 
 		}
-		$toBePrint .=  "<p><div style='width:100%'><textarea id='txt_savetodo_".md5($url)."' style='font:80% courier; width:100%' rows='5'>".stripslashes(htmlentities(utf8_decode($content), ENT_QUOTES, "UTF-8"))."</textarea></div></p>" ; 
-		$toBePrint .=  "<p><input onclick='saveTodo(\"".md5($url)."\", \"".$plugin_name."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save Todo List', $this->pluginID)."' />" ; 
-		$toBePrint .= "<img id='wait_savetodo_".md5($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
-		$toBePrint .= "<span id='savedtodo_".md5($url)."' style='display:none;'>".__("Todo list saved!", $this->pluginID)."</span>" ; 
-		$toBePrint .= "<span id='errortodo_".md5($url)."'></span>" ; 
+		$toBePrint .=  "<p><div style='width:100%'><textarea id='txt_savetodo_".sha1($url)."' style='font:80% courier; width:100%' rows='5'>".stripslashes(htmlentities(utf8_decode($content), ENT_QUOTES, "UTF-8"))."</textarea></div></p>" ; 
+		$toBePrint .=  "<p><input onclick='saveTodo(\"".sha1($url)."\", \"".$plugin_name."\") ; return false ; ' type='submit' name='submit' class='button-primary validButton' value='".__('Save Todo List', $this->pluginID)."' />" ; 
+		$toBePrint .= "<img id='wait_savetodo_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
+		$toBePrint .= "<span id='savedtodo_".sha1($url)."' style='display:none;'>".__("Todo list saved!", $this->pluginID)."</span>" ; 
+		$toBePrint .= "<span id='errortodo_".sha1($url)."'></span>" ; 
 		$toBePrint .= "</p>" ; 
 		
 		// FORMATTING ISSUE 
@@ -996,7 +1024,30 @@ class dev_toolbox extends pluginSedLex {
 	
 	
 	function checkPHPfile($path) {
+	
 		$tobePrinted = "" ; 
+		$personal_deprecated_function = array(
+			"md5_file",
+			"md5"								// prefer sha1
+		) ; 
+		
+		$personal_deprecated_class = array(
+			"adminTable",
+			"boxAdmin", 								
+			"browsersOsDetection", 								
+			"SL_Debug", 								
+			"feedbackSL", 								
+			"otherPlugins", 								
+			"parametersSedLex", 								
+			"popupAdmin", 								
+			"progressBarAdmin", 								
+			"adminTabs", 								
+			"textDiff", 								
+			"translationSL", 								
+			"treeList", 								
+			"Utils"								
+		) ; 
+
 		$wp_deprecated_function = array(
 			"2ngettext",
 			"admin_notice_multisite_activate_plugins_page",
@@ -1167,10 +1218,11 @@ class dev_toolbox extends pluginSedLex {
 			"mysql_thread_id", 
 			"mysql_unbuffered_query"
 			) ; 
+			
 		if (is_dir($path)) {
 			$objects = scandir($path) ;
 			foreach ($objects as $object) {
-				if ((is_dir($path.$object))&&($object!=".")&&($object!="..")) {
+				if ((is_dir($path.$object))&&($object!=".")&&($object!="..")&&($object!="include")) {
 					$tobePrinted .= $this->checkPHPfile($path.$object."/") ; 
 				}
 				if (strpos($object,".php")!==false) {
@@ -1187,6 +1239,19 @@ class dev_toolbox extends pluginSedLex {
 					foreach ($php_deprecated_function as $pdf) {
 						if (preg_match("/[^\w]".$pdf."[\s]*\(/i",$contentFile)) {
 							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated PHP function", $this->pluginID), $object, "<code>".$pdf."</code>")."</p>" ; 
+						}	
+					}
+					foreach ($personal_deprecated_function as $pdf) {
+						if (preg_match("/[^\w]".$pdf."[\s]*\(/i",$contentFile)) {
+							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated personal function", $this->pluginID), $object, "<code>".$pdf."</code>")."</p>" ; 
+						}	
+					}
+					foreach ($personal_deprecated_class as $pdc) {
+						if (preg_match("/new[\s]*".$pdc."[\s]*\(/i",$contentFile)) {
+							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated personal class", $this->pluginID), $object, "<code>".$pdc."</code>")."</p>" ; 
+						}	
+						if (preg_match("/[^\w]".$pdc."::/i",$contentFile)) {
+							$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s which is a deprecated personal class", $this->pluginID), $object, "<code>".$pdc."</code>")."</p>" ; 
 						}	
 					}
 				}
@@ -1213,15 +1278,15 @@ class dev_toolbox extends pluginSedLex {
 		
 		$path_to_update = WP_PLUGIN_DIR."/".$plugin_name ;
 		
-		Utils::rm_rec($path_to_update."/core/") ; 
-		Utils::rm_rec($path_to_update."/core.php") ; 
-		Utils::rm_rec($path_to_update."/core.class.php") ; 
-		Utils::rm_rec($path_to_update."/core.nfo") ; 
+		SLFramework_Utils::rm_rec($path_to_update."/core/") ; 
+		SLFramework_Utils::rm_rec($path_to_update."/core.php") ; 
+		SLFramework_Utils::rm_rec($path_to_update."/core.class.php") ; 
+		SLFramework_Utils::rm_rec($path_to_update."/core.nfo") ; 
 		
-		Utils::copy_rec($path_from_update."/core/", $path_to_update."/core/") ; 
-		Utils::copy_rec($path_from_update."/core.php", $path_to_update."/core.php") ; 
-		Utils::copy_rec($path_from_update."/core.class.php", $path_to_update."/core.class.php") ; 
-		Utils::copy_rec($path_from_update."/core.nfo", $path_to_update."/core.nfo") ; 
+		SLFramework_Utils::copy_rec($path_from_update."/core/", $path_to_update."/core/") ; 
+		SLFramework_Utils::copy_rec($path_from_update."/core.php", $path_to_update."/core.php") ; 
+		SLFramework_Utils::copy_rec($path_from_update."/core.class.php", $path_to_update."/core.class.php") ; 
+		SLFramework_Utils::copy_rec($path_from_update."/core.nfo", $path_to_update."/core.nfo") ; 
 		
 		$this->coreInfo() ; 
 		
@@ -1316,7 +1381,7 @@ class dev_toolbox extends pluginSedLex {
 			}
 			$default_text .= "= Localization =\n" ; 
 			$default_text .= "\n" ; 
-			$list_langue = translationSL::list_languages($plugin) ; 
+			$list_langue = SLFramework_Translation::list_languages($plugin) ; 
 			foreach ($list_langue as $l) {
 				$default_text .= "* ".$l."\n" ; 
 			}
@@ -1376,7 +1441,7 @@ class dev_toolbox extends pluginSedLex {
 			
 			$default_text = "<p><div style='width:100%'><textarea id='ReadmePropose' rows='".(count(explode("\n", $readme))+1)."' style='width:100%'>".$default_text."</textarea></div></p>" ; 
 			
-			$table = new adminTable() ;
+			$table = new SLFramework_Table() ;
 			$table->title(array(__("The current text", $this->pluginID), __("The proposed text", $this->pluginID)) ) ;
 			$cel1 = new adminCell($content) ;
 			$cel2 = new adminCell($default_text) ;
@@ -1392,7 +1457,7 @@ class dev_toolbox extends pluginSedLex {
 		$current_fingerprint_core_used = dev_toolbox::checkCoreOfThePlugin(SL_FRAMEWORK_DIR."/core.php") ; 
 					 ; 
 
-		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
+		$popup = new SLFramework_Popup($title, $content, "", "jQuery('#corePlugin_".sha1($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".sha1($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -1460,14 +1525,14 @@ class dev_toolbox extends pluginSedLex {
 			}
 			
 			// Copy static files
-			Utils::copy_rec($plugin_dir.'/core/templates/css',$path.'/css') ; 
-			Utils::copy_rec($plugin_dir.'/core/templates/js',$path.'/js') ; 
-			Utils::copy_rec($plugin_dir.'/core/templates/img',$path.'/img') ; 
-			Utils::copy_rec($plugin_dir.'/core/templates/lang',$path.'/lang') ; 
-			Utils::copy_rec($plugin_dir.'/core',$path.'/core') ; 
-			Utils::copy_rec($plugin_dir.'/core.php',$path."/core.php") ; 
-			Utils::copy_rec($plugin_dir.'/core.class.php',$path."/core.class.php") ; 
-			Utils::copy_rec($plugin_dir.'/core.nfo',$path."/core.nfo") ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core/templates/css',$path.'/css') ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core/templates/js',$path.'/js') ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core/templates/img',$path.'/img') ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core/templates/lang',$path.'/lang') ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core',$path.'/core') ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core.php',$path."/core.php") ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core.class.php',$path."/core.class.php") ; 
+			SLFramework_Utils::copy_rec($plugin_dir.'/core.nfo',$path."/core.nfo") ; 
 			
 			// Copy the dynamic files
 			$content = file_get_contents($plugin_dir.'/core/templates/my-plugin.php') ; 
@@ -1508,7 +1573,7 @@ class dev_toolbox extends pluginSedLex {
 			
 			// We stop everything
 			unlink($file); 
-			Utils::rm_rec($path) ; 
+			SLFramework_Utils::rm_rec($path) ; 
 			die() ; 
 		}
 	}
@@ -1532,7 +1597,7 @@ class dev_toolbox extends pluginSedLex {
 		
 			// SVN preparation
 			$local_cache = WP_CONTENT_DIR."/sedlex/svn" ; 
-			Utils::rm_rec($local_cache."/".$plugin."_banners") ;
+			SLFramework_Utils::rm_rec($local_cache."/".$plugin."_banners") ;
 			@mkdir($local_cache."/".$plugin."_banners", 0755, true) ; 
 			$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
 				
@@ -1548,7 +1613,7 @@ class dev_toolbox extends pluginSedLex {
 			}
 			
 			$res = $svn->getAllFiles("/".$plugin."/assets", $vcc, $revision, $local_cache."/".$plugin."_banners", true) ; 
-			SL_Debug::log(get_class(), "Got all banners from "."/".$plugin."/assets", 4) ; 
+			SLFramework_Debug::log(get_class(), "Got all banners from "."/".$plugin."/assets", 4) ; 
 			echo "<div id='svn_div'>" ; 
 			
 			// On met a jour le cache local !
@@ -1620,7 +1685,7 @@ class dev_toolbox extends pluginSedLex {
 			
 		$content = ob_get_clean() ; 	
 		
-		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
+		$popup = new SLFramework_Popup($title, $content, "", "jQuery('#corePlugin_".sha1($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".sha1($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -1761,10 +1826,10 @@ class dev_toolbox extends pluginSedLex {
 						// PUT the file
 						$res = $svn->putFolder($result['putFolder']."/assets/" , true) ; 
 						if ($res['isOK']) {
-							SL_Debug::log(get_class(), "The folder /assets/ has been uploaded into the repository", 4) ; 
+							SLFramework_Debug::log(get_class(), "The folder /assets/ has been uploaded into the repository", 4) ; 
 							echo "(A) ".$nb_modif.". /assets/ <span style='color:#669900'>OK</span><br/>" ; 
 						} else {
-							SL_Debug::log(get_class(), "The folder /assets/ cannot be uploaded into the repository", 2) ; 
+							SLFramework_Debug::log(get_class(), "The folder /assets/ cannot be uploaded into the repository", 2) ; 
 							echo "(A) ".$nb_modif.". /assets/ <span style='color:#CC0000'>KO</span><br/>" ; 
 							echo $svn->printRawResult($res['raw_result']) ; 
 						}
@@ -1780,10 +1845,10 @@ class dev_toolbox extends pluginSedLex {
 						// PUT the file
 						$res = $svn->putFile($urldepot, $new_low , true) ; 
 						if ($res['isOK']) {
-							SL_Debug::log(get_class(), "The file ".$new_low." has been uploaded into the assets repository", 4) ; 
+							SLFramework_Debug::log(get_class(), "The file ".$new_low." has been uploaded into the assets repository", 4) ; 
 							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_low))." <span style='color:#669900'>OK</span><br/>" ; 
 						} else {
-							SL_Debug::log(get_class(), "The file ".$new_low." cannot be uploaded into the assets repository", 2) ; 
+							SLFramework_Debug::log(get_class(), "The file ".$new_low." cannot be uploaded into the assets repository", 2) ; 
 							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_low))." <span style='color:#CC0000'>KO</span><br/>" ;
 							echo 	"SVN header : <br/>" ; 
 							print_r($res['svn_header']) ; 
@@ -1802,10 +1867,10 @@ class dev_toolbox extends pluginSedLex {
 						// PUT the file
 						$res = $svn->putFile($urldepot, $new_high , true) ; 
 						if ($res['isOK']) {
-							SL_Debug::log(get_class(), "The file ".$new_high." has been uploaded into the assets repository", 4) ; 
+							SLFramework_Debug::log(get_class(), "The file ".$new_high." has been uploaded into the assets repository", 4) ; 
 							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_high))." <span style='color:#669900'>OK</span><br/>" ; 
 						} else {
-							SL_Debug::log(get_class(), "The file ".$new_high." cannot be uploaded into the assets repository", 2) ; 
+							SLFramework_Debug::log(get_class(), "The file ".$new_high." cannot be uploaded into the assets repository", 2) ; 
 							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_high))." <span style='color:#CC0000'>KO</span><br/>" ;
 							echo 	"SVN header : <br/>" ; 
 							print_r($res['svn_header']) ; 
@@ -1818,10 +1883,10 @@ class dev_toolbox extends pluginSedLex {
 					// COMMIT
 					$res = $svn->merge($root, $result['activityFolder'].$result['uuid'],  true) ; 
 					if ($res['isOK']) {
-						SL_Debug::log(get_class(), "The modification has been merged within the repository", 4) ; 
+						SLFramework_Debug::log(get_class(), "The modification has been merged within the repository", 4) ; 
 						echo " <span style='color:#669900'>".sprintf(__("The commit has ended [ %s ]... You should received an email quickly ! You may close the window now.",$this->pluginID), $res['commit_info'])."</span>" ; 	
 					} else {
-						SL_Debug::log(get_class(), "The modification cannot be merged within the repository", 2) ; 
+						SLFramework_Debug::log(get_class(), "The modification cannot be merged within the repository", 2) ; 
 						echo " <span style='color:#CC0000'>".__("The commit has ended but there is an error!",$this->pluginID)."</span>" ; 
 						echo $svn->printRawResult($res['raw_result']) ; 
 					}
@@ -1865,7 +1930,7 @@ class dev_toolbox extends pluginSedLex {
 		
 			// SVN preparation
 			$local_cache = WP_CONTENT_DIR."/sedlex/svn" ; 
-			Utils::rm_rec($local_cache."/".$plugin) ;
+			SLFramework_Utils::rm_rec($local_cache."/".$plugin) ;
 			@mkdir($local_cache."/".$plugin, 0755, true) ; 
 			$svn = new svnAdmin("svn.wp-plugins.org", 80, $this->get_param('svn_login'), $this->get_param('svn_pwd') ) ; 
 				
@@ -1881,7 +1946,7 @@ class dev_toolbox extends pluginSedLex {
 			$vcc = $vcc['vcc'] ; 
 			
 			$res = $svn->getAllFiles("/".$plugin."/trunk", $vcc, $revision, $local_cache."/".$plugin, true) ; 
-			SL_Debug::log(get_class(), "Got all files from "."/".$plugin."/trunk", 4) ; 
+			SLFramework_Debug::log(get_class(), "Got all files from "."/".$plugin."/trunk", 4) ; 
 			echo "<div id='svn_div'>" ; 
 			
 			// On met a jour le cache local !
@@ -1943,7 +2008,7 @@ class dev_toolbox extends pluginSedLex {
 			
 		$content = ob_get_clean() ; 	
 		
-		$popup = new popupAdmin($title, $content, "", "jQuery('#corePlugin_".md5($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".md5($url)."', '".$url."', '".$plugin."');") ; 
+		$popup = new SLFramework_Popup($title, $content, "", "jQuery('#corePlugin_".sha1($url)."').html('"."<p>".__("Update of the SVN information", $this->pluginID)." <img src=\"".plugin_dir_url("/")."/".str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif\"></p>"."'); coreInfo('corePlugin_".sha1($url)."', '".$url."', '".$plugin."');") ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -2069,9 +2134,9 @@ class dev_toolbox extends pluginSedLex {
 						// MERGE
 						$res = $svn->merge("/".$plugin."/", $activityFolder.$uuid,  true) ; 
 						if ($res['isOK']) {
-							SL_Debug::log(get_class(), "The creation of the tag has been merged within the repository", 4) ; 
+							SLFramework_Debug::log(get_class(), "The creation of the tag has been merged within the repository", 4) ; 
 						} else {
-							SL_Debug::log(get_class(), "The creation of the tag cannot be merged within the repository", 2) ; 
+							SLFramework_Debug::log(get_class(), "The creation of the tag cannot be merged within the repository", 2) ; 
 							echo " <span style='color:#CC0000'>".__("The commit has ended but there is an error!",$this->pluginID)."</span>" ; 
 							echo $svn->printRawResult($res['raw_result']) ; 
 							die() ; 
@@ -2305,10 +2370,10 @@ class dev_toolbox extends pluginSedLex {
 		// PUT the file
 		$res = $svn->putFile($urldepot, $file , true) ; 
 		if ($res['isOK']) {
-			SL_Debug::log(get_class(), "The file ".$file." has been uploaded into the repository", 4) ; 
+			SLFramework_Debug::log(get_class(), "The file ".$file." has been uploaded into the repository", 4) ; 
 			echo " <span style='color:#669900'>OK</span>" ; 
 		} else {
-			SL_Debug::log(get_class(), "The file ".$file." cannot be uploaded into the repository", 2) ; 
+			SLFramework_Debug::log(get_class(), "The file ".$file." cannot be uploaded into the repository", 2) ; 
 			echo " <span style='color:#CC0000'>KO</span><br/>" ;
 			echo 	"SVN header : <br/>" ; 
 			print_r($res['svn_header']) ; 
@@ -2336,10 +2401,10 @@ class dev_toolbox extends pluginSedLex {
 		// PUT the file
 		$res = $svn->putFolder($urlfolder , true) ; 
 		if ($res['isOK']) {
-			SL_Debug::log(get_class(), "The folder ".$urlfolder." has been uploaded into the repository", 4) ; 
+			SLFramework_Debug::log(get_class(), "The folder ".$urlfolder." has been uploaded into the repository", 4) ; 
 			echo " <span style='color:#669900'>OK</span>" ; 
 		} else {
-			SL_Debug::log(get_class(), "The folder ".$urlfolder." cannot be uploaded into the repository", 2) ; 
+			SLFramework_Debug::log(get_class(), "The folder ".$urlfolder." cannot be uploaded into the repository", 2) ; 
 			echo " <span style='color:#CC0000'>KO</span><br/>" ; 
 			echo $svn->printRawResult($res['raw_result']) ; 
 		}
@@ -2364,10 +2429,10 @@ class dev_toolbox extends pluginSedLex {
 		// PUT the file
 		$res = $svn->deleteFileFolder($url , true) ; 
 		if ($res['isOK']) {
-			SL_Debug::log(get_class(), "The file/folder ".$url." has been deleted from the repository", 4) ; 
+			SLFramework_Debug::log(get_class(), "The file/folder ".$url." has been deleted from the repository", 4) ; 
 			echo " <span style='color:#669900'>OK</span>" ; 
 		} else {
-			SL_Debug::log(get_class(), "The file/folder ".$url." cannot be deleted from the repository", 2) ; 
+			SLFramework_Debug::log(get_class(), "The file/folder ".$url." cannot be deleted from the repository", 2) ; 
 			echo " <span style='color:#CC0000'>KO</span><br/>" ; 
 			echo $svn->printRawResult($res['raw_result']) ; 
 		}
@@ -2393,13 +2458,13 @@ class dev_toolbox extends pluginSedLex {
 		// PUT the file
 		$res = $svn->merge($root, $activityFolder.$uuid,  true) ; 
 		if ($res['isOK']) {
-			SL_Debug::log(get_class(), "The modification has been merged within the repository", 4) ; 
+			SLFramework_Debug::log(get_class(), "The modification has been merged within the repository", 4) ; 
 			echo " <span style='color:#669900'>".sprintf(__("The commit has ended [ %s ]... You should received an email quickly ! You may close the window or wait for the automatic closing.",$this->pluginID), $res['commit_info'])."</span>" ; 
 			echo "<script>
 				window.setTimeout('disablePopup()', 1000);
 			</script>" ; 
 		} else {
-			SL_Debug::log(get_class(), "The modification cannot be merged within the repository", 2) ; 
+			SLFramework_Debug::log(get_class(), "The modification cannot be merged within the repository", 2) ; 
 			echo " <span style='color:#CC0000'>".__("The commit has ended but there is an error!",$this->pluginID)."</span>" ; 
 			echo $svn->printRawResult($res['raw_result']) ; 
 		}
@@ -2424,9 +2489,9 @@ class dev_toolbox extends pluginSedLex {
 			$text1 = @file_get_contents($file1) ; 
 		if (is_file($file2))
 			$text2 = @file_get_contents($file2) ; 
-		$textdiff = new textDiff() ; 
-		$textdiff->diff($text2, $text1) ; 
-		echo $textdiff->show_only_difference() ;
+		$SLFramework_Textdiff = new SLFramework_Textdiff() ; 
+		$SLFramework_Textdiff->diff($text2, $text1) ; 
+		echo $SLFramework_Textdiff->show_only_difference() ;
 		die() ; 
 	}
 
@@ -2441,7 +2506,9 @@ class dev_toolbox extends pluginSedLex {
 		global $SLpluginActivated ; 
 	 		
 		if (isset($SLpluginActivated)) {
-			foreach ($SLpluginActivated as $i => $url) {
+		    $SLpluginActivated2 = $SLpluginActivated ; 
+		    $SLpluginActivated2["framework"] = "sedlex.php" ; 
+			foreach ($SLpluginActivated2 as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				if (count($plugin_name)>=2) {
 					$plug = $plugin_name[count($plugin_name)-2] ; 
@@ -2462,10 +2529,10 @@ class dev_toolbox extends pluginSedLex {
 							// We update the langague file
 							if ($match[1] !="SL_framework") {
 								$domain = $match[1] ;
-								translationSL::update_languages_plugin($domain,$plug) ; 
+								SLFramework_Translation::update_languages_plugin($domain,$plug) ; 
 								echo "<p>".sprintf(__("Update the pot file for %s", $this->pluginID), "<code>$plug</code>")."</p>" ; 
 							} else {
-								translationSL::update_languages_framework() ; 
+								SLFramework_Translation::update_languages_framework() ; 
 								echo "<p>".__("Update the pot file for the framework", $this->pluginID)."</p>" ; 
 							}
 						} 
@@ -2488,13 +2555,16 @@ class dev_toolbox extends pluginSedLex {
 		// and we identify the differences
 		//---------------------------------------------------------
 		
-		$table = new adminTable() ;
+		$table = new SLFramework_Table() ;
 		$table->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Sentence', $this->pluginID), __('Translation', $this->pluginID) )) ;
 		
 		$nb_ligne = 0 ; 
  		
 		if (isset($SLpluginActivated)) {
-			foreach ($SLpluginActivated as $i => $url) {
+			$SLpluginActivated2 = $SLpluginActivated ; 
+		    $SLpluginActivated2["framework"] = "sedlex.php" ; 
+
+			foreach ($SLpluginActivated2 as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				if (count($plugin_name)>=2) {
 					$plug = $plugin_name[count($plugin_name)-2] ; 
@@ -2665,16 +2735,19 @@ class dev_toolbox extends pluginSedLex {
 		// and we identify the differences
 		//---------------------------------------------------------
 		
-		$table = new adminTable() ;
+		$table = new SLFramework_Table() ;
 		$table->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Information', $this->pluginID)) ) ;
-		$table2 = new adminTable() ;
+		$table2 = new SLFramework_Table() ;
 		$table2->title(array(__('Plugin', $this->pluginID), __('Language', $this->pluginID), __('Information', $this->pluginID)) ) ;
 		
 		$nb_ligne = 0 ; 
 		$nb_ligne2 = 0 ; 
 		
 		if (isset($SLpluginActivated)) {
-			foreach ($SLpluginActivated as $i => $url) {
+			$SLpluginActivated2 = $SLpluginActivated ; 
+		    $SLpluginActivated2["framework"] = "sedlex.php" ; 
+
+			foreach ($SLpluginActivated2 as $i => $url) {
 				$plugin_name = explode("/",$url) ;
 				$plugin_name[count($plugin_name)-1] = "lang" ; 
 				$dir = WP_PLUGIN_DIR."/".implode("/", $plugin_name)."/" ; 
@@ -2689,7 +2762,7 @@ class dev_toolbox extends pluginSedLex {
 							$cible_file = $match[1]."-".$match[2] ; 
 							if (!is_file($dir.$cible_file)) {
 								// The sent translation is new and can be imported without difficulties 
-								$info = translationSL::get_info(file($dir.$match[0]),file($dir.$match[1].".pot")) ; 
+								$info = SLFramework_Translation::get_info(file($dir.$match[0]),file($dir.$match[1].".pot")) ; 
 								if ($info['translated']!=0) {
 									$cel1 = new adminCell("<p>".$match[1]." (n&deg;".$match[3].")</p>") ;
 									$cel2 = new adminCell("<p>".str_replace(".po", "", $match[2])."</p>") ;
@@ -2703,8 +2776,8 @@ class dev_toolbox extends pluginSedLex {
 								}
 							} else {
 								// The sent translation is NOT new and it should be compare with the existing one before importing 
-								$info = translationSL::compare_info(file($dir.$value),file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
-								$info2 = translationSL::get_info(file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
+								$info = SLFramework_Translation::compare_info(file($dir.$value),file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
+								$info2 = SLFramework_Translation::get_info(file($dir.$cible_file),file($dir.$match[1].".pot")) ; 
 								if (($info['modified']!=0) || ($info['new']!=0)) {
 									$cel1 = new adminCell("<p>".$match[1]." (n&deg;".$match[3].")</p>") ;
 									$cel2 = new adminCell("<p>".str_replace(".po", "", $match[2])."</p>") ;
@@ -2752,7 +2825,7 @@ class dev_toolbox extends pluginSedLex {
 	function deleteTranslation() {
 		$path1 = $_POST['path1'] ; 
 		@unlink($path1) ; 	
-		SL_Debug::log(get_class(), "Delete the translation ".$path1, 4) ; 
+		SLFramework_Debug::log(get_class(), "Delete the translation ".$path1, 4) ; 
 		die() ; 
 	}
 			
@@ -2787,7 +2860,7 @@ class dev_toolbox extends pluginSedLex {
 			$all_count = 0 ; 
 			foreach ($content_pot as $ligne_pot) {
 				if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_pot), $match)) {
-					$pot_array[md5(trim($match[1]))] = trim($match[1]) ; 
+					$pot_array[sha1(trim($match[1]))] = trim($match[1]) ; 
 					$all_count ++ ; 
 				}
 			}	
@@ -2800,12 +2873,12 @@ class dev_toolbox extends pluginSedLex {
 					$msgid = $match[1] ; 			
 				} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
 					if (trim($match[1])!="") {
-						$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+						$po2_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
 					}
 				}
 			}
 			
-			$table = new adminTable() ; 
+			$table = new SLFramework_Table() ; 
 			$table->title(array(__('Sentence to translate', $this->pluginID) , __('Old sentence', $this->pluginID), __('New sentence', $this->pluginID), __('To replace?', $this->pluginID)) ) ;
 							
 			// We build an array with all the sentences for new po
@@ -2816,21 +2889,21 @@ class dev_toolbox extends pluginSedLex {
 					$msgid = $match[1] ; 			
 				} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
 					if (trim($match[1])!="") {
-						$po1_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
-						if (isset($pot_array[md5(trim($msgid))])) {
+						$po1_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+						if (isset($pot_array[sha1(trim($msgid))])) {
 						
-							if (!isset($po2_array[md5(trim($msgid))][1]))
-								$po2_array[md5(trim($msgid))][1] = "" ; 
-							if (!isset($po1_array[md5(trim($msgid))][1]))
-								$po1_array[md5(trim($msgid))][1] = "" ; 
+							if (!isset($po2_array[sha1(trim($msgid))][1]))
+								$po2_array[sha1(trim($msgid))][1] = "" ; 
+							if (!isset($po1_array[sha1(trim($msgid))][1]))
+								$po1_array[sha1(trim($msgid))][1] = "" ; 
 								
-							if ($po2_array[md5(trim($msgid))][1]!=$po1_array[md5(trim($msgid))][1]) {
+							if ($po2_array[sha1(trim($msgid))][1]!=$po1_array[sha1(trim($msgid))][1]) {
 								$cel1 = new adminCell("<p>".$msgid."</p>") ;
-								$cel2 = new adminCell("<p>".$po2_array[md5(trim($msgid))][1]."</p>") ;
-								$diff = new textDiff() ; 
-								$diff->diff($po2_array[md5(trim($msgid))][1],$po1_array[md5(trim($msgid))][1]) ; 
+								$cel2 = new adminCell("<p>".$po2_array[sha1(trim($msgid))][1]."</p>") ;
+								$diff = new SLFramework_Textdiff() ; 
+								$diff->diff($po2_array[sha1(trim($msgid))][1],$po1_array[sha1(trim($msgid))][1]) ; 
 								$cel3 = new adminCell("<p>".$diff->show_simple_difference()."</p>") ;
-								$cel4 = new adminCell("<p><input type='CHECKBOX' name='new_".md5(trim($msgid))."' checked='yes' >Replace the old sentence with the new one?</input></p>") ;
+								$cel4 = new adminCell("<p><input type='CHECKBOX' name='new_".sha1(trim($msgid))."' checked='yes' >Replace the old sentence with the new one?</input></p>") ;
 								$table->add_line(array($cel1, $cel2, $cel3, $cel4), '1') ; 
 							}
 						}
@@ -2845,7 +2918,7 @@ class dev_toolbox extends pluginSedLex {
 		
 		$content = ob_get_clean() ; 	
 							
-		$popup = new popupAdmin($title, $content) ; 
+		$popup = new SLFramework_Popup($title, $content) ; 
 		$popup->render() ; 
 		die() ; 
 	}
@@ -2881,7 +2954,7 @@ class dev_toolbox extends pluginSedLex {
 		$all_count = 0 ; 
 		foreach ($content_pot as $ligne_pot) {
 			if (preg_match("/^msgid \\\"(.*)\\\"$/", trim($ligne_pot), $match)) {
-				$pot_array[md5(trim($match[1]))] = trim($match[1]) ; 
+				$pot_array[sha1(trim($match[1]))] = trim($match[1]) ; 
 				$all_count ++ ; 
 			}
 		}	
@@ -2894,10 +2967,10 @@ class dev_toolbox extends pluginSedLex {
 				$msgid = $match[1] ; 			
 			} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
 				if (trim($match[1])!="") {
-					$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+					$po2_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
 				}
 			} else if (preg_match("/Last-Translator: (.*) \<(.*)\>/", trim($ligne_po), $match)) {
-				$translators[md5(trim($match[0]))] = $match[0] ; 
+				$translators[sha1(trim($match[0]))] = $match[0] ; 
 			}
 		}
 						
@@ -2909,22 +2982,22 @@ class dev_toolbox extends pluginSedLex {
 				$msgid = $match[1] ; 			
 			} else if (preg_match("/^msgstr \\\"(.*)\\\"$/", trim($ligne_po), $match)) {
 				if (trim($match[1])!="") {
-					$po1_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
-					if (isset($pot_array[md5(trim($msgid))])) {
-						if (isset($po2_array[md5(trim($msgid))])) {
-							if ($po2_array[md5(trim($msgid))][1]!=$po1_array[md5(trim($msgid))][1]) {
+					$po1_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ; 
+					if (isset($pot_array[sha1(trim($msgid))])) {
+						if (isset($po2_array[sha1(trim($msgid))])) {
+							if ($po2_array[sha1(trim($msgid))][1]!=$po1_array[sha1(trim($msgid))][1]) {
 								// We check if we said that we want to replace it from the new file
-								if (strpos($md5,"new_".md5(trim($msgid)))!==false) {
-									$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
+								if (strpos($md5,"new_".sha1(trim($msgid)))!==false) {
+									$po2_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
 								}
 							}
 						} else {
-							$po2_array[md5(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
+							$po2_array[sha1(trim($msgid))] = array(trim($msgid),trim($match[1])) ;
 						}
 					}
 				}
 			} else if (preg_match("/Last-Translator: (.*) \<(.*)\>/", trim($ligne_po), $match)) {
-				$translators[md5(trim($match[0]))] = $match[0] ; 
+				$translators[sha1(trim($match[0]))] = $match[0] ; 
 			}
 		}
 		
@@ -2972,8 +3045,8 @@ class dev_toolbox extends pluginSedLex {
 		
 		file_put_contents($path2,$content) ;
 		
-		SL_Debug::log(get_class(), "Write the mo file ".$path2, 4) ; 
-		translationSL::phpmo_write_mo_file($hash,preg_replace("/(.*)[.]po/", "$1.mo", $path2)) ; 
+		SLFramework_Debug::log(get_class(), "Write the mo file ".$path2, 4) ; 
+		SLFramework_Translation::phpmo_write_mo_file($hash,preg_replace("/(.*)[.]po/", "$1.mo", $path2)) ; 
 		
 		// We delete all cache file
 		$path = preg_replace("/^(.*)\/([^\/]*)$/", "$1" , $path2) ; 
@@ -2993,10 +3066,10 @@ class dev_toolbox extends pluginSedLex {
 			$domain = preg_replace("/(.*)\/([^\/]*)-([^\/]*)[.]po$/", "$2" , $path2) ; 
 			if ($domain!="SL_framework") {
 				$plugin = preg_replace("/(.*)\/([^\/]*)\/lang\/(.*)po$/", "$2" , $path2) ; 
-				translationSL::installed_languages_plugin($domain, $plugin) ; 
+				SLFramework_Translation::installed_languages_plugin($domain, $plugin) ; 
 			} else {
 				$plugin = preg_replace("/(.*)\/([^\/]*)\/core\/lang\/(.*)po$/", "$2" , $path2) ; 
-				translationSL::installed_languages_framework($domain, $plugin) ; 
+				SLFramework_Translation::installed_languages_framework($domain, $plugin) ; 
 			}
 		ob_get_clean() ; 
 		

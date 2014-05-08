@@ -92,7 +92,7 @@ if (!class_exists("foldDiff")) {
 						} else {
 							if (is_file($path2."/".$file)) {
 								// on regarde si les fichiers sont identiques
-								if (md5_file($path2."/".$file)==md5_file($path1."/".$file)) {
+								if (sha1_file($path2."/".$file)==sha1_file($path1."/".$file)) {
 									if (!$this->isBinary($path2."/".$file)) {
 										 $result[] = array($file,0,"text_file", str_replace($this->rep2,"",$path2."/".$file)) ; 
 									} else {
@@ -135,7 +135,7 @@ if (!class_exists("foldDiff")) {
 		function render($closeNotModifiedFolders=true, $withTick=false, $withRandom=false) {
 			$random = "" ; 
 			if ($withRandom) {
-				$random = md5(microtime()) ; 
+				$random = sha1(microtime()) ; 
 			}
 		
 			// On affiche les repertoires
@@ -257,18 +257,18 @@ if (!class_exists("foldDiff")) {
 			//---------------------------------------------------
 			$text_diff = "" ; 
 			if ((($item[1]==3)||($item[1]==2)||($item[1]==1))&&($item[2]=="text_file")) {
-				$loupe =  "<a href='#' onclick='diffToggle".$random."(\"".md5($item[3].$random)."\") ; return false ; '>" ; 
+				$loupe =  "<a href='#' onclick='diffToggle".$random."(\"".sha1($item[3].$random)."\") ; return false ; '>" ; 
 				$loupe .= "<img style='border:0px' src='".plugin_dir_url("/").'/'.str_replace(basename(  __FILE__),"",plugin_basename( __FILE__))."../img/loupe.png'/>"  ; 
 				$loupe .=  "</a>\n" ; 
-				$text_diff = "<div id='diff_".md5($item[3].$random)."' style='display:none;padding:0px;margin:0px;'>\n" ; 
+				$text_diff = "<div id='diff_".sha1($item[3].$random)."' style='display:none;padding:0px;margin:0px;'>\n" ; 
 
-					$text_diff .= "<div id='wait_diff_".md5($item[3].$random)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."../core/img/ajax-loader.gif'> ".__('Retrieving the modification of this file...', $this->pluginID)."</div>" ; 
+					$text_diff .= "<div id='wait_diff_".sha1($item[3].$random)."' style='display:none;' ><img src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."../core/img/ajax-loader.gif'> ".__('Retrieving the modification of this file...', $this->pluginID)."</div>" ; 
 					ob_start() ; 
 ?>
 					<script>
-						setTimeout("showTextDiff<?php echo md5($item[3].$random) ?>()", Math.floor(Math.random()*4000)); 
-						function showTextDiff<?php echo md5($item[3].$random) ?>() {
-							showTextDiff('<?php echo md5($item[3].$random) ; ?>', '<?php echo $this->rep1.$item[3] ; ?>', '<?php echo $this->rep2.$item[3] ; ?>') ; 
+						setTimeout("showTextDiff<?php echo sha1($item[3].$random) ?>()", Math.floor(Math.random()*4000)); 
+						function showTextDiff<?php echo sha1($item[3].$random) ?>() {
+							showTextDiff('<?php echo sha1($item[3].$random) ; ?>', '<?php echo $this->rep1.$item[3] ; ?>', '<?php echo $this->rep2.$item[3] ; ?>') ; 
 						}
 					</script>
 
@@ -281,7 +281,7 @@ if (!class_exists("foldDiff")) {
 			
 			// Construct the result array
 			$result_text = $icone.$tick."<span style='".$color."'>".$item[0].$binary."</span> ".$loupe.$text_diff ; 
-			$id = "id".md5($result_text) ; 
+			$id = "id".sha1($result_text) ; 
 			if (count($item)<=4) {
 				return array($result_text, $id) ; 
 			} else {
