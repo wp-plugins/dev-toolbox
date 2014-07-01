@@ -3,7 +3,7 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.8
+Version: 1.1.9
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -1161,6 +1161,9 @@ class dev_toolbox extends pluginSedLex {
 			"sql_regcase",
 			"mysql_db_query",
 			"mysql_escape_string",
+			
+			"mysqli_db_query",
+			"mysqli_escape_string", 			// use esc_sql instead
 
 			"mcrypt_generic_end",				//https://php.net/manual/en/migration54.deprecated.php
 			"mysql_list_dbs",
@@ -2937,13 +2940,22 @@ class dev_toolbox extends pluginSedLex {
 		
 		$pathpot = preg_replace("/(.*)-(.*)[.]po*$/", "$1.pot" , $path2) ; 
 		$lang = preg_replace("/(.*)-(.*)[.]po*$/", "$2" , $path2) ; 
-		$content_pot = file($pathpot) ; 
+
+		if (is_file($pathpot)) {
+			$content_pot = file($pathpot) ; 
+		} else {
+			$content_pot = array() ; 
+		}
 		if (is_file($path2)) {
 			$content_po2 = file($path2) ; 
 		} else {
 			$content_po2 = array() ; 
 		}
-		$content_po1 = file($path1) ; 
+		if (is_file($path1)) {
+			$content_po1 = file($path1) ; 
+		} else {
+			$content_po1 = array() ; 
+		}
 		
 		$translators = array() ; 
 		

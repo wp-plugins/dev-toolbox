@@ -187,7 +187,7 @@ if (!class_exists("foldDiff")) {
 				$result[] = $this->sub_render($item, $closeNotModifiedFolders, $withTick, $random) ; 
 			}
 			
-			treeList::render($result, true) ;  	
+			SLFramework_Treelist::render($result, true) ;  	
 			
 			if ($withTick) {
 				echo "<p><input class='button-secondary action' onClick='allTick".$random."(true)' value='".__('Select all', $this->pluginID)."'>"  ; 
@@ -204,7 +204,7 @@ if (!class_exists("foldDiff")) {
 		* @param boolean $withTick display ticks 
 		* @param boolean $closeNotModifiedFolders close folders if their contents have not been modified
 		* @param boolean $random the random number used for a plurality of displaying
-		* @return array to be used with treeList class
+		* @return array to be used with SLFramework_Treelist class
 		*/
 		
 		function sub_render($item, $closeNotModifiedFolders=true, $withTick=false, $random="") {

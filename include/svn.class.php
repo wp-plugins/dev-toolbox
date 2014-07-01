@@ -712,7 +712,7 @@ if (!class_exists("svnAdmin")) {
 		
 		function printRawResult($raw) {
 			if ($raw['header']['Return-Code-HTTP']=='401'){
-				SL_Debug::log(get_class(), "The SVN credential seems incorrect", 2) ; 
+				SLFramework_Debug::log(get_class(), "The SVN credential seems incorrect", 2) ; 
 				return "<span style='color:#CC0000'>".__("Your credentials do not seem to be correct. Please check them!", "SL_framework")."</span>" ; 
 			}
 			if ($raw['header']['Return-Code-HTTP']=='500'){

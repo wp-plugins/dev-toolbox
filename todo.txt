@@ -1,2 +1,0 @@
-Invalid argument supplied for foreach() (2)
-This message has been fired in wp-content/plugins/dev-toolbox/dev-toolbox.php on line 2980.

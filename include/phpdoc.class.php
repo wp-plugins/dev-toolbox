@@ -65,7 +65,7 @@ if (!class_exists("phpDoc")) {
 				}
 				
 				foreach($matches as $id => $cl){
-					
+									
 					$methods = get_class_methods($cl) ;  
 					$reflector = new ReflectionClass($cl);
 					
@@ -279,7 +279,7 @@ if (!class_exists("phpDoc")) {
 						}				
 						echo "</ul>" ; 
 						
-						$table = new adminTable() ; 
+						$table = new SLFramework_Table() ; 
 						$table->title(array(__('Methods', $this->pluginID), __('Details', $this->pluginID) ) ) ; 
 						
 						foreach ($cl['methods'] as $name_m => $method) {
@@ -350,7 +350,7 @@ if (!class_exists("phpDoc")) {
 							}
 						}
 						echo $table->flush() ; 
-					$box = new boxAdmin ($name."<span class='desc_phpDoc'></span>"."<a name='class_".$name."'></a>" , ob_get_clean()) ; 
+					$box = new SLFramework_Box ($name."<span class='desc_phpDoc'></span>"."<a name='class_".$name."'></a>" , ob_get_clean()) ; 
 					echo $box->flush() ; 
 				}
 			$content = ob_get_clean() ; 
