@@ -11,6 +11,8 @@ function uploadNewBanner(plugin) {
 	var data = new FormData();
 	data.append('file_low', jQuery("#low_banner")[0].files[0]);
 	data.append('file_high', jQuery("#high_banner")[0].files[0]);
+	data.append('icon_low', jQuery("#low_icon")[0].files[0]);
+	data.append('icon_high', jQuery("#high_icon")[0].files[0]);
 	data.append('action', "svn_upload_banners");
 	data.append('plugin', plugin);
 	data.append('create_assets', "NO");
@@ -48,6 +50,8 @@ function createAsset_uploadNewBanner(plugin) {
 	var data = new FormData();
 	data.append('file_low', jQuery("#low_banner")[0].files[0]);
 	data.append('file_high', jQuery("#high_banner")[0].files[0]);
+	data.append('icon_low', jQuery("#low_icon")[0].files[0]);
+	data.append('icon_high', jQuery("#high_icon")[0].files[0]);
 	data.append('action', "svn_upload_banners");
 	data.append('plugin', plugin);
 	data.append('create_assets', "YES");

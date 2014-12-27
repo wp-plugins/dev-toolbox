@@ -3,14 +3,15 @@
 Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
-Version: 1.1.9
+Version: 1.2.0
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
 Framework Email: sedlex@sedlex.fr
 Author URI: http://www.sedlex.fr/
 Plugin URI: http://wordpress.org/plugins/dev-toolbox/
-License: GPL3
+License: GPLv3
+
 */
 
 //Including the framework in order to make the plugin work
@@ -985,9 +986,53 @@ class dev_toolbox extends pluginSedLex {
 			}
 		}
 		
+				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/icon-128x128.png' );
+		$low_icon = "(<span style='color:#669900'>128x128</span>)" ; 
+		if( is_wp_error( $response ) ) {
+			$low_icon = "(<span style='color:#CC0000'>128x128</span>)" ; 
+		} else {
+			if ( 200 == $response['response']['code'] ) {
+				$low_icon = "(<span style='color:#669900'>128x128</span>)" ; 
+			} else {
+				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/icon-128x128.jpg' );
+				$low_icon = "(<span style='color:#669900'>128x128</span>)" ; 
+				if( is_wp_error( $response ) ) {
+					$low_icon = "(<span style='color:#CC0000'>128x128</span>)" ; 
+				} else {
+					if ( 200 == $response['response']['code'] ) {
+						$low_icon = "(<span style='color:#669900'>128x128</span>)" ; 
+					} else {
+						$low_icon = "(<span style='color:#CC0000'>128x128</span>)" ; 
+					}
+				}
+			}
+		}
+		
+		$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/icon-256x256.png' );
+		$high_icon = "(<span style='color:#669900'>256x256</span>)" ; 
+		if( is_wp_error( $response ) ) {
+			$high_icon = "(<span style='color:#CC0000'>256x256</span>)" ; 
+		} else {
+			if ( 200 == $response['response']['code'] ) {
+				$high_icon = "(<span style='color:#669900'>256x256</span>)" ; 
+			} else {
+				$response = wp_remote_get( 'http://svn.wp-plugins.org/'.$plugin_name.'/assets/icon-256x256.jpg' );
+				$high_icon = "(<span style='color:#669900'>256x256</span>)" ; 
+				if( is_wp_error( $response ) ) {
+					$high_icon = "(<span style='color:#CC0000'>256x256</span>)" ; 
+				} else {
+					if ( 200 == $response['response']['code'] ) {
+						$high_icon = "(<span style='color:#669900'>256x256</span>)" ; 
+					} else {
+						$high_icon = "(<span style='color:#CC0000'>256x256</span>)" ; 
+					}
+				}
+			}
+		}
+		
 		$toBePrint .=  "<p style='".$styleDone."'>" ; 	
 		$toBePrint .= " <a href='#' onClick='showUploadBanner(\"".sha1($url)."\", \"".$plugin_name."\", \"".$url."\"); return false;'>" ;
-		$toBePrint .= __("4) (Optional) Upload Banners for Wordpress directory", $this->pluginID)." ".$low_banner." ".$high_banner ;
+		$toBePrint .= __("4) (Optional) Upload Banners or Icons for Wordpress directory", $this->pluginID)." ".$low_banner." ".$high_banner." ".$low_icon." ".$high_icon ;
 		$toBePrint .=  "</a>" ;
 		$toBePrint .= "<img id='wait_banner_".sha1($url)."' src='".plugin_dir_url("/").'/'.str_replace(basename(__FILE__),"",plugin_basename(__FILE__))."core/img/ajax-loader.gif' style='display:none;'>" ; 
 		$toBePrint .=  "</p>" ;
@@ -1230,6 +1275,7 @@ class dev_toolbox extends pluginSedLex {
 				}
 				if (strpos($object,".php")!==false) {
 					$contentFile = file_get_contents($path.$object) ; 
+					
 					// Check <?php problem
 					if (preg_match("/<\?[^p]/i",$contentFile)) {
 						$tobePrinted .= "<p style='color:red'>".sprintf(__("The file %s contains %s instead of %s", $this->pluginID), $object, "&lt;?", "&lt;?php")."</p>" ; 
@@ -1363,6 +1409,7 @@ class dev_toolbox extends pluginSedLex {
 			$default_text .= "Requires at least: 3.0\n" ; 
 			$default_text .= "Tested up to: ".$tagged_version."\n" ; 
 			$default_text .= "Stable tag: trunk\n" ; 
+			$default_text .= "License: GPLv3\n" ; 
 			$default_text .= "\n" ; 
 			$default_text .= strip_tags($descr1)."\n" ; 
 			$default_text .= "\n" ; 
@@ -1653,6 +1700,7 @@ class dev_toolbox extends pluginSedLex {
 			}
 			
 			echo "<h3>".__('Synthesis', $this->pluginID)."</h3>" ; 
+
 			// Banniere standard
 			if (is_file($local_cache."/".$plugin."_banners/banner-772x250.png")) {
 				echo "<p style='color:#669900'>".__("A standard banner 772x250 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-772x250.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
@@ -1668,15 +1716,40 @@ class dev_toolbox extends pluginSedLex {
 			if (is_file($local_cache."/".$plugin."_banners/banner-1544x500.png")) {
 				echo "<p style='color:#669900'>".__("A high resolution banner 1544x500 for retina display is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-1544x500.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
 			} elseif (is_file($local_cache."/".$plugin."_banners/banner-1544x500.jpg")) {
-				echo "<p style='color:#669900'>".__("A high resolution banner 1544x500 for retina displayis present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-1544x500.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+				echo "<p style='color:#669900'>".__("A high resolution banner 1544x500 for retina display is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/banner-1544x500.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
 			} else {
 				echo "<p style='color:#CC0000'>".__("No high resolution banner 1544x500 for retina display is present on the repository",$this->pluginID)."</p>" ; 
 			}
 			echo '<p>'.__('New high resolution banner:',$this->pluginID).' <input id="high_banner" type="file" accept="image/x-png, image/jpeg" /></p>' ;
 			echo "<p>".__('The size of the high resolution banner should be exactly 1544x500 and the type of the image should be PNG or JPG only.',$this->pluginID)."</p>" ; 
 
+			// Icon haute resolution retina
+			if (is_file($local_cache."/".$plugin."_banners/icon-256x256.png")) {
+				echo "<p style='color:#669900'>".__("A large icon 256x256 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/icon-256x256.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+			} elseif (is_file($local_cache."/".$plugin."_banners/icon-256x256.jpg")) {
+				echo "<p style='color:#669900'>".__("A large icon 256x256 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/icon-256x256.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+			} else {
+				echo "<p style='color:#CC0000'>".__("No large icon 256x256 is present on the repository",$this->pluginID)."</p>" ; 
+			}
+			echo '<p>'.__('New large icon:',$this->pluginID).' <input id="high_icon" type="file" accept="image/x-png, image/jpeg" /></p>' ;
+			echo "<p>".__('The size of the large icon should be exactly 256x256 and the type of the image should be PNG or JPG only.',$this->pluginID)."</p>" ; 
+
+			// Icon basse resolution retina
+			if (is_file($local_cache."/".$plugin."_banners/icon-128x128.png")) {
+				echo "<p style='color:#669900'>".__("A low icon 128x128 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/icon-128x128.png")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+			} elseif (is_file($local_cache."/".$plugin."_banners/icon-128x128.jpg")) {
+				echo "<p style='color:#669900'>".__("A low icon 128x128 is present on the repository",$this->pluginID)." <span style='color:#000;font-size:75%;'>(<a href='".str_replace(WP_CONTENT_DIR,content_url(),$local_cache."/".$plugin."_banners/icon-128x128.jpg")."'>".__("Download",$this->pluginID)."</a>)</span></p>" ; 
+			} else {
+				echo "<p style='color:#CC0000'>".__("No low icon 128x128 is present on the repository",$this->pluginID)."</p>" ; 
+			}
+			echo '<p>'.__('New low icon:',$this->pluginID).' <input id="low_icon" type="file" accept="image/x-png, image/jpeg" /></p>' ;
+			echo "<p>".__('The size of the low icon should be exactly 128x128 and the type of the image should be PNG or JPG only.',$this->pluginID)."</p>" ; 
+
+
 			echo "<h3>".__('Upload', $this->pluginID)."</h3>" ; 
 			echo "<p>".__('The banners will be replaced only if a new file is uploaded.',$this->pluginID)."</p>" ; 
+			
+			
 			if ($res['isOK']) {
 				echo '<p id="infoResult"><input type="submit" class="button-primary validButton" value = "'.__('Upload these banners',$this->pluginID).'" id="uploadNewBanner" onclick="uploadNewBanner(\''.$plugin.'\');return false;"/>' ; 
 			} else {
@@ -1710,6 +1783,9 @@ class dev_toolbox extends pluginSedLex {
 			
 			$low_path = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/banner-772x250_new" ;
 			$high_path = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/banner-1544x500_new" ;
+
+			$low_path_icon = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/icon-128x128_new" ;
+			$high_path_icon = WP_CONTENT_DIR."/sedlex/svn/".$plugin."_banners/icon-256x256_new" ;
 			
 			if (is_file($low_path.".png")) {
 				@unlink($low_path.".png") ; 
@@ -1723,11 +1799,27 @@ class dev_toolbox extends pluginSedLex {
 			if (is_file($high_path.".jpg")) {
 				@unlink($high_path.".jpg") ;
 			} 
-			
+
+			if (is_file($low_path_icon.".png")) {
+				@unlink($low_path_icon.".png") ; 
+			}
+			if (is_file($low_path_icon.".jpg")) {
+				@unlink($low_path_icon.".jpg") ; 
+			}
+			if (is_file($high_path_icon.".png")) {
+				@unlink($high_path_icon.".png") ; 
+			}
+			if (is_file($high_path_icon.".jpg")) {
+				@unlink($high_path_icon.".jpg") ;
+			} 
+						
 			$new_low = "" ; 
 			$new_high = "" ; 
 					
-			echo "<h4>".__("Upload the standard resolution image")."</h4>" ; 
+			$new_low_icon = "" ; 
+			$new_high_icon = "" ; 
+					
+			echo "<h4>".__("Upload the standard resolution banner")."</h4>" ; 
 		
 			if(isset($_FILES["file_low"])){
 				if ($_FILES["file_low"]["error"] > 0){
@@ -1766,7 +1858,7 @@ class dev_toolbox extends pluginSedLex {
 				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
 			}
 			
-			echo "<h4>".__("Upload the high resolution image")."</h4>" ; 
+			echo "<h4>".__("Upload the high resolution banner")."</h4>" ; 
 
 			if(isset($_FILES["file_high"])){
 				//Filter the file types, if you want.
@@ -1805,10 +1897,90 @@ class dev_toolbox extends pluginSedLex {
 			} else {
 				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
 			}
+
+			echo "<h4>".__("Upload the low resolution icon")."</h4>" ; 
+		
+			if(isset($_FILES["icon_low"])){
+				if ($_FILES["icon_low"]["error"] > 0){
+					echo "<p style='color:#CC0000'>".sprintf(__("Error: %s", $this->pluginID), $_FILES["icon_low"]["error"])."<p>";
+				} else {
+					// Check the type
+					$filecheck = basename($_FILES['icon_low']['name']);
+					$ext = substr($filecheck, strrpos($filecheck, '.') + 1);
+					// JPG
+					if (($ext == "jpg") && ($_FILES["icon_low"]["type"] == "image/jpeg")) {
+						$size = getimagesize($_FILES['icon_low']['tmp_name']) ; 
+						if (($size[0]==128)&&($size[1]==128)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["icon_low"]["tmp_name"],$low_path_icon.".jpg");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_low_icon = $low_path_icon.".jpg" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "128x128")."</p>";
+						}
+					// PNG
+					} elseif (($ext == "png") && ($_FILES["icon_low"]["type"] == "image/png")) {
+						$size = getimagesize($_FILES['icon_low']['tmp_name']) ; 
+						if (($size[0]==128)&&($size[1]==128)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["icon_low"]["tmp_name"],$low_path_icon.".png");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_low_icon = $low_path_icon.".png" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "128x128")."</p>";
+						}
+					} else {
+						echo sprintf(__("The uploaded file is not a JPG or a PNG (but %s).", $this->pluginID), "<b>$ext</b>, <b>".$_FILES["icon_low"]["type"]."</b>")."<br/>";
+					}
+				}
+			} else {
+				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
+			}
+			
+			echo "<h4>".__("Upload the high resolution icon")."</h4>" ; 
+
+			if(isset($_FILES["icon_high"])){
+				//Filter the file types, if you want.
+				if ($_FILES["icon_high"]["error"] > 0){
+					echo "<p style='color:#CC0000'>".sprintf(__("Error: %s", $this->pluginID), $_FILES["icon_high"]["error"])."<p>";
+				} else {
+					// Check the type
+					$filecheck = basename($_FILES['icon_high']['name']);
+					$ext = substr($filecheck, strrpos($filecheck, '.') + 1);
+					// JPG
+  					if (($ext == "jpg") && ($_FILES["icon_high"]["type"] == "image/jpeg")) {
+						$size = getimagesize($_FILES['icon_high']['tmp_name']) ; 
+						if (($size[0]==256)&&($size[1]==256)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["icon_high"]["tmp_name"],$high_path_icon.".jpg");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_high_icon = $high_path_icon.".jpg" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "256x256")."</p>";
+						}
+					// PNG
+					} elseif (($ext == "png") && ($_FILES["icon_high"]["type"] == "image/png")) {
+						$size = getimagesize($_FILES['icon_high']['tmp_name']) ; 
+						if (($size[0]==256)&&($size[1]==256)) {
+							//move the uploaded file to uploads folder;
+							move_uploaded_file($_FILES["icon_high"]["tmp_name"],$high_path_icon.".png");
+							echo "<p style='color:#669900'>".__("The file has been successfully uploaded.", $this->pluginID)."</p>";
+							$new_high_icon = $high_path_icon.".png" ; 
+						} else {
+							echo "<p style='color:#CC0000'>".sprintf(__("The size of the image is %s but should be %s", $this->pluginID), $size[0]."x".$size[1], "256x256")."</p>";
+						}
+					} else {
+						echo sprintf(__("The uploaded file is not a JPG or a PNG (but %s).", $this->pluginID), "<b>$ext</b>, <b>".$_FILES["icon_low"]["type"]."</b>")."<br/>";
+					}
+				}
+			} else {
+				echo "<p>".__("No image uploaded.", $this->pluginID)."</p>" ; 
+			}			
+			
 			
 			echo "<h4>".__("Send files to the repository")."</h4>" ; 
-			
-			if ((($new_low!="")&&(is_file($new_low)))||(($new_high!="")&&(is_file($new_high)))) {
+						
+			if ((($new_low_icon!="")&&(is_file($new_low_icon)))||(($new_high_icon!="")&&(is_file($new_high_icon)))||(($new_low!="")&&(is_file($new_low)))||(($new_high!="")&&(is_file($new_high)))) {
 			
 				echo "<div class='console' id='svn_console2'>\n" ; 
 				echo __("Sending to the repository in progress...", $this->pluginID)."<br/>----------<br/>" ; 
@@ -1882,7 +2054,51 @@ class dev_toolbox extends pluginSedLex {
 						}
 						$nb_modif ++ ; 
 					}
+
+					// LOW RESOLUTION PUT icon
+
+					if (($new_low_icon!="")&&(is_file($new_low_icon))) { 
+
+						$urldepot = $result['putFolder']."/assets/".str_replace("_new","",basename($new_low_icon)) ;
+		
+						// PUT the file
+						$res = $svn->putFile($urldepot, $new_low_icon , true) ; 
+						if ($res['isOK']) {
+							SLFramework_Debug::log(get_class(), "The file ".$new_low_icon." has been uploaded into the assets repository", 4) ; 
+							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_low_icon))." <span style='color:#669900'>OK</span><br/>" ; 
+						} else {
+							SLFramework_Debug::log(get_class(), "The file ".$new_low_icon." cannot be uploaded into the assets repository", 2) ; 
+							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_low_icon))." <span style='color:#CC0000'>KO</span><br/>" ;
+							echo 	"SVN header : <br/>" ; 
+							print_r($res['svn_header']) ; 
+							echo "<br/>" ; 
+							echo $svn->printRawResult($res['raw_result']) ; 
+						}
+						$nb_modif ++ ; 
+					}
 				
+					// high_icon RESOLUTION PUT
+				
+					if (($new_high_icon!="")&&(is_file($new_high_icon))) { 
+
+						$urldepot = $result['putFolder']."/assets/".str_replace("_new","",basename($new_high_icon)) ;
+
+						// PUT the file
+						$res = $svn->putFile($urldepot, $new_high_icon , true) ; 
+						if ($res['isOK']) {
+							SLFramework_Debug::log(get_class(), "The file ".$new_high_icon." has been uploaded into the assets repository", 4) ; 
+							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_high_icon))." <span style='color:#669900'>OK</span><br/>" ; 
+						} else {
+							SLFramework_Debug::log(get_class(), "The file ".$new_high_icon." cannot be uploaded into the assets repository", 2) ; 
+							echo "(A) ".$nb_modif.". /assets/".str_replace("_new","",basename($new_high_icon))." <span style='color:#CC0000'>KO</span><br/>" ;
+							echo 	"SVN header : <br/>" ; 
+							print_r($res['svn_header']) ; 
+							echo "<br/>" ; 
+							echo $svn->printRawResult($res['raw_result']) ; 
+						}
+						$nb_modif ++ ; 
+					}		
+							
 					// COMMIT
 					$res = $svn->merge($root, $result['activityFolder'].$result['uuid'],  true) ; 
 					if ($res['isOK']) {

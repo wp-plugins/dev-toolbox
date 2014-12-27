@@ -6,8 +6,9 @@ Author URI: http://www.sedlex.fr/
 Plugin URI: http://wordpress.org/plugins/dev-toolbox/
 Tags: dev, prod, development, production, svn
 Requires at least: 3.0
-Tested up to: 3.9.1
+Tested up to: 4.2
 Stable tag: trunk
+License: GPLv3
 
 Every thing you need to efficiently develop a fresh plugin. 
 
@@ -57,6 +58,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.2.0 =
+* NEW: add icons
+
 = 1.1.9 =
 * IMPROVEMENT: various
 
@@ -98,4 +102,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:66d24e37499664be0ab0ef38a52d8352cf6fdd88
+InfoVersion:e7fc737f0cce8f7c452b9d0eb155e386d6985fb8
