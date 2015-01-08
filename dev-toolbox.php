@@ -4,6 +4,7 @@ Plugin Name: Dev Toolbox
 Plugin Tag: dev, prod, development, production, svn
 Description: <p>Every thing you need to efficiently develop a fresh plugin. </p><p>The different features is: </p><ul><li>Creation tool for creating a new fresh plugin without difficulties, </li><li>SVN client for uploading your plugin into Wordpress repository, </li><li>An interface to push plugins and data from your dev site to your production site (and vice versa). </li><li>Show all messages/errors/warning/notices raised by your plugins in the admin panel. </li><li>Automatic import of sent translations. </li></ul><p>This plugin is under GPL licence. </p>
 Version: 1.2.0
+
 Framework: SL_Framework
 Author: SedLex
 Author Email: sedlex@sedlex.fr
@@ -2897,11 +2898,11 @@ class dev_toolbox extends pluginSedLex {
 		if ($result!==FALSE) {
 			foreach ($result as $r) {
 				$struct = imap_fetchstructure ( $imap , $r ) ; 
-				if (isset($struct->parts)) {
+				if ((isset($struct->parts))&&(is_array($struct->parts))) {
 					$num_part = 1 ; 
 					foreach($struct->parts as $s) {
 						if ((isset($s->disposition))&&($s->disposition == "attachment")) {
-							if (preg_match("/po$/", $s->parameters[0]->value)) {
+							if ((isset($s->parameters))&&(is_array($s->parameters))&&(preg_match("/po$/", $s->parameters[0]->value))) {
 								if (preg_match("/(.*)-([a-z]{2}_[A-Z]{2})\.po/", $s->parameters[0]->value , $match)) {
 									// We identify the $path
 									$path_match = "" ;
