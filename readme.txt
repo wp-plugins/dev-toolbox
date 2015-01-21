@@ -58,6 +58,9 @@ Have fun !
 
 == Changelog ==
 
+= 1.2.1 =
+* NEW: deletion of temp files upon desinstall
+
 = 1.2.0 =
 * NEW: add icons
 
@@ -102,4 +105,4 @@ Have fun !
 == Frequently Asked Questions ==
 
  
-InfoVersion:c7e2f4d258af53eb3de4046e5b0fee776458ec7f
+InfoVersion:514b581dfdce65a3d1c6cfe58c826cd943c5f449
