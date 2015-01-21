@@ -159,6 +159,7 @@ class dev_toolbox extends pluginSedLex {
 		
 		// DELETE FILES if needed
 		SLFramework_Utils::rm_rec(WP_CONTENT_DIR."/sedlex/new_plugins_zip/"); 
+		SLFramework_Utils::rm_rec(WP_CONTENT_DIR."/sedlex/svn/"); 
 		$plugins_all = 	get_plugins() ; 
 		$nb_SL = 0 ; 	
 		foreach($plugins_all as $url => $pa) {
